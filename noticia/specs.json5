@@ -1,0 +1,26 @@
+{
+  width: 1920,
+  height: 1080,
+  fps: 60,
+  defaults: {
+    transition: {
+      name: 'random'
+    },
+    layerType: {
+      'image': {
+        width: 0.33}
+    },
+  },
+  clips: [
+    { duration: 5, layers: [{ type: 'image', path: './1.jpg'},
+                            { type: 'news-title', text: "Por qué plantar más bosques"},
+                            { type: 'subtitle', text: "Hace más de 150 años, el biólogo victoriano Charles Darwin hizo una observación poderosa: que una mezcla de especies plantadas juntas a menudo crecen con más fuerza que las especies plantadas individualmente."}] },
+    { duration: 5, layers: [{ type: 'image', path: './2.jpg'}] },
+    { duration: 5, layers: [{ type: 'image', path: './3.jpg'}] },
+  ],
+  audioTracks: [
+    { path: 'noticia_bodies 1.ogg' },
+    // { path: 'noticia_bodies 2.ogg', cutFrom: 5 },
+  ],
+  // fast: true,
+}
