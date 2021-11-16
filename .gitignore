@@ -114,6 +114,6 @@ dmypy.json
 .pyre/
 
 # Files
-.ogg
-.jpg
-.mp4
+*.ogg
+*.jpg
+*.mp4
