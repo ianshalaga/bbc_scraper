@@ -34,13 +34,11 @@ def links_extraction(url, URL_base, exclude):
 
 
 recursive_deep = 0
-
 def scraper(url, all_links, URL_base, exclude, recursive_deep):
     if recursive_deep > 950:
         return
     else:
         recursive_deep += 1
-    # print(recursive_deep)
     print(f"Recursive level: {recursive_deep}")
     links_set = links_extraction(url, URL_base, exclude)
     if links_set.issubset(all_links):
@@ -48,8 +46,6 @@ def scraper(url, all_links, URL_base, exclude, recursive_deep):
     for link in links_set:
         if link not in all_links:
             all_links.add(link)
-            # with open("links.txt", "a") as f:
-            #     f.write(link + "\n")
             print(link)
             scraper(link, all_links, URL_base, exclude, recursive_deep)
             
