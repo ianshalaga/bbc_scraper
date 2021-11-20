@@ -3,11 +3,8 @@ from fractions import Fraction # Fractions manipulation
 
 
 def image_for_video_generator(image_path, images_processed_folder, width_target, height_target):
-
     image = cv2.imread(str(image_path))
-
     height, width, _ = image.shape
-    print(f"Resolución original: {width}x{height}")
 
     aspect_ratio = Fraction(width_target, height_target)
 

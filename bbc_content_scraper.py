@@ -28,6 +28,24 @@ def flatten_body(content_list):
     return flatten_list
 
 
+def article_end_corrector(content_list):
+    if content_list[-1].split(" ")[0] == "[Cuerpo]" and content_list[-2].split(" ")[0] == "[Imagen]":
+        content_list.pop(-1)
+        content_list.pop(-1)
+        article_end_corrector(content_list)
+    
+    if content_list[-1].split(" ")[0] == "[Cuerpo]" and ("Lea aquí" in content_list[-1] or \
+                                                         "artículo" in content_list[-1] or \
+                                                         "cobertura especial" in content_list[-1] or \
+                                                         "nuestro mejor contenido" in content_list[-1]):
+        content_list.pop(-1)
+        article_end_corrector(content_list)
+
+    if content_list[-1].split(" ")[0] == "[Imagen]":
+        content_list.pop(-1)
+        article_end_corrector(content_list)
+
+
 def bbc_content_scraper(URL, output_route):
     '''
     Scrap content, with tags, from a given URL into a text file.
@@ -76,38 +94,47 @@ def bbc_content_scraper(URL, output_route):
             content.append("[Subtítulo] " + subtitle.text.strip())
 
         # Images and captions
-        caption = element.find("figure")
-        if caption is not None:
-            link = caption.find("img")
-            caption = caption.find("figcaption")
+        figure = element.find("figure")
+        if figure is not None:
+            link = figure.find("img")
+            caption = figure.find("figcaption")
             if caption is not None:
-                caption = caption.find("p")
-                if caption is not None:
+                paragraph = caption.find("p")
+                if paragraph is not None:
                     content.append("[Imagen] " + link["src"])
                     content.append("[Epígrafe] " + caption.text.strip())
             else:
-                content.append("[Imagen] " + link["src"])
+                # content.append("[Imagen] " + link["src"])
+                if link.get("alt") is not None and link["alt"].lower() != "línea":
+                    content.append("[Imagen] " + link["src"])
 
         # Text bodies
         if text is not None:
             content.append("[Cuerpo] " + text.text.strip())
 
-    flatten_list = flatten_body(content)
+    article_end_corrector(content)
 
-    tags = soup.find("aside")
-    tags = tags.find_all("li")
+    # Tags
     tags_list = list()
-    for t in tags:
-        tags_list.append(t.text.strip())
+    tags = soup.find("aside")
+    if tags is not None:
+        tags = tags.find_all("li")
+        for t in tags:
+            tags_list.append(t.text.strip())
+        content.append("[Etiquetas] " + ", ".join(tags_list))
+    else:
+        content.append("[Etiquetas] Sin etiquetas")
 
-    flatten_list.append("[Etiquetas] " + ", ".join(tags_list))
+    # flatten_list.append("[Etiquetas] " + ", ".join(tags_list))
+    
 
     with open(output_route, "w", encoding="utf8") as f:
-        f.write("\n\n".join(flatten_list))
+        # f.write("\n\n".join(flatten_list))
+        f.write("\n\n".join(content))
 
 
 
-URL = "https://www.bbc.com/mundo/deportes-59326089"
+URL = "https://www.bbc.com/mundo/noticias-internacional-59351020"
 
 article_id = URL.split("-")[-1]
 
