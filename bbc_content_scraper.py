@@ -102,9 +102,8 @@ def bbc_content_scraper(URL, output_route):
                 paragraph = caption.find("p")
                 if paragraph is not None:
                     content.append("[Imagen] " + link["src"])
-                    content.append("[Epígrafe] " + caption.text.strip())
+                    content.append("[Epígrafe] " + paragraph.text.strip())
             else:
-                # content.append("[Imagen] " + link["src"])
                 if link.get("alt") is not None and link["alt"].lower() != "línea":
                     content.append("[Imagen] " + link["src"])
 
@@ -134,7 +133,7 @@ def bbc_content_scraper(URL, output_route):
 
 
 
-URL = "https://www.bbc.com/mundo/noticias-internacional-59351020"
+URL = "https://www.bbc.com/mundo/noticias-america-latina-59276948"
 
 article_id = URL.split("-")[-1]
 

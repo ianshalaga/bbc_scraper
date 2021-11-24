@@ -119,3 +119,7 @@ dmypy.json
 *.mp4
 *.png
 *.wav
+
+# Folders
+bbc_news_content_scraped/
+video_default_assets/
