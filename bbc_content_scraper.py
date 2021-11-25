@@ -133,7 +133,7 @@ def bbc_content_scraper(URL, output_route):
 
 
 
-URL = "https://www.bbc.com/mundo/noticias-america-latina-59276948"
+URL = "https://www.bbc.com/mundo/noticias-internacional-59410385"
 
 article_id = URL.split("-")[-1]
 

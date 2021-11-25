@@ -5,7 +5,18 @@ import json
 import image_processing as ip
 from pathlib import Path
 from termcolor import colored
+import wave
+import contextlib
+import math
 
+
+
+def get_wave_duration(wave_path):
+    with contextlib.closing(wave.open(wave_path, "r")) as f:
+        frames = f.getnframes()
+        rate = f.getframerate()
+        duration = math.ceil(frames / float(rate)) + 0.5
+        return duration
 
 
 def assets_for_video_generator(article_scraped_folder,
@@ -35,17 +46,16 @@ def assets_for_video_generator(article_scraped_folder,
 
     specs_dict = dict()
     specs_file_path = os.path.join(video_folder, "specs.json5")
-    # video_file_path = "bbc_news_content_scraped/" + article_id + "/video/" + article_id + ".mp4"
     video_file_path = os.path.join(article_scraped_folder, "video", article_id + ".mp4")
-    # video_font_path = "video_default_assets/fonts/" + "AveriaSerif-Bold.ttf"
     video_font_path = os.path.join(video_default_assets_folfer, "fonts", "AveriaSerif-Bold.ttf")
+    background_audio_path = os.path.join(video_default_assets_folfer, "audio", "Light Expanse - Unicorn Heads.mp3")
     specs_dict["outPath"] = video_file_path
     specs_dict["width"] = width_target
     specs_dict["height"] = height_target
     specs_dict["fps"] = fps
     specs_dict["defaults"] = {"layer": {"fontPath": video_font_path}}
     specs_dict["clips"] = [{}]
-    specs_dict["clips"][0]["duration"] = 5
+    specs_dict["clips"][0]["duration"] = 10
     specs_dict["clips"][0]["layers"] = []
     # specs_dict["clips"].append({})
 
@@ -55,8 +65,8 @@ def assets_for_video_generator(article_scraped_folder,
         content_list = f.read().split("\n\n")
 
     c = 0
-    n = 0
     actual_background = ""
+    actual_caption = ""
     for e in content_list:
         c += 1
         content_tag = e.split(" ")[0]
@@ -66,37 +76,66 @@ def assets_for_video_generator(article_scraped_folder,
             title_path = os.path.join(text_folder, str(c) + "_title.txt")
             with open(title_path, "w", encoding="utf8") as f:
                 f.write(content_body)
-            # c += 1
-            specs_dict["clips"][0]["layers"].append({"type": "title-background",
-                                                     "text": content_body,
-                                                     "background": {"type": "radial-gradient"}})
+            wave_path = os.path.join(audio_folder, text_name + ".wav")
+            try:
+                subprocess.run(["balcon", # Command line Balabolka
+                                "-n", # Voice name
+                                "IVONA 2 Enrique",
+                                "-f",
+                                title_path,
+                                "-w", # Wave file
+                                wave_path,
+                                "-enc", # Encoding
+                                "utf8"
+                                ], check=True)
+                print(colored("Generado:", "green"), text_name + ".wav")
+            except subprocess.CalledProcessError as ex:
+                print(colored("Error al generar el archivo de audio.", "red"))
+                logging.log(logging.ERROR, "Error al generar el archivo de audio:", ex)
+
+            specs_dict["clips"][0]["layers"].append(
+                {
+                    "type": "title-background",
+                    "text": content_body,
+                    "background": {
+                        "type": "radial-gradient"
+                    }
+                }
+            )
 
         if content_tag == "[Autor]": # File for author
             author_path = os.path.join(text_folder, str(c) + "_author.txt")
             with open(author_path, "w", encoding="utf8") as f:
                 f.write(content_body)
-            # c += 1
-            specs_dict["clips"][0]["layers"].append({"type": "slide-in-text",
-                                                     "text": content_body,
-                                                     "position": "top-left",
-                                                     "fontSize": "0.02"})
+    
+            specs_dict["clips"][0]["layers"].append(
+                {
+                    "type": "slide-in-text",
+                    "text": content_body,
+                    "position": "top-left",
+                    "fontSize": "0.02"
+                }
+            )
 
         if content_tag == "[Fecha]": # File for date
             date_path = os.path.join(text_folder, str(c) + "_date.txt")
             with open(date_path, "w", encoding="utf8") as f:
                 f.write(content_body)
-            # c += 1
-            specs_dict["clips"][0]["layers"].append({"type": "slide-in-text",
-                                                     "text": content_body,
-                                                     "position": "bottom-right",
-                                                     "fontSize": "0.02"})
+            
+            specs_dict["clips"][0]["layers"].append(
+                {
+                    "type": "slide-in-text",
+                    "text": content_body,
+                    "position": "bottom-right",
+                    "fontSize": "0.02"
+                }
+            )
 
         if content_tag == "[Cuerpo]": # Files for text bodies
             text_name = str(c) + "_body"
             text_path = os.path.join(text_folder, text_name + ".txt")
             with open(text_path, "w", encoding="utf8") as f:
                 f.write(content_body)
-            # c += 1
             print(f"Generando audio para {text_name}")
             wave_path = os.path.join(audio_folder, text_name + ".wav")
             try:
@@ -114,36 +153,64 @@ def assets_for_video_generator(article_scraped_folder,
             except subprocess.CalledProcessError as ex:
                 print(colored("Error al generar el archivo de audio.", "red"))
                 logging.log(logging.ERROR, "Error al generar el archivo de audio:", ex)
-            # specs_dict["clips"][c]["layers"].append({"type": "subtitle",
-            #                                          "text": content_body})
-            # specs_dict["clips"][c]["layers"].append({"type": "detached-audio",
-            #                                          "path": wave_path})
-            # specs_dict["clips"][c]["layers"].append({"type": "image",
-            #                                          "path": actual_background})
-            specs_dict["clips"].append({"layers": [
-                {"type": "image", "path": actual_background},
-                {"type": "subtitle", "text": content_body},
-                {"type": "detached-audio", "path": wave_path}
-            ]})
+            
+            specs_dict["clips"].append(
+                {
+                    "duration": get_wave_duration(wave_path),
+                    "transition": {
+                        "name": "dummy"
+                    },
+                    "layers": [
+                        {
+                            "type": "image",
+                            "path": actual_background,
+                            "zoomDirection": "null"
+                        },
+                        {
+                            "type": "subtitle",
+                            "text": content_body
+                        },
+                        {
+                            "type": "detached-audio",
+                            "path": wave_path,
+                        },
+                        {
+                            "type": "title",
+                            "text": actual_caption,
+                            "position": "top-left"
+                        }
+                    ]
+                }
+            )
             
 
         if content_tag == "[Subtítulo]": # Files for subtitles
             subtitle_path = os.path.join(text_folder, str(c) + "_subtitle.txt")
             with open(subtitle_path, "w", encoding="utf8") as f:
                 f.write(content_body)
-            # c += 1
-            # specs_dict["clips"][n]["layers"].append({"type": "slide-in-text",
-            #                                          "text": content_body,
-            #                                          "position": "center"})
+        
+            specs_dict["clips"].append(
+                {
+                    "duration": 4,
+                    "layers": [
+                        {
+                            "type": "image",
+                            "path": actual_background,
+                            "zoomDirection": "null"
+                        },
+                        {
+                            "type": "news-title",
+                            "text": content_body
+                        },
+                    ]
+                }
+            )
 
         if content_tag == "[Epígrafe]": # Files for captions
             caption_path = os.path.join(text_folder, str(c) + "_caption.txt")
             with open(caption_path, "w", encoding="utf8") as f:
                 f.write(content_body)
-            # c += 1
-            # specs_dict["clips"][c]["layers"].append({"type": "news-title",
-            #                                          "text": content_body,
-            #                                          "position": "top-left"})
+            actual_caption = content_body
 
         if content_tag == "[Imagen]":
             print(f"Descargargo: {content_body}")
@@ -160,10 +227,30 @@ def assets_for_video_generator(article_scraped_folder,
             except subprocess.CalledProcessError as ex:
                 print(colored("Error descargando.", "red"))
                 logging.log(logging.ERROR, "Error descargando:", ex)
-            # c += 1
-            # n += 1
-            # specs_dict["clips"].append({"layers": [ {"type": "image", "path": image_processed_path}]})
             actual_background = image_processed_path
+
+    specs_dict["clips"].append(
+        {
+            "duration": 20.5,
+            "layers": [{"type": "radial-gradient"}]
+        }
+    )
+
+    specs_dict["loopAudio"] = "true"
+
+    specs_dict["audioTracks"] = [
+        {
+            "path": background_audio_path,
+            "mixVolume": 0.15
+        }
+    ]
+
+    specs_dict["audioNorm"] = {
+        "enable": "true"
+    }
+
+    # Debugging
+    specs_dict["fast"] = "true"
 
     with open(specs_file_path, "w", encoding="utf8") as f:
         json.dump(specs_dict, f)
@@ -174,7 +261,7 @@ def assets_for_video_generator(article_scraped_folder,
 
 
 
-URL = "https://www.bbc.com/mundo/noticias-america-latina-59276948"
+URL = "https://www.bbc.com/mundo/noticias-internacional-59410385"
 
 article_id = URL.split("-")[-1]
 
@@ -186,3 +273,8 @@ height_target = 1080
 fps = 60
 
 assets_for_video_generator(article_scraped_folder, video_default_assets_folfer, article_id, width_target, height_target, fps)
+
+
+# wave_path = "bbc_news_content_scraped/59276948/assets/audio_files/6_body.wav"
+# duration = get_wave_duration(wave_path)
+# print(duration)
