@@ -55,13 +55,3 @@ def image_for_video_generator(image_path, images_processed_folder, width_target,
     # cv2.destroyAllWindows() # destroys the window showing image
 
     cv2.imwrite(str(images_processed_folder), background)
-
-
-# def image_for_video_generator_batch()
-
-
-# image_route = "./noticia/7.jpg"
-# width_target = 1920
-# height_target = 1080
-
-# image_for_video_generator(image_route, width_target, height_target)

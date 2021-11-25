@@ -74,7 +74,6 @@ def sort_links(links_set):
 
 
 URL_seed = "https://www.bbc.com/mundo"
-# URL_seed = "https://www.bbc.com/mundo/noticias-internacional-48733979"
 
 URL_base = "https://www.bbc.com"
 
@@ -84,34 +83,33 @@ exclude = ["/mundo/noticias-58984987", # Categoría: Medio ambiente
            "/mundo/noticias-48908206"] # Categoría: BBC Extra
 
 links_set = load_links("news_links.txt")
-# links_set_copy = links_set.copy()
 
 ''' Daily '''
-scraper(URL_seed, links_set, URL_base, exclude, recursive_deep)
+# scraper(URL_seed, links_set, URL_base, exclude, recursive_deep)
 
-links_list = sort_links(links_set)
+# links_list = sort_links(links_set)
 
-with open("news_links.txt", "w") as f:
-    for i in range(len(links_list)):
-        if i == len(links_list)-1:
-            f.write(links_list[i])
-        else:
-            f.write(links_list[i] + "\n")
+# with open("news_links.txt", "w") as f:
+#     for i in range(len(links_list)):
+#         if i == len(links_list)-1:
+#             f.write(links_list[i])
+#         else:
+#             f.write(links_list[i] + "\n")
 
 
 ''' Brute force '''
-# c = 0
-# for e in links_set:
-#     c += 1
-#     print(f"Seed ({c}/{len(links_set)})")
-#     links_set2 = load_links("news_links.txt")
-#     scraper(e, links_set2, URL_base, exclude, recursive_deep)
+c = 0
+for e in links_set:
+    c += 1
+    print(f"Seed ({c}/{len(links_set)})")
+    links_set2 = load_links("news_links.txt")
+    scraper(e, links_set2, URL_base, exclude, recursive_deep)
 
-#     links_list = sort_links(links_set2)
+    links_list = sort_links(links_set2)
 
-#     with open("news_links.txt", "w") as f:
-#         for i in range(len(links_list)):
-#             if i == len(links_list)-1:
-#                 f.write(links_list[i])
-#             else:
-#                 f.write(links_list[i] + "\n")
+    with open("news_links.txt", "w") as f:
+        for i in range(len(links_list)):
+            if i == len(links_list)-1:
+                f.write(links_list[i])
+            else:
+                f.write(links_list[i] + "\n")

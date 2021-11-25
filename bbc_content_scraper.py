@@ -123,23 +123,29 @@ def bbc_content_scraper(URL, output_route):
         content.append("[Etiquetas] " + ", ".join(tags_list))
     else:
         content.append("[Etiquetas] Sin etiquetas")
-
-    # flatten_list.append("[Etiquetas] " + ", ".join(tags_list))
     
-
     with open(output_route, "w", encoding="utf8") as f:
-        # f.write("\n\n".join(flatten_list))
         f.write("\n\n".join(content))
 
 
+def bbc_content_scraper_batch(news_links_path):
+    # Load links
+    links_list = list()
+    with open(news_links_path, "r", encoding="utf8") as f:
+        links_list = f.read().split("\n")    
 
-URL = "https://www.bbc.com/mundo/noticias-internacional-59410385"
+    # News scraping
+    c = 0
+    for link in links_list:
+        c += 1
+        print(f"Scraping {c}/{len(links_list)}: {link}")
+        article_id = link.split("-")[-1]
+        p = Path(f"bbc_news_content_scraped/{article_id}")
+        if not(p.exists()):
+            p.mkdir(exist_ok=True)
+            output_path = os.path.join(p, article_id + ".txt")
+            bbc_content_scraper(link, output_path)
 
-article_id = URL.split("-")[-1]
 
-p = Path(f"bbc_news_content_scraped/{article_id}")
-p.mkdir(exist_ok=True)
-
-output_route = os.path.join(p, article_id + ".txt")
-
-bbc_content_scraper(URL, output_route)
+news_links_path = Path("news_links.txt")
+bbc_content_scraper_batch(news_links_path)
