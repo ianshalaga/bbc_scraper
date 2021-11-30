@@ -84,6 +84,7 @@ exclude = ["/mundo/noticias-58984987", # Categoría: Medio ambiente
 
 links_set = load_links("news_links.txt")
 
+
 ''' Daily '''
 scraper(URL_seed, links_set, URL_base, exclude, recursive_deep)
 

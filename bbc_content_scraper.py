@@ -29,6 +29,10 @@ def flatten_body(content_list):
 
 
 def article_end_corrector(content_list):
+    # if content_list[-1].split(" ")[0] == "[Enlace]":
+    #     content_list.pop(-1)
+    #     article_end_corrector(content_list)
+
     if content_list[-1].split(" ")[0] == "[Cuerpo]" and content_list[-2].split(" ")[0] == "[Imagen]":
         content_list.pop(-1)
         content_list.pop(-1)
@@ -110,6 +114,9 @@ def bbc_content_scraper(URL, output_route):
         # Text bodies
         if text is not None:
             content.append("[Cuerpo] " + text.text.strip())
+            link = element.find("a")
+            if link is not None:
+                content.append("[Enlace] " + link["href"])   
 
     article_end_corrector(content)
 
@@ -124,6 +131,8 @@ def bbc_content_scraper(URL, output_route):
     else:
         content.append("[Etiquetas] Sin etiquetas")
     
+    content.append(f"[Fuente] {URL}")
+
     with open(output_route, "w", encoding="utf8") as f:
         f.write("\n\n".join(content))
 
@@ -145,7 +154,19 @@ def bbc_content_scraper_batch(news_links_path):
             p.mkdir(exist_ok=True)
             output_path = os.path.join(p, article_id + ".txt")
             bbc_content_scraper(link, output_path)
+        else:
+            output_path = Path(os.path.join(p, article_id + ".txt"))
+            if not(output_path.exists()):
+                bbc_content_scraper(link, output_path)
 
 
-news_links_path = Path("news_links.txt")
-bbc_content_scraper_batch(news_links_path)
+
+# news_links_path = Path("news_links.txt")
+# bbc_content_scraper_batch(news_links_path)
+
+URL = "https://www.bbc.com/mundo/noticias-59320917"
+article_id = URL.split("-")[-1]
+p = Path(f"bbc_news_content_scraped/{article_id}")
+p.mkdir(exist_ok=True)
+output_route = Path(f"bbc_news_content_scraped/{article_id}/{article_id}" + ".txt")
+bbc_content_scraper(URL, output_route)

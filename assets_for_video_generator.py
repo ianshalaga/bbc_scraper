@@ -8,6 +8,8 @@ from termcolor import colored
 import wave
 import contextlib
 import math
+import re
+import random
 
 
 
@@ -17,6 +19,63 @@ def get_wave_duration(wave_path):
         rate = f.getframerate()
         duration = math.ceil(frames / float(rate)) + 0.5
         return duration
+
+
+def allowed_voices(article_scraped_path):
+    # Voices lists
+    voices_fail_romans_list = ["IVONA 2 Conchita",
+                               "IVONA 2 Enrique",
+                               "IVONA 2 Miguel",
+                               "IVONA 2 Penélope",
+                               "Microsoft Sabina Desktop",
+                               "Microsoft Raul Mobile"
+    ]
+    voices_fail_point_numbers_list = ["IVONA 2 Miguel",
+                                      "IVONA 2 Penélope",
+                                      "Microsoft Sabina Desktop"
+    ]
+    voices_ok_list = ["Loquendo Carlos",
+                      "Loquendo Carmen",
+                      "Loquendo Diego",
+                      "Loquendo Esperanza",
+                      "Loquendo Francisca",
+                      "Loquendo Jorge",
+                      "Loquendo Juan",
+                      "Loquendo Leonor",
+                      "Loquendo Soledad",
+                      "Loquendo Ximena",
+                      "Microsoft Helena Desktop",
+                      "Microsoft Laura Mobile",
+                      "Microsoft Pablo Mobile"
+    ]
+
+    allowed_voices_list = list()
+    content_list = list()
+    with open(article_scraped_path, "r", encoding="utf8") as f:
+        content_list = f.read().split("\n\n")
+    fails_roman = False
+    fails_numbers = False
+    for sentense in content_list:
+        sentense_split = sentense.split(" ")[1:]
+        for word in sentense_split:
+            word_stripped = word.strip(".,:;")
+            if bool(re.search(r"^M{0,3}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$", word_stripped)):
+                fails_roman = True
+                break
+            if bool(re.search(r"[+-]?([0-9]*[.])[0-9]+", word_stripped)):
+                fails_numbers = True
+                break
+    
+    if fails_roman and fails_numbers:
+        allowed_voices_list = voices_ok_list
+    elif fails_roman and not fails_numbers:
+        allowed_voices_list = voices_ok_list + voices_fail_point_numbers_list
+    elif not fails_roman and fails_numbers:
+        allowed_voices_list = voices_ok_list + voices_fail_romans_list
+    else:
+        allowed_voices_list = voices_ok_list + voices_fail_romans_list + voices_fail_point_numbers_list
+    
+    return allowed_voices_list
 
 
 def assets_for_video_generator(article_scraped_folder,
@@ -38,6 +97,9 @@ def assets_for_video_generator(article_scraped_folder,
     images_processed_folder = Path(os.path.join(assets_folder, "images_processed"))
     images_processed_folder.mkdir(exist_ok=True)
 
+    images_processed_text_folder = Path(os.path.join(assets_folder, "images_processed_text"))
+    images_processed_text_folder.mkdir(exist_ok=True)
+
     text_folder = Path(os.path.join(assets_folder, "text_content"))
     text_folder.mkdir(exist_ok=True)
 
@@ -48,7 +110,8 @@ def assets_for_video_generator(article_scraped_folder,
     specs_file_path = os.path.join(video_folder, "specs.json5")
     video_file_path = os.path.join(article_scraped_folder, "video", article_id + ".mp4")
     video_font_path = os.path.join(video_default_assets_folfer, "fonts", "AveriaSerif-Bold.ttf")
-    background_audio_path = os.path.join(video_default_assets_folfer, "audio", "Light Expanse - Unicorn Heads.mp3")
+    background_audio_path = list(Path(os.path.join(video_default_assets_folfer, "audio")).iterdir())
+    random.shuffle(background_audio_path)
     specs_dict["outPath"] = video_file_path
     specs_dict["width"] = width_target
     specs_dict["height"] = height_target
@@ -56,12 +119,16 @@ def assets_for_video_generator(article_scraped_folder,
     specs_dict["defaults"] = {"layer": {"fontPath": video_font_path}}
 
     content_list  = list()
-    article_scraped_route = os.path.join(article_scraped_folder, article_id + ".txt")
-    with open(article_scraped_route, "r", encoding="utf8") as f:
+    article_scraped_path = os.path.join(article_scraped_folder, article_id + ".txt")
+    with open(article_scraped_path, "r", encoding="utf8") as f:
         content_list = f.read().split("\n\n")
 
     c = 0
-    actual_background = ""
+    current_background = ""
+    current_background_caption = ""
+    allowed_voices_list = allowed_voices(article_scraped_path)
+    article_voice = random.choice(allowed_voices_list)
+    current_image_path = ""
     for e in content_list:
         c += 1
         content_tag = e.split(" ")[0]
@@ -76,7 +143,7 @@ def assets_for_video_generator(article_scraped_folder,
             try:
                 subprocess.run(["balcon", # Command line Balabolka
                                 "-n", # Voice name
-                                "IVONA 2 Enrique",
+                                article_voice, # "IVONA 2 Enrique",
                                 "-f",
                                 title_path,
                                 "-w", # Wave file
@@ -147,7 +214,7 @@ def assets_for_video_generator(article_scraped_folder,
             try:
                 subprocess.run(["balcon", # Command line Balabolka
                                 "-n", # Voice name
-                                "IVONA 2 Enrique",
+                                article_voice, # "IVONA 2 Enrique",
                                 "-f",
                                 text_path,
                                 "-w", # Wave file
@@ -169,7 +236,7 @@ def assets_for_video_generator(article_scraped_folder,
                     "layers": [
                         {
                             "type": "image",
-                            "path": actual_background,
+                            "path": current_background_caption,
                             "zoomDirection": "null"
                         },
                         {
@@ -195,7 +262,7 @@ def assets_for_video_generator(article_scraped_folder,
                     "layers": [
                         {
                             "type": "image",
-                            "path": actual_background,
+                            "path": current_background,
                             "zoomDirection": "null"
                         },
                         {
@@ -210,6 +277,8 @@ def assets_for_video_generator(article_scraped_folder,
             caption_path = os.path.join(text_folder, str(c) + "_caption.txt")
             with open(caption_path, "w", encoding="utf8") as f:
                 f.write(content_body)
+            images_processed_text_path = os.path.join(images_processed_text_folder, Path(current_image_path).name)    
+            ip.put_caption_on_image_processed(current_image_path, images_processed_text_path, content_body, video_font_path)
 
         if content_tag == "[Imagen]":
             print(f"Descargargo: {content_body}")
@@ -222,11 +291,15 @@ def assets_for_video_generator(article_scraped_folder,
                 print(colored("Guardado", "green"), image_name)
                 # Images processing
                 image_processed_path = os.path.join(images_processed_folder, image_name)
+                current_image_path = image_processed_path
                 ip.image_for_video_generator(image_path, image_processed_path, width_target, height_target)
+                image_processed_text_path = os.path.join(images_processed_text_folder, image_name)
+                ip.image_for_video_generator(image_path, image_processed_text_path, width_target, height_target)
             except subprocess.CalledProcessError as ex:
                 print(colored("Error descargando.", "red"))
                 logging.log(logging.ERROR, "Error descargando:", ex)
-            actual_background = image_processed_path
+            current_background = image_processed_path
+            current_background_caption = image_processed_text_path
 
     specs_dict["clips"].append(
         {
@@ -237,15 +310,21 @@ def assets_for_video_generator(article_scraped_folder,
 
     specs_dict["loopAudio"] = "true"
 
-    specs_dict["audioTracks"] = [
-        {
-            "path": background_audio_path,
-            "mixVolume": 0.15
-        }
-    ]
+    audiotracks_list = list()
+    for at in background_audio_path:
+        audiotracks_list.append({"path": str(at), "mixVolume": 0.1})
+    specs_dict["audioTracks"] = audiotracks_list
+
+    # specs_dict["audioTracks"] = [
+    #     {
+    #         "path": str(random.choice(background_audio_path)),
+    #         "mixVolume": 0.1
+    #     }
+    # ]
 
     specs_dict["audioNorm"] = {
-        "enable": "true"
+        "enable": "true",
+        "maxGain": 40
     }
 
     # Debugging
@@ -256,7 +335,7 @@ def assets_for_video_generator(article_scraped_folder,
 
 
 
-URL = "https://www.bbc.com/mundo/noticias-internacional-59410385"
+URL = "https://www.bbc.com/mundo/noticias-59320917"
 
 article_id = URL.split("-")[-1]
 

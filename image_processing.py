@@ -1,8 +1,9 @@
 import cv2 # OpenCV 2.0, Digital Image Processing
 from fractions import Fraction # Fractions manipulation
+from PIL import Image, ImageFont, ImageDraw 
 
 
-def image_for_video_generator(image_path, images_processed_folder, width_target, height_target):
+def image_for_video_generator(image_path, images_processed_path, width_target, height_target):
     image = cv2.imread(str(image_path))
     height, width, _ = image.shape
 
@@ -54,4 +55,38 @@ def image_for_video_generator(image_path, images_processed_folder, width_target,
     # cv2.waitKey(0) # waits until a key is pressed
     # cv2.destroyAllWindows() # destroys the window showing image
 
-    cv2.imwrite(str(images_processed_folder), background)
+    cv2.imwrite(str(images_processed_path), background)
+
+
+def put_caption_on_image_processed(images_processed_path, images_processed_text_path, text_caption, font_path):
+    words_list = text_caption.split(" ")
+    c = 0
+    string_list = list()
+    text_list = list()
+
+    for word in words_list:
+        if c == 9:
+            string_list.append(word)
+            text_list.append(" ".join(string_list))
+            string_list = list()
+            c = 0
+        else:
+            string_list.append(word)
+            c += 1
+    
+    if c != 0:
+        text_list.append(" ".join(string_list))
+    
+    image_processed = Image.open(images_processed_path)
+    font = ImageFont.truetype(font_path, 50)
+    y = 15
+    image = image_processed.copy()
+    image_draw = ImageDraw.Draw(image)
+    image_draw.rectangle([0,0, image_processed.width, 2*y+len(text_list)*50], 0)
+    image_blended = Image.blend(image_processed, image, 0.8)
+    image_draw = ImageDraw.Draw(image_blended)
+
+    for i in range(len(text_list)):
+        image_draw.text((15,y+i*50), text_list[i], (230, 230, 0), font=font, align='center')
+
+    image_blended.save(images_processed_text_path)
