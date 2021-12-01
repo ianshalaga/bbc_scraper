@@ -10,7 +10,39 @@ import contextlib
 import math
 import re
 import random
+from pydub import AudioSegment
 
+
+
+def audio_track_generator(audio_tracks_path, output_song_path):
+    time_limit = 2700 # 45 minutes
+    p = Path(audio_tracks_path)
+    audio_genders = list(p.iterdir())
+    audios_selected = random.choice(audio_genders)
+    print(f"Género seleccionado: {audios_selected.name}")
+    audios_selected_list = list(audios_selected.iterdir())
+
+    print("Aleatorizando...")
+    random.shuffle(audios_selected_list)
+
+    songs_list = list()
+    time_count = 0
+    for song_path in audios_selected_list:
+        if time_count >= time_limit:
+            break
+        else:
+            time_count += get_wave_duration(str(song_path))
+            songs_list.append(AudioSegment.from_file(song_path, format="wav"))
+            print(f"Añadida: {song_path.name}")
+    
+    # Merge songs
+    song = songs_list[0]
+    for i in range(1,len(songs_list)):
+        print(f"Uniendo: {i}/{len(songs_list)-1}")
+        song += songs_list[i]
+
+    print("Guardando archivo de audio...")
+    song.export(output_song_path, format="wav")
 
 
 def get_wave_duration(wave_path):
@@ -104,14 +136,20 @@ def assets_for_video_generator(article_scraped_folder,
     text_folder.mkdir(exist_ok=True)
 
     audio_folder = Path(os.path.join(assets_folder, "audio_files"))
-    audio_folder.mkdir(exist_ok=True)    
+    audio_folder.mkdir(exist_ok=True)
+
+    song_folder = Path(os.path.join(assets_folder, "audio_song"))
+    song_folder.mkdir(exist_ok=True)
 
     specs_dict = dict()
     specs_file_path = os.path.join(video_folder, "specs.json5")
     video_file_path = os.path.join(article_scraped_folder, "video", article_id + ".mp4")
     video_font_path = os.path.join(video_default_assets_folfer, "fonts", "AveriaSerif-Bold.ttf")
-    background_audio_path = list(Path(os.path.join(video_default_assets_folfer, "audio")).iterdir())
-    random.shuffle(background_audio_path)
+    
+    default_audios_folder = os.path.join(video_default_assets_folfer, "audio")
+    song_path = os.path.join(song_folder, "song.wav")
+    audio_track_generator(default_audios_folder, song_path)
+
     specs_dict["outPath"] = video_file_path
     specs_dict["width"] = width_target
     specs_dict["height"] = height_target
@@ -301,26 +339,35 @@ def assets_for_video_generator(article_scraped_folder,
             current_background = image_processed_path
             current_background_caption = image_processed_text_path
 
+    # specs_dict["clips"].append(
+    #     {
+    #         "duration": 20.5,
+    #         "layers": [{"type": "radial-gradient"}]
+    #     }
+    # )
+
+    # Final screen
     specs_dict["clips"].append(
         {
             "duration": 20.5,
-            "layers": [{"type": "radial-gradient"}]
+            "layers": [
+                {
+                    "type": "image",
+                    "path": current_background,
+                    "zoomDirection": "null"
+                }
+            ]
         }
     )
 
     specs_dict["loopAudio"] = "true"
 
-    audiotracks_list = list()
-    for at in background_audio_path:
-        audiotracks_list.append({"path": str(at), "mixVolume": 0.1})
-    specs_dict["audioTracks"] = audiotracks_list
-
-    # specs_dict["audioTracks"] = [
-    #     {
-    #         "path": str(random.choice(background_audio_path)),
-    #         "mixVolume": 0.1
-    #     }
-    # ]
+    specs_dict["audioTracks"] = [
+        {
+            "path": song_path,
+            "mixVolume": 0.1
+        }
+    ]
 
     specs_dict["audioNorm"] = {
         "enable": "true",
@@ -335,7 +382,7 @@ def assets_for_video_generator(article_scraped_folder,
 
 
 
-URL = "https://www.bbc.com/mundo/noticias-59320917"
+URL = "https://www.bbc.com/mundo/noticias-56222744"
 
 article_id = URL.split("-")[-1]
 
