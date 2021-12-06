@@ -4,6 +4,7 @@ from PIL import Image, ImageFont, ImageDraw
 
 
 def image_for_video_generator(image_path, images_processed_path, width_target, height_target):
+    images_processed_path = ".".join(images_processed_path.split(".")[:-1]) + ".jpg" # Force jpg extension
     image = cv2.imread(str(image_path))
     height, width, _ = image.shape
 
@@ -54,11 +55,12 @@ def image_for_video_generator(image_path, images_processed_path, width_target, h
     # cv2.imshow("Imagen", background)
     # cv2.waitKey(0) # waits until a key is pressed
     # cv2.destroyAllWindows() # destroys the window showing image
-
+    
     cv2.imwrite(str(images_processed_path), background)
 
 
 def put_caption_on_image_processed(images_processed_path, images_processed_text_path, text_caption, font_path):
+    images_processed_path = ".".join(images_processed_path.split(".")[:-1]) + ".jpg" # Force jpg extension
     words_list = text_caption.split(" ")
     c = 0
     string_list = list()

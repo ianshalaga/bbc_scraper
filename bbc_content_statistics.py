@@ -40,37 +40,38 @@ def load_all_words(news_content_path):
     for k, v in index_tag_dict.items():
         tag_index_dict[v] = k
         
-    with open("tags_set.pickle", "wb") as handle:
+    with open("statistics/tags_set.pickle", "wb") as handle:
         pickle.dump(tags_set, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
-    with open("tags_dict.pickle", "wb") as handle:
+    with open("statistics/tags_dict.pickle", "wb") as handle:
         pickle.dump(tags_dict, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
-    with open("index_tag_dict.pickle", "wb") as handle:
+    with open("statistics/index_tag_dict.pickle", "wb") as handle:
         pickle.dump(index_tag_dict, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
-    with open("tag_index_dict.pickle", "wb") as handle:
+    with open("statistics/tag_index_dict.pickle", "wb") as handle:
         pickle.dump(tag_index_dict, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
 
 
-news_content_path = "bbc_news_content_scraped"
+''' Renew statistics '''
+# news_content_path = "bbc_news_content_scraped"
+# load_all_words(news_content_path)
 
-load_all_words(news_content_path)
 
-with open("tags_set.pickle", "rb") as handle:
+''' Analyze statistics '''
+with open("statistics/tags_set.pickle", "rb") as handle:
     tags_set = pickle.load(handle)
 
-with open("tags_dict.pickle", "rb") as handle:
+with open("statistics/tags_dict.pickle", "rb") as handle:
     tags_dict = pickle.load(handle)
 
-with open("index_tag_dict.pickle", "rb") as handle:
+with open("statistics/index_tag_dict.pickle", "rb") as handle:
     index_tag_dict = pickle.load(handle)
 
-with open("tag_index_dict.pickle", "rb") as handle:
+with open("statistics/tag_index_dict.pickle", "rb") as handle:
     tag_index_dict = pickle.load(handle)
 
-with open("keywords.txt", "w", encoding="utf8") as f:
+with open("statistics/keywords.txt", "w", encoding="utf8") as f:
     for k, v in index_tag_dict.items():
-        # print(k, v, tags_dict[v])
-        f.write(f"{k}:, {v} - {tags_dict[v]}")
+        f.write(f"{k}:, {v} - {tags_dict[v]}\n")

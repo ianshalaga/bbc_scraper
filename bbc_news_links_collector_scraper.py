@@ -84,19 +84,13 @@ exclude = ["/mundo/noticias-58984987", # Categoría: Medio ambiente
 
 links_set = load_links("news_links.txt")
 
-
 ''' Daily '''
 scraper(URL_seed, links_set, URL_base, exclude, recursive_deep)
 
 links_list = sort_links(links_set)
 
 with open("news_links.txt", "w") as f:
-    for i in range(len(links_list)):
-        if i == len(links_list)-1:
-            f.write(links_list[i])
-        else:
-            f.write(links_list[i] + "\n")
-
+    f.write("\n".join(links_list))
 
 ''' Brute force '''
 # c = 0

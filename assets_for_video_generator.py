@@ -120,9 +120,6 @@ def assets_for_video_generator(article_scraped_folder,
     assets_folder = Path(os.path.join(article_scraped_folder, "assets"))
     assets_folder.mkdir(exist_ok=True)
 
-    video_folder = Path(os.path.join(article_scraped_folder, "video"))
-    video_folder.mkdir(exist_ok=True)
-
     images_folder = Path(os.path.join(assets_folder, "images_downloaded"))
     images_folder.mkdir(exist_ok=True)
 
@@ -142,9 +139,10 @@ def assets_for_video_generator(article_scraped_folder,
     song_folder.mkdir(exist_ok=True)
 
     specs_dict = dict()
-    specs_file_path = os.path.join(video_folder, "specs.json5")
-    video_file_path = os.path.join(article_scraped_folder, "video", article_id + ".mp4")
+    specs_file_path = os.path.join(assets_folder, "specs.json5")
+    video_file_path = os.path.join(article_scraped_folder, article_id + ".mp4")
     video_font_path = os.path.join(video_default_assets_folfer, "fonts", "AveriaSerif-Bold.ttf")
+    description_file_path = os.path.join(article_scraped_folder, article_id + "_description.txt")
     
     default_audios_folder = os.path.join(video_default_assets_folfer, "audio")
     song_path = os.path.join(song_folder, "song.wav")
@@ -194,6 +192,7 @@ def assets_for_video_generator(article_scraped_folder,
                 print(colored("Error al generar el archivo de audio.", "red"))
                 logging.log(logging.ERROR, "Error al generar el archivo de audio:", ex)
 
+            # For json5 file
             specs_dict["clips"] = [
                 {
                     "duration": get_wave_duration(wave_path) + 2,
@@ -214,11 +213,16 @@ def assets_for_video_generator(article_scraped_folder,
                 }
             ]
 
+            # For description file
+            with open(description_file_path, "w", encoding="utf8") as f:
+                f.write(content_body + "\n")
+
         if content_tag == "[Autor]": # File for author
             author_path = os.path.join(text_folder, str(c) + "_author.txt")
             with open(author_path, "w", encoding="utf8") as f:
                 f.write(content_body)
-    
+
+            # For json5 file
             specs_dict["clips"][0]["layers"].append(
                 {
                     "type": "slide-in-text",
@@ -233,6 +237,7 @@ def assets_for_video_generator(article_scraped_folder,
             with open(date_path, "w", encoding="utf8") as f:
                 f.write(content_body)
             
+            # For json5 file
             specs_dict["clips"][0]["layers"].append(
                 {
                     "type": "slide-in-text",
@@ -265,6 +270,7 @@ def assets_for_video_generator(article_scraped_folder,
                 print(colored("Error al generar el archivo de audio.", "red"))
                 logging.log(logging.ERROR, "Error al generar el archivo de audio:", ex)
             
+            # For json5 file
             specs_dict["clips"].append(
                 {
                     "duration": get_wave_duration(wave_path),
@@ -293,7 +299,8 @@ def assets_for_video_generator(article_scraped_folder,
             subtitle_path = os.path.join(text_folder, str(c) + "_subtitle.txt")
             with open(subtitle_path, "w", encoding="utf8") as f:
                 f.write(content_body)
-        
+
+            # For json5 file
             specs_dict["clips"].append(
                 {
                     "duration": 4,
@@ -321,6 +328,7 @@ def assets_for_video_generator(article_scraped_folder,
         if content_tag == "[Imagen]":
             print(f"Descargargo: {content_body}")
             image_ext = content_body.split(".")[-1]
+            # image_ext = "jpg"
             image_name = str(c) + "_image." + image_ext
             image_path = os.path.join(images_folder, image_name)
             try:
@@ -339,14 +347,20 @@ def assets_for_video_generator(article_scraped_folder,
             current_background = image_processed_path
             current_background_caption = image_processed_text_path
 
-    # specs_dict["clips"].append(
-    #     {
-    #         "duration": 20.5,
-    #         "layers": [{"type": "radial-gradient"}]
-    #     }
-    # )
+        # For description file
+        if content_tag == "[Etiquetas]":
+            with open(description_file_path, "a", encoding="utf8") as f:
+                f.write(content_body + "\n")
 
-    # Final screen
+        if content_tag == "[Enlace]":
+            with open(description_file_path, "a", encoding="utf8") as f:
+                f.write("Enlace: " + content_body + "\n")
+
+        if content_tag == "[Fuente]":
+            with open(description_file_path, "a", encoding="utf8") as f:
+                f.write("Fuente: " + content_body)
+
+    # For json5 file    
     specs_dict["clips"].append(
         {
             "duration": 20.5,
@@ -382,15 +396,15 @@ def assets_for_video_generator(article_scraped_folder,
 
 
 
-URL = "https://www.bbc.com/mundo/noticias-56222744"
+# URL = "https://www.bbc.com/mundo/noticias-59432415"
 
-article_id = URL.split("-")[-1]
+# article_id = URL.split("-")[-1]
 
-article_scraped_folder = Path(f"bbc_news_content_scraped/{article_id}")
-video_default_assets_folfer = Path("video_default_assets")
+# article_scraped_folder = Path(f"bbc_news_content_scraped/{article_id}")
+# video_default_assets_folfer = Path("video_default_assets")
 
-width_target = 1920
-height_target = 1080
-fps = 60
+# width_target = 1920
+# height_target = 1080
+# fps = 60
 
-assets_for_video_generator(article_scraped_folder, video_default_assets_folfer, article_id, width_target, height_target, fps)
+# assets_for_video_generator(article_scraped_folder, video_default_assets_folfer, article_id, width_target, height_target, fps)
