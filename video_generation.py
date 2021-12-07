@@ -9,6 +9,7 @@ import csv
 import re
 
 
+
 def video_generator(article_scraped_path, video_default_assets_folfer, article_id, width_target, height_target, fps):
     # Assests generation
     assets.assets_for_video_generator(article_scraped_path, video_default_assets_folfer, article_id, width_target, height_target, fps)
@@ -61,8 +62,10 @@ def video_generator_batch(total_ids_path,
                 else:
                     article_scraped_path = os.path.join(article_scraped_folder, article_id)
                     video_generator(article_scraped_path, video_default_assets_folfer, article_id, width_target, height_target, fps)
-                    with open(videos_ids_path, "a", encoding="utf8") as f:
-                        f.write(article_id + "\n")
+                    videos_ids_list.append(article_id)
+                    videos_ids_list.sort()
+                    with open(videos_ids_path, "w", encoding="utf8") as f:
+                        f.write("\n".join(videos_ids_list))
             else:
                 print(f"El artículo {article_id} ya tiene video.")
 
@@ -85,3 +88,9 @@ video_generator_batch(total_ids_path,
                       height_target,
                       fps,
                       ban_keywords_list)
+
+
+''' TESTING '''
+# article_id = str(36467511)
+# article_scraped_path = os.path.join(article_scraped_folder, article_id)
+# video_generator(article_scraped_path, video_default_assets_folfer, article_id, width_target, height_target, fps)

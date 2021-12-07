@@ -141,7 +141,8 @@ def assets_for_video_generator(article_scraped_folder,
     specs_dict = dict()
     specs_file_path = os.path.join(assets_folder, "specs.json5")
     video_file_path = os.path.join(article_scraped_folder, article_id + ".mp4")
-    video_font_path = os.path.join(video_default_assets_folfer, "fonts", "AveriaSerif-Bold.ttf")
+    video_font_bodies_path = os.path.join(video_default_assets_folfer, "fonts", "AveriaSerif-Bold.ttf")
+    video_font_titles_path = os.path.join(video_default_assets_folfer, "fonts", "LTAsus-Heavy.ttf")
     description_file_path = os.path.join(article_scraped_folder, article_id + "_description.txt")
     
     default_audios_folder = os.path.join(video_default_assets_folfer, "audio")
@@ -152,7 +153,7 @@ def assets_for_video_generator(article_scraped_folder,
     specs_dict["width"] = width_target
     specs_dict["height"] = height_target
     specs_dict["fps"] = fps
-    specs_dict["defaults"] = {"layer": {"fontPath": video_font_path}}
+    specs_dict["defaults"] = {"layer": {"fontPath": video_font_bodies_path}}
 
     content_list  = list()
     article_scraped_path = os.path.join(article_scraped_folder, article_id + ".txt")
@@ -202,7 +203,8 @@ def assets_for_video_generator(article_scraped_folder,
                             "text": content_body,
                             "background": {
                                 "type": "radial-gradient"
-                            }
+                            },
+                            "fontPath": video_font_titles_path
                         },
                         {
                             "type": "detached-audio",
@@ -311,8 +313,10 @@ def assets_for_video_generator(article_scraped_folder,
                             "zoomDirection": "null"
                         },
                         {
-                            "type": "news-title",
-                            "text": content_body
+                            "type": "subtitle",
+                            "text": content_body,
+                            "fontPath": video_font_titles_path,
+                            "textColor": "#ffff00"
                         }
                     ]
                 }
@@ -323,7 +327,7 @@ def assets_for_video_generator(article_scraped_folder,
             with open(caption_path, "w", encoding="utf8") as f:
                 f.write(content_body)
             images_processed_text_path = os.path.join(images_processed_text_folder, Path(current_image_path).name)    
-            ip.put_caption_on_image_processed(current_image_path, images_processed_text_path, content_body, video_font_path)
+            ip.put_caption_on_image_processed(current_image_path, images_processed_text_path, content_body, video_font_bodies_path)
 
         if content_tag == "[Imagen]":
             print(f"Descargargo: {content_body}")
