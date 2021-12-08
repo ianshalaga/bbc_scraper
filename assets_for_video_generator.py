@@ -11,6 +11,7 @@ import math
 import re
 import random
 from pydub import AudioSegment
+import urllib.parse as urlp
 
 
 
@@ -337,7 +338,10 @@ def assets_for_video_generator(article_scraped_folder,
             image_path = os.path.join(images_folder, image_name)
             try:
                 # Images downloader
-                subprocess.run(["wget", "-c", "-O", image_path, content_body, "--no-check-certificate"], check=True)
+                subprocess.run(["wget",
+                                "-c", "-O",
+                                image_path, content_body.split("://")[0] + "://" + urlp.quote(content_body.split("://")[1]),
+                                "--no-check-certificate"], check=True)
                 print(colored("Guardado", "green"), image_name)
                 # Images processing
                 image_processed_path = os.path.join(images_processed_folder, image_name)

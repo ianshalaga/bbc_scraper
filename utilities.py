@@ -1,4 +1,6 @@
 import subprocess
+import urllib.parse as urlp
+import requests
 
 
 def videos_to_upload_generator(news_videos_path, uploaded_videos_path):
@@ -21,12 +23,4 @@ def videos_to_upload_generator(news_videos_path, uploaded_videos_path):
 
 news_videos_path = "news_videos.txt"
 uploaded_videos_path = "uploaded_videos.txt"
-# videos_to_upload_generator(news_videos_path, uploaded_videos_path)
-
-subprocess.run(["wget",
-                "-c",
-                "-O",
-                "imagen.jpg",
-                "https://ichef.bbci.co.uk/news/640/cpsprodpb/7B08/production/_89969413_simóncarrillocortesia.jpg",
-                "--no-check-certificate"],
-                check=True)
+videos_to_upload_generator(news_videos_path, uploaded_videos_path)
