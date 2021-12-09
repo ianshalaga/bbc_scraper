@@ -10,9 +10,9 @@ import re
 
 
 
-def video_generator(article_scraped_path, video_default_assets_folfer, article_id, width_target, height_target, fps):
+def video_generator(article_scraped_path, video_default_assets_folfer, videos_to_upload_path, article_id, width_target, height_target, fps):
     # Assests generation
-    assets.assets_for_video_generator(article_scraped_path, video_default_assets_folfer, article_id, width_target, height_target, fps)
+    assets.assets_for_video_generator(article_scraped_path, video_default_assets_folfer, videos_to_upload_path, article_id, width_target, height_target, fps)
 
     # Video generation
     assets_folder = os.path.join(article_scraped_path, "assets")
@@ -29,7 +29,10 @@ def video_generator(article_scraped_path, video_default_assets_folfer, article_i
     
     # Assets cleaning
     try:
-        shutil.rmtree(assets_folder)
+        shutil.rmtree(assets_folder) # Assets cleaning
+        source_path = os.path.join(article_scraped_path, article_id + ".mp4")
+        shutil.move(source_path, videos_to_upload_path)
+
     except OSError as e:
         print(f'Error: {assets_folder} : {e.strerror}')
 
@@ -38,6 +41,7 @@ def video_generator_batch(total_ids_path,
                           videos_ids_path,
                           article_scraped_folder,
                           video_default_assets_folfer,
+                          videos_to_upload_path,
                           width_target,
                           height_target,
                           fps,
@@ -61,7 +65,7 @@ def video_generator_batch(total_ids_path,
                     continue
                 else:
                     article_scraped_path = os.path.join(article_scraped_folder, article_id)
-                    video_generator(article_scraped_path, video_default_assets_folfer, article_id, width_target, height_target, fps)
+                    video_generator(article_scraped_path, video_default_assets_folfer, videos_to_upload_path, article_id, width_target, height_target, fps)
                     videos_ids_list.append(article_id)
                     videos_ids_list.sort()
                     with open(videos_ids_path, "w", encoding="utf8") as f:
@@ -75,6 +79,7 @@ total_ids_path = "news_id_tags.csv"
 videos_ids_path = "news_videos.txt"
 article_scraped_folder = "bbc_news_content_scraped"
 video_default_assets_folfer = "video_default_assets"
+videos_to_upload_path = "videos_to_upload"
 width_target = 1920
 height_target = 1080
 fps = 60
@@ -84,6 +89,7 @@ video_generator_batch(total_ids_path,
                       videos_ids_path,
                       article_scraped_folder,
                       video_default_assets_folfer,
+                      videos_to_upload_path,
                       width_target,
                       height_target,
                       fps,
@@ -91,6 +97,6 @@ video_generator_batch(total_ids_path,
 
 
 ''' TESTING '''
-# article_id = str(36467511)
+# article_id = str(36468344)
 # article_scraped_path = os.path.join(article_scraped_folder, article_id)
-# video_generator(article_scraped_path, video_default_assets_folfer, article_id, width_target, height_target, fps)
+# video_generator(article_scraped_path, video_default_assets_folfer, videos_to_upload_path, article_id, width_target, height_target, fps)

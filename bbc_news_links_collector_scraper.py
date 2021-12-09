@@ -25,7 +25,7 @@ def links_extraction(url, URL_base, exclude):
         if element.get("href") is not None:
             if element is not None and \
             "noticias" in element["href"] and \
-            element["href"].startswith("/mundo/noticias-") and \
+            element["href"].startswith("/mundo/noticias") and \
             element["href"] not in exclude:
                 link = URL_base + element["href"]
                 links_set.add(link)
@@ -61,13 +61,20 @@ def sort_links(links_set):
 
     for e in links_list:
         split = e.split("-")
+        # if (split[-1].isnumeric()):
         split[-1] = int(split[-1])
+        #     split.append("new")
+        # else:
+        #     split = [e, int(e.split("/")[-1].split("_")[0]), "old"]
         links_splitted.append(split)
 
     links_splitted = sorted(links_splitted, key=lambda x:x[-1], reverse=True)
 
     for e in links_splitted:
+        # if e[-1] == "new":
         links_sorted.append("-".join(e[:-1] + [str(e[-1])]))
+        # elif e[-1] == "old":
+        #     links_sorted.append(e[0])
 
     return links_sorted
 

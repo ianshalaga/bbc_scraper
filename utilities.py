@@ -1,6 +1,3 @@
-import subprocess
-import urllib.parse as urlp
-import requests
 
 
 def videos_to_upload_generator(news_videos_path, uploaded_videos_path):

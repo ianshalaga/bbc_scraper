@@ -123,3 +123,4 @@ dmypy.json
 # Folders
 bbc_news_content_scraped/
 video_default_assets/
+videos_to_upload/

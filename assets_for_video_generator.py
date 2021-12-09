@@ -12,6 +12,7 @@ import re
 import random
 from pydub import AudioSegment
 import urllib.parse as urlp
+import shutil
 
 
 
@@ -113,6 +114,7 @@ def allowed_voices(article_scraped_path):
 
 def assets_for_video_generator(article_scraped_folder,
                                video_default_assets_folfer,
+                               videos_to_upload_path,
                                article_id,
                                width_target,
                                height_target,
@@ -219,7 +221,7 @@ def assets_for_video_generator(article_scraped_folder,
             # For description file
             with open(description_file_path, "w", encoding="utf8") as f:
                 f.write(content_body + "\n")
-
+            
         if content_tag == "[Autor]": # File for author
             author_path = os.path.join(text_folder, str(c) + "_author.txt")
             with open(author_path, "w", encoding="utf8") as f:
@@ -367,6 +369,8 @@ def assets_for_video_generator(article_scraped_folder,
         if content_tag == "[Fuente]":
             with open(description_file_path, "a", encoding="utf8") as f:
                 f.write("Fuente: " + content_body)
+
+    shutil.move(description_file_path, videos_to_upload_path)
 
     # For json5 file    
     specs_dict["clips"].append(

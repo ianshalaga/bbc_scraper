@@ -131,20 +131,37 @@ def bbc_content_scraper(URL, output_route):
                     content.append("[Imagen] " + link["src"])
                     content.append("[Epígrafe] " + paragraph.text.strip())
             else:
-                if link.get("alt") is not None and link["alt"].lower() != "línea":
+                if link.get("alt") is not None and link["alt"].lower() != "línea" and link["alt"].lower() != "line":
                     content.append("[Imagen] " + link["src"])
 
         # Text bodies
         if text is not None:
-            if bool(re.search(r"[aA][qQ][uU][íÍ]", text.text)) and bool(re.search(r"[pP]uedes ver", text.text)):
-                text_after = re.sub(r"[aA][qQ][uU][íÍ]", "en la descripción", text.text)
-                content.append("[Cuerpo] " + text_after)
-            else:
-                content.append("[Cuerpo] " + text.text.strip())
-            
             link = element.find("a")
-            if link is not None:
-                content.append("[Enlace] " + link["href"])
+            if link is not None:# and "bbc.com/mundo/noticias" not in link["href"]:
+                if "bbc.com/mundo/noticias" not in link["href"]:
+                    if bool(re.search(r"[aA][qQ][uU][íÍ]", text.text)) and bool(re.search(r"[pP]uedes ver", text.text)):
+                        text_after = re.sub(r"[aA][qQ][uU][íÍ]", "en la descripción", text.text)
+                        content.append("[Cuerpo] " + text_after)
+                        content.append("[Enlace] " + link["href"])
+                    else:
+                        content.append("[Cuerpo] " + text.text.strip())
+                        content.append("[Enlace] " + link["href"])
+            else:
+                if bool(re.search(r"[aA][qQ][uU][íÍ]", text.text)) and bool(re.search(r"[pP]uedes ver", text.text)):
+                    text_after = re.sub(r"[aA][qQ][uU][íÍ]", "en la descripción", text.text)
+                    content.append("[Cuerpo] " + text_after)
+                else:
+                    content.append("[Cuerpo] " + text.text.strip())            
+
+        text_list = element.find("ul", dir="ltr")
+        
+        if text_list is not None:
+            text_list = text_list.find_all("li")
+            if text_list is not None:
+                for e in text_list:
+                    e_link = e.find("a")
+                    if e_link is None:
+                        content.append("[Cuerpo] " + e.text.strip())
 
         # Enlaces
         link = element.find("div")
@@ -248,6 +265,8 @@ id_tags_generator()
 # URL = "https://www.bbc.com/mundo/noticias-51912396"
 # URL = "https://www.bbc.com/mundo/noticias-internacional-51112564"
 # URL = "https://www.bbc.com/mundo/noticias-59432415"
+# URL = "https://www.bbc.com/mundo/noticias-internacional-36467757"
+# URL = "https://www.bbc.com/mundo/noticias-36468344"
 # article_id = URL.split("-")[-1]
 # p = Path(f"bbc_news_content_scraped/{article_id}")
 # p.mkdir(exist_ok=True)
