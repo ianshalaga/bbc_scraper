@@ -337,6 +337,7 @@ def assets_for_video_generator(article_scraped_folder,
             image_ext = content_body.split(".")[-1]
             # image_ext = "jpg"
             image_name = str(c) + "_image." + image_ext
+            image_processed_name = str(c) + "_image.jpg"
             image_path = os.path.join(images_folder, image_name)
             try:
                 # Images downloader
@@ -346,10 +347,10 @@ def assets_for_video_generator(article_scraped_folder,
                                 "--no-check-certificate"], check=True)
                 print(colored("Guardado", "green"), image_name)
                 # Images processing
-                image_processed_path = os.path.join(images_processed_folder, image_name)
+                image_processed_path = os.path.join(images_processed_folder, image_processed_name)
                 current_image_path = image_processed_path
                 ip.image_for_video_generator(image_path, image_processed_path, width_target, height_target)
-                image_processed_text_path = os.path.join(images_processed_text_folder, image_name)
+                image_processed_text_path = os.path.join(images_processed_text_folder, image_processed_name)
                 ip.image_for_video_generator(image_path, image_processed_text_path, width_target, height_target)
             except subprocess.CalledProcessError as ex:
                 print(colored("Error descargando.", "red"))
@@ -408,15 +409,16 @@ def assets_for_video_generator(article_scraped_folder,
 
 
 
-# URL = "https://www.bbc.com/mundo/noticias-59432415"
+# URL = "https://www.bbc.com/mundo/noticias-36479831"
 
 # article_id = URL.split("-")[-1]
 
 # article_scraped_folder = Path(f"bbc_news_content_scraped/{article_id}")
 # video_default_assets_folfer = Path("video_default_assets")
+# videos_to_upload_path = "videos_to_upload"
 
 # width_target = 1920
 # height_target = 1080
 # fps = 60
 
-# assets_for_video_generator(article_scraped_folder, video_default_assets_folfer, article_id, width_target, height_target, fps)
+# assets_for_video_generator(article_scraped_folder, video_default_assets_folfer, videos_to_upload_path, article_id, width_target, height_target, fps)
