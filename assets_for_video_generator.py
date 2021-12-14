@@ -21,7 +21,7 @@ def audio_track_generator(audio_tracks_path, output_song_path):
     p = Path(audio_tracks_path)
     audio_genders = list(p.iterdir())
     audios_selected = random.choice(audio_genders)
-    print(f"Género seleccionado: {audios_selected.name}")
+    print(colored(f"Género seleccionado: {audios_selected.name}", "green"))
     audios_selected_list = list(audios_selected.iterdir())
 
     print("Aleatorizando...")
@@ -35,15 +35,15 @@ def audio_track_generator(audio_tracks_path, output_song_path):
         else:
             time_count += get_wave_duration(str(song_path))
             songs_list.append(AudioSegment.from_file(song_path, format="wav"))
-            print(f"Añadida: {song_path.name}")
+            print(colored(f"Añadida: {song_path.name}", "blue"))
     
     # Merge songs
     song = songs_list[0]
     for i in range(1,len(songs_list)):
-        print(f"Uniendo: {i}/{len(songs_list)-1}")
+        print(colored(f"Uniendo: {i}/{len(songs_list)-1}", "blue"))
         song += songs_list[i]
 
-    print("Guardando archivo de audio...")
+    print(colored("Guardando archivo de audio...", "blue"))
     song.export(output_song_path, format="wav")
 
 
@@ -257,7 +257,7 @@ def assets_for_video_generator(article_scraped_folder,
             text_path = os.path.join(text_folder, text_name + ".txt")
             with open(text_path, "w", encoding="utf8") as f:
                 f.write(content_body)
-            print(f"Generando audio para {text_name}")
+            print(colored(f"Generando audio para {text_name}", "yellow"))
             wave_path = os.path.join(audio_folder, text_name + ".wav")
             try:
                 subprocess.run(["balcon", # Command line Balabolka
@@ -333,7 +333,7 @@ def assets_for_video_generator(article_scraped_folder,
             ip.put_caption_on_image_processed(current_image_path, images_processed_text_path, content_body, video_font_bodies_path)
 
         if content_tag == "[Imagen]":
-            print(f"Descargargo: {content_body}")
+            print(colored(f"Descargargo: {content_body}", "yellow"))
             image_ext = content_body.split(".")[-1]
             # image_ext = "jpg"
             image_name = str(c) + "_image." + image_ext

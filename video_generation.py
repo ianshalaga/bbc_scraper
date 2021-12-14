@@ -34,7 +34,8 @@ def video_generator(article_scraped_path, video_default_assets_folfer, videos_to
         shutil.move(source_path, videos_to_upload_path)
 
     except OSError as e:
-        print(f'Error: {assets_folder} : {e.strerror}')
+        # print(f'Error: {assets_folder} : {e.strerror}')
+        print(colored(f'Error: {assets_folder} : {e.strerror}', "red"))
 
 
 def video_generator_batch(total_ids_path,
@@ -45,33 +46,41 @@ def video_generator_batch(total_ids_path,
                           width_target,
                           height_target,
                           fps,
-                          ban_keywords_list):
+                          ban_keywords_list,
+                          excluded_videos_path):
     videos_ids_list = list()
     with open(videos_ids_path, "r", encoding="utf8") as f:
         videos_ids_list = f.read().split("\n")
+
+    excluded_videos_list = list()
+    with open(excluded_videos_path, "r", encoding="utf8") as f:
+        excluded_videos_list = f.read().split("\n")
 
     with open(total_ids_path, encoding="utf8") as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=",")
         for row in csv_reader:
             article_id = row[0]
             if article_id not in videos_ids_list:
-                ban = False
-                for ban_keyword in ban_keywords_list:
-                    if bool(re.search(ban_keyword, " ".join(row[1:]))):
-                        ban = True
-                        break
-                if ban == True:
-                    print(f"El artículo {article_id} fue excluído por poseer palabras clave restringidas.")
-                    continue
+                if article_id not in excluded_videos_list:
+                    ban = False
+                    for ban_keyword in ban_keywords_list:
+                        if bool(re.search(ban_keyword, " ".join(row[1:]))):
+                            ban = True
+                            break
+                    if ban == True:
+                        print(colored(f"El artículo {article_id} fue excluído por poseer palabras clave restringidas.", "red"))
+                        continue
+                    else:
+                        article_scraped_path = os.path.join(article_scraped_folder, article_id)
+                        video_generator(article_scraped_path, video_default_assets_folfer, videos_to_upload_path, article_id, width_target, height_target, fps)
+                        videos_ids_list.append(article_id)
+                        videos_ids_list.sort()
+                        with open(videos_ids_path, "w", encoding="utf8") as f:
+                            f.write("\n".join(videos_ids_list))
                 else:
-                    article_scraped_path = os.path.join(article_scraped_folder, article_id)
-                    video_generator(article_scraped_path, video_default_assets_folfer, videos_to_upload_path, article_id, width_target, height_target, fps)
-                    videos_ids_list.append(article_id)
-                    videos_ids_list.sort()
-                    with open(videos_ids_path, "w", encoding="utf8") as f:
-                        f.write("\n".join(videos_ids_list))
+                    print(colored(f"El artículo {article_id} se encuentra excluído.", "red"))    
             else:
-                print(f"El artículo {article_id} ya tiene video.")
+                print(colored(f"El artículo {article_id} ya tiene video.", "green"))
 
 ###
 
@@ -84,6 +93,7 @@ width_target = 1920
 height_target = 1080
 fps = 60
 ban_keywords_list = ["coronavirus"]
+excluded_videos_path = "excluded_videos.txt"
 
 video_generator_batch(total_ids_path,
                       videos_ids_path,
@@ -93,10 +103,10 @@ video_generator_batch(total_ids_path,
                       width_target,
                       height_target,
                       fps,
-                      ban_keywords_list)
+                      ban_keywords_list,excluded_videos_path)
 
 
 ''' TESTING '''
-# article_id = str(36468344)
+# article_id = str(36491140)
 # article_scraped_path = os.path.join(article_scraped_folder, article_id)
 # video_generator(article_scraped_path, video_default_assets_folfer, videos_to_upload_path, article_id, width_target, height_target, fps)

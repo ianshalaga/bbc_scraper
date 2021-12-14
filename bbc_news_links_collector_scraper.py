@@ -1,5 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
+from termcolor import colored
+
 
 
 def load_links(file_path):
@@ -39,14 +41,14 @@ def scraper(url, all_links, URL_base, exclude, recursive_deep):
         return
     else:
         recursive_deep += 1
-    print(f"Recursive level: {recursive_deep}")
+    print(colored(f"Recursive level: {recursive_deep}", "red"))
     links_set = links_extraction(url, URL_base, exclude)
     if links_set.issubset(all_links):
         return
     for link in links_set:
         if link not in all_links:
             all_links.add(link)
-            print(link)
+            print(colored(link, "yellow"))
             scraper(link, all_links, URL_base, exclude, recursive_deep)
             
 
@@ -61,20 +63,13 @@ def sort_links(links_set):
 
     for e in links_list:
         split = e.split("-")
-        # if (split[-1].isnumeric()):
         split[-1] = int(split[-1])
-        #     split.append("new")
-        # else:
-        #     split = [e, int(e.split("/")[-1].split("_")[0]), "old"]
         links_splitted.append(split)
 
     links_splitted = sorted(links_splitted, key=lambda x:x[-1], reverse=True)
 
     for e in links_splitted:
-        # if e[-1] == "new":
         links_sorted.append("-".join(e[:-1] + [str(e[-1])]))
-        # elif e[-1] == "old":
-        #     links_sorted.append(e[0])
 
     return links_sorted
 

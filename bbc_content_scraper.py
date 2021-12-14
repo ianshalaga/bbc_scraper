@@ -4,6 +4,7 @@ from pathlib import Path
 import os
 import re
 import csv
+from termcolor import colored
 
 
 
@@ -131,7 +132,10 @@ def bbc_content_scraper(URL, output_route):
                     content.append("[Imagen] " + link["src"])
                     content.append("[Epígrafe] " + paragraph.text.strip())
             else:
-                if link.get("alt") is not None and link["alt"].lower() != "línea" and link["alt"].lower() != "line":
+                if link.get("alt") is not None and \
+                link["alt"].lower() != "línea" and \
+                link["alt"].lower() != "line" and \
+                link["alt"].lower() != "line break":
                     content.append("[Imagen] " + link["src"])
 
         # Text bodies
@@ -211,7 +215,7 @@ def bbc_content_scraper_batch(news_links_path):
     c = 0
     for link in links_list:
         c += 1
-        print(f"Scraping {c}/{len(links_list)}: {link}")
+        print(colored(f"Scraping {c}/{len(links_list)}: {link}", "yellow"))
         article_id = link.split("-")[-1]
         p = Path(f"bbc_news_content_scraped/{article_id}")
         if not(p.exists()):

@@ -1661,6 +1661,7 @@
 37472433,tecnología
 37472436,economía,méxico,américa latina,tecnología
 37473166,salud
+37473257,sociedad y cultura,méxico,américa latina,música
 37473378,salud
 37476363,sociedad y cultura
 37476505,economía
@@ -2106,6 +2107,7 @@
 37758275,estado islámico,medio oriente,irak
 37758385,nicolás maduro,américa latina,venezuela
 37758957,economía,méxico
+37759091,economía,sociedad
 37760884,asia
 37764090,salud
 37765597,ciencia
@@ -13293,6 +13295,7 @@
 46701192,salud mental,salud
 46701345,espacio,naturaleza,astronomía,ciencia,tecnología
 46701354,espacio,astronomía,ciencia
+46701373,economía,sociedad y cultura,ayuda humanitaria
 46701495,ayuda internacional,sociedad y cultura,derechos de la mujer,sociedad,india,sexo,100 mujeres,salud,tecnología,mujeres
 46702632,estados unidos,apps,tecnología
 46705095,sociedad y cultura,sociedad,alcoholismo,ciencia
@@ -14079,6 +14082,7 @@
 47270387,violencia armada en ee.uu.,tiroteo en la escuela de parkland,florida,estados unidos
 47271122,argentina,liga premier,deportes,fútbol
 47271574,siria,estado islámico,medio oriente,reino unido
+47273708,sociedad y cultura,sociedad,estados unidos,televisión
 47274457,sociedad y cultura,méxico,historia,américa latina,estados unidos,américa del norte,donald trump
 47274491,crisis en venezuela,política,nicolás maduro,donald trump,venezuela,populismo
 47277002,crisis en venezuela,elecciones presidenciales en venezuela 2018,nicolás maduro,juan guaidó,venezuela
@@ -14142,6 +14146,7 @@
 47313897,papa francisco i,transgénero,catolicismo,sociedad y cultura,religión,libros,iglesia católica,violencia sexual,abuso infantil,lgtb
 47313939,méxico,sociedad,violencia en méxico,drogas,salud mental,salud,narcotráfico
 47315137,méxico,violencia en méxico,américa latina,violencia en américa latina
+47316171,sociedad y cultura,estados unidos
 47318739,google,tecnología
 47318891,áfrica,prisiones
 47320704,organización mundial de la salud,depresión,salud mental,medicina,salud
@@ -14755,6 +14760,7 @@
 47762236,sociedad y cultura,méxico,historia,andrés manuel lópez obrador
 47762447,estado islámico,reino unido
 47763334,política,canadá
+47763854,clima extremo,cambio climático
 47763856,sociedad y cultura,méxico,estados unidos,televisión
 47763858,crisis en venezuela,venezuela
 47763860,política,unión europea,europa del este,rusia,televisión,populismo,ucrania,europa
@@ -17022,6 +17028,7 @@
 49571624,política,unión europea,reino unido,brexit,europa,boris johnson
 49572298,economía,argentina,américa latina,crisis económica en argentina,mercados financieros,finanzas
 49573259,conservación,naturaleza,américa latina,cambio climático,medio ambiente,ciencia,selva amazónica,incendios en el amazonas
+49573818,crisis en venezuela,américa latina,violencia en américa latina
 49573878,huracán,caribe,huracán dorian
 49574540,colombia,política,américa latina,venezuela
 49574571,economía,política,estados unidos,irán,donald trump,china
@@ -17331,6 +17338,7 @@
 49834444,crisis en venezuela,colombia,nicolás maduro,américa latina,juan guaidó,estados unidos,ecuador,donald trump,venezuela
 49835024,migraciones,estados unidos,donald trump,honduras
 49837502,sociedad y cultura,chile,sociedad,infancia,familia
+49837550,economía,crisis en venezuela,américa latina,venezuela
 49839100,política,estados unidos,donald trump,ucrania
 49839130,criptomoneda,finanzas personales,finanzas,bitcoin,tecnología
 49840016,sociedad,reino unido,agricultura,salud
@@ -17341,6 +17349,7 @@
 49844340,salud,cáncer
 49844990,estados unidos,donald trump
 49846461,sociedad y cultura,historia,holocausto,segunda guerra mundial,nazismo
+49846462,ciencia,tecnología
 49846771,censura,sociedad y cultura,sociedad,internet,china,tecnología
 49847180,economía,contaminación,estados unidos,industria petrolera,opep
 49848558,antibióticos,ciencia,salud
@@ -17889,6 +17898,7 @@
 50260979,derechos de la mujer,españa,violencia sexual,mujeres
 50262437,seguridad alimentaria,nutrición,salud,alimentación
 50262438,chile,américa latina,violencia en américa latina,protestas en chile
+50262487,salud
 50262878,economía,pobreza,alimentación,china
 50263147,conservación,américa latina,biología,ciencia,animales
 50263367,reino unido,seguridad informática,tecnología
@@ -18064,6 +18074,7 @@
 50402931,medio oriente,guerra,estados unidos,talibán,afganistán
 50405418,méxico,américa latina,bolivia
 50405420,sociedad y cultura,derechos de la mujer,sociedad,reino unido
+50405428,sociedad y cultura,salud mental,salud
 50405438,biología,ciencia,deportes,inteligencia artificial,tecnología
 50405442,whatsapp,apps,teléfonos móviles,tecnología
 50405510,sociedad y cultura,brasil,prostitución,narcotráfico
@@ -18444,6 +18455,7 @@
 50677594,economía,historia,grecia,leyes,alimentación
 50678081,economía,chile,brasil,américa latina,negocios,francia,europa
 50678084,economía,pobreza,américa latina,negocios,finanzas
+50678951,economía,seguridad alimentaria,naciones unidas,medio ambiente,alimentación
 50679301,sociedad y cultura,sociedad,india,infancia,salud
 50680987,primera guerra mundial,alemania,sociedad y cultura,chile,argentina,reino unido
 50680989,sociedad y cultura,nueva zelanda,cambio climático,medio ambiente,ciencia,aviación
@@ -18716,6 +18728,7 @@
 50875959,historia,colombia,américa latina
 50875960,economía,angela merkel,estados unidos,industria petrolera,rusia,donald trump
 50876950,espacio,sector militar,estados unidos,donald trump
+50878359,pobreza,sociedad y cultura,sociedad,estados unidos
 50878365,sociedad y cultura,sociedad,medio ambiente,ciencia,salud
 50879819,sociedad y cultura,sociedad,matemática,ciencia,salud,música
 50880824,japón,educación,sociedad y cultura,sociedad,asia
@@ -19706,6 +19719,7 @@
 51721386,sociedad,naturaleza,canadá,cambio climático,ciencia,animales
 51721393,méxico,chile,argentina,américa latina,canadá,australia,cambio climático,ciencia
 51722566,paraguay,historia,brasil,inglaterra,guerra,argentina,américa latina,uruguay
+51728647,naturaleza,estados unidos
 51729512,derechos de la mujer,américa latina,manifestación,día internacional de la mujer,protestas en chile,derechos humanos,protestas,mujeres
 51729873,méxico,redes sociales,violencia en méxico,américa latina,latinos en ee.uu.,emprendimientos,tecnología
 51730005,turismo,sociedad y cultura,sociedad,estados unidos
@@ -20691,6 +20705,7 @@
 52748977,sociedad,organización mundial de la salud,pandemia de coronavirus,medicina,salud
 52749761,organización mundial de la salud,pandemia de coronavirus,centroamérica,salud,honduras
 52749925,siria,historia,medio oriente,política,guerra
+52755335,afganistán
 52757253,ciencia,salud,cáncer
 52758096,méxico,chile,perú,pandemia de coronavirus,brasil,américa latina
 52760745,economía,chile,pandemia de coronavirus,américa latina,salud,protestas en chile
@@ -22041,6 +22056,7 @@
 54192069,crisis en venezuela,chile,perú,américa latina,migraciones,venezuela
 54192797,política,asia,tailandia,derechos humanos
 54193824,pandemia de coronavirus,medicina,salud
+54194758,economía,historia,mundo árabe,américa latina,venezuela,opep
 54199247,religión,elecciones presidenciales en estados unidos 2020,política,joe biden,latinos en ee.uu.,donald trump
 54199685,conservación,naturaleza,cambio climático,medio ambiente,ciencia
 54199926,industria turística,turismo,américa latina,aviación
@@ -22328,6 +22344,7 @@
 54534152,sociedad y cultura,medio ambiente,ciencia,animales,fotografía
 54534154,elecciones presidenciales en estados unidos 2020,política,joe biden,estados unidos,donald trump
 54534222,sociedad y cultura,méxico,historia,españa,américa latina,andrés manuel lópez obrador,europa
+54540473,colombia,aviación,accidentes aéreos
 54540475,medio oriente,pandemia de coronavirus,irán,salud
 54540503,sociedad y cultura,sociedad,cirugía,salud,salud de la mujer
 54541026,economía,ciencia
@@ -23739,6 +23756,7 @@
 56175084,sociedad y cultura,medio oriente,guerra,arabia saudita,yemen
 56176495,espacio,nasa,marte,españa,física,biología,ciencia
 56176635,sociedad y cultura,américa latina,violencia en américa latina,ecuador,prisiones
+56177205,arabia saudita,industria petrolera,opep
 56177406,sociedad y cultura,sociedad,pandemia de coronavirus,salud
 56177436,economía,américa latina,estados unidos,mercados financieros,negocios,finanzas
 56177455,separacion de familias inmigrantes en eeuu,méxico,violencia en méxico,joe biden,refugiados y solicitantes de asilo,estados unidos,donald trump,honduras,salud de la mujer,mujeres
@@ -24312,6 +24330,7 @@
 56772893,política,europa del este,estados unidos,rusia,ucrania,europa
 56772992,sociedad y cultura,sociedad,canadá,estados unidos,reino unido,china,racismo
 56773454,pandemia de coronavirus,salud,fotografía
+56774294,economía,españa
 56775196,violencia armada en ee.uu.,estados unidos,latinos en ee.uu.
 56779607,méxico,historia,américa latina,migraciones,centroamérica,estados unidos,latinos en ee.uu.
 56779808,turquía,bitcoin
@@ -24341,6 +24360,7 @@
 56806434,cuba,política,raúl castro,miguel díaz-canel,comunismo
 56806442,pandemia de coronavirus,ciencia,vacunas
 56808805,américa latina,guatemala,cambio climático,ciencia
+56808808,sociedad y cultura,sociedad,pandemia de coronavirus,filosofía
 56809135,educación,pandemia de coronavirus,argentina,américa latina,crisis económica en argentina,vacunas
 56809155,estados unidos,reino unido,rusia,espionaje,república checa
 56809891,sociedad y cultura,literatura,méxico,sociedad,colombia,televisión
@@ -25722,6 +25742,7 @@
 58356808,economía,blockchain,bitcoin,tecnología
 58357236,estado islámico,al qaeda,islam,talibán,afganistán,musulmanes
 58357869,tokio 2020,brasil,deportes paralímpicos
+58361869,medio oriente,afganistán
 58363090,sociedad y cultura,chile,tokio 2020,deportes,deportes paralímpicos
 58363092,salud,salud de la mujer,mujeres
 58364672,cambio climático,ciencia,américa del norte,dinamarca
@@ -26156,6 +26177,7 @@
 58839397,economía,perú,política
 58842189,segunda guerra mundial,familia real británica
 58842192,sociedad y cultura,organización mundial de la salud,salud
+58842507,sociedad y cultura,grecia,salud
 58842837,sociedad y cultura,sociedad,nobel,noruega
 58844064,sociedad y cultura,chile,historia,perú,guerra,américa latina
 58844065,sociedad y cultura,ética médica,colombia,américa latina,salud mental,medicina,salud,leyes
@@ -26327,6 +26349,7 @@
 59032816,estados unidos,televisión,espectáculos,cáncer
 59035473,sociedad y cultura,literatura,sociedad,redes sociales,medios de comunicación,televisión,cine
 59035482,cop26,cambio climático,medio ambiente,ciencia
+59037814,sociedad y cultura,reino unido,familia
 59037886,sociedad y cultura,atletismo,ecuador,deportes,olimpiadas,juegos de londres 2012
 59037914,historia,américa latina
 59039384,economía,pobreza,cop26,cambio climático,ciencia,derechos humanos
@@ -26348,6 +26371,7 @@
 59058933,sociedad y cultura,honduras,aviación,accidentes aéreos
 59058965,sociedad y cultura,chile,historia,américa latina,antropología,ciencia
 59059249,pandemia de coronavirus,brasil,jair bolsonaro
+59060022,matemática,ciencia,salud,tecnología
 59060024,japón,sociedad y cultura,historia,arte
 59062100,sociedad y cultura,sociedad
 59062105,ciencia,república checa,tecnología
@@ -26473,6 +26497,7 @@
 59202246,américa latina,daniel ortega,centroamérica,crisis en nicaragua,nicaragua
 59205617,política,sebastián piñera,protestas en chile
 59205619,economía,política,américa latina,protestas en chile
+59205818,primera guerra mundial,sociedad y cultura,literatura,historia,guerra,hay festival
 59207326,américa latina,cop26,cambio climático,ciencia
 59209042,cop26,cambio climático,industria petrolera,contaminacion del aire
 59209693,sociedad y cultura,historia,ciencia
@@ -26680,6 +26705,7 @@
 59411949,elecciones generales de chile de 2021,américa latina
 59414710,política,américa latina,honduras
 59417379,sociedad y cultura,estados unidos
+59418970,sociedad,españa,ciencia,salud,europa
 59420272,derechos de la mujer,día internacional de la mujer,violencia doméstica,mujeres
 59423561,organización mundial de la salud,pandemia de coronavirus,europa,vacunas contra el coronavirus
 59424013,sociedad,costa rica,estados unidos,salud
@@ -26691,10 +26717,12 @@
 59425684,sociedad y cultura,música
 59427703,economía,chile,elecciones generales de chile de 2021,política,argentina,américa latina,protestas en chile
 59429854,reino unido,salud
+59430761,sociedad y cultura,costa rica,mujeres
 59431285,sociedad y cultura,sociedad,genética,salud
 59432415,sociedad y cultura,lgtb,noruega
 59432507,taiwán,australia,asia,china
 59432513,alemania,pandemia de coronavirus,reino unido,ciencia,salud,variante ómicron,bélgica
+59434838,primera guerra mundial,alemania nazi,elecciones generales de chile de 2021,política,migraciones,segunda guerra mundial
 59434839,migraciones,reino unido,irak,europa
 59434841,sociedad y cultura,literatura,españa,política,cáncer
 59434878,migraciones,reino unido,brexit,francia
@@ -26710,6 +26738,7 @@
 59459009,pandemia de coronavirus,ciencia,salud,variante ómicron,vacunas contra el coronavirus
 59460634,organización mundial de la salud,ciencia,salud,variante ómicron,vacunas contra el coronavirus
 59461004,salud mental,genética,salud
+59461228,crisis en venezuela,américa latina,violencia en américa latina,venezuela,violencia de pandillas
 59461231,refugiados y solicitantes de asilo,reino unido,francia,europa
 59462974,política,américa latina,centroamérica,honduras,mujeres
 59462984,pandemia de coronavirus,áfrica,salud,variante ómicron,vacunas contra el coronavirus
@@ -26758,22 +26787,26 @@
 59507402,sin etiquetas
 59507409,sociedad y cultura
 59510259,alemania,pandemia de coronavirus,europa,vacunas contra el coronavirus
+59511163,economía,google,facebook,apple,tecnología,europa,irlanda
 59511739,armas nucleares,alemania nazi,alemania,historia,estados unidos,segunda guerra mundial,ciencia,nazismo
 59512111,sociedad,reino unido,salud,salud de la mujer
 59512518,economía,crisis en venezuela,turismo,américa latina,rusia,venezuela
 59512700,méxico,joe biden,migraciones,estados unidos,donald trump
 59512703,pandemia de coronavirus,sudáfrica,salud,variante ómicron
 59512790,espacio,nasa,ciencia
+59512920,crisis en venezuela,nicolás maduro,juan guaidó,venezuela
 59514556,alemania,política,angela merkel,europa
 59515516,sociedad y cultura,sociedad,estados unidos
 59519240,brasil,selva amazónica,derechos humanos
 59521639,pandemia de coronavirus,variante ómicron
+59524325,antibióticos,genética,ciencia,salud,uruguay
 59524415,crisis en venezuela,nicolás maduro,venezuela
 59525600,física,ciencia
 59526382,pandemia de coronavirus,sudáfrica,ciencia,salud,variante ómicron
 59526603,violencia armada en ee.uu.,sociedad y cultura,tiroteos masivos,estados unidos
 59527866,justicia,reino unido,infancia
 59527875,sin etiquetas
+59528534,economía,historia,negocios
 59528777,pandemia de coronavirus,salud,vacunas,variante ómicron,vacunas contra el coronavirus
 59528780,pandemia de coronavirus,brasil,política,américa latina,jair bolsonaro,vacunas contra el coronavirus
 59530814,cuba,política,américa latina,migraciones,bielorrusia,europa
@@ -26800,6 +26833,7 @@
 59555214,sociedad y cultura,chile,américa latina
 59556638,google,pandemia de coronavirus,salud,variante ómicron
 59556898,joe biden,estados unidos,deportes,olimpiadas,derechos humanos,china
+59557950,ciencia,salud,animales
 59558951,sociedad y cultura,arte,salud
 59558953,política,arabia saudita,jamal khashoggi,mohammed bin salman,francia
 59563136,ciencia
@@ -26808,10 +26842,69 @@
 59570814,otan,sector militar,joe biden,estados unidos,rusia,vladimir putin,ucrania
 59571787,colombia,américa latina,violencia en américa latina
 59572535,organización mundial de la salud,pandemia de coronavirus,salud,vacunas contra el coronavirus
+59572604,arte,ciencia,salud,tecnología
+59573633,julian assange,wikileaks,estados unidos,reino unido
 59578811,sociedad,reino unido,leyes,racismo
 59579201,alemania
+59579203,economía
 59579855,sociedad y cultura,100 mujeres,mujeres
 59582147,pandemia de coronavirus,reino unido,boris johnson
+59582405,economía,empleo,pandemia de coronavirus,estados unidos,variante ómicron,europa
 59584357,estados unidos,puerto rico,salud,vacunas contra el coronavirus
 59586049,sociedad y cultura,sociedad,empleo,desempleo
 59586051,sociedad y cultura,españa,arquitectura
+59588353,pandemia de coronavirus,reino unido,salud,europa
+59588783,sociedad y cultura,holanda,arte
+59589093,economía,méxico,colombia,brasil,argentina,américa latina,cop26,cambio climático,ecuador,energía,venezuela
+59589205,pobreza,organización mundial de la salud,pandemia de coronavirus,áfrica,vacunas contra el coronavirus,nigeria
+59589705,política,joe biden,américa latina,centroamérica,democracia,estados unidos
+59589845,100 mujeres,birmania,derechos humanos,mujeres
+59593091,censura,historia,internet,tecnología
+59593986,perú,política,keiko fujimori
+59593988,pandemia de coronavirus,salud,vacunas contra el coronavirus
+59594764,reino unido,arqueología,ciencia
+59598367,economía,negocios,china
+59598369,economía,brasil,américa latina,mercados financieros,negocios,finanzas,mujeres
+59599170,pandemia de coronavirus,variante ómicron,vacunas contra el coronavirus
+59599790,alemania nazi,alemania,historia,física,segunda guerra mundial,nobel,ciencia,nazismo
+59601935,empleo,mundo árabe
+59602744,nueva zelanda,fumar,salud
+59603274,sociedad y cultura,redes sociales,infancia,salud,salud de la mujer,mujeres
+59603623,taiwán,américa latina,nicaragua,china
+59603626,nutrición,ciencia,medicina,salud,deportes,alimentación
+59603631,economía,criptomoneda,sociedad y cultura,arte,tecnología
+59603693,méxico,migraciones,centroamérica
+59603703,sociedad y cultura,organización mundial de la salud,pandemia de coronavirus,salud mental,salud,variante ómicron,vacunas contra el coronavirus
+59603713,justicia,sociedad y cultura,estados unidos,televisión
+59608726,taiwán,américa latina,nicaragua,china
+59608879,contaminación marina
+59611032,colombia,américa latina
+59613951,japón,sociedad y cultura,perú,política,keiko fujimori
+59614936,méxico,américa latina,caravana de migrantes
+59616586,economía,méxico,colombia,brasil,américa latina,mercados financieros,negocios,banca
+59617560,sin etiquetas
+59617568,espacio,nasa,ciencia,medicina
+59617764,justicia,sociedad y cultura,estados unidos,música,leyes
+59617766,pandemia de coronavirus,inglaterra,salud,vacunas contra el coronavirus
+59619266,sociedad y cultura,méxico,américa latina,migraciones,centroamérica,guatemala
+59620049,separacion de familias inmigrantes en eeuu,méxico,américa latina,marcos gonzález,caravana de migrantes
+59622241,clima extremo,estados unidos,medio ambiente
+59622247,canadá,salud mental,estados unidos,nutrición,ciencia,salud,alimentación
+59625158,clima extremo,estados unidos,cambio climático
+59626437,estados unidos
+59629267,sociedad y cultura,méxico,música
+59631226,sociedad y cultura,méxico,música
+59631228,pandemia de coronavirus,reino unido,salud,vacunas contra el coronavirus
+59631233,chile,elecciones generales de chile de 2021,pandemia de coronavirus,américa latina,manifestación,protestas en chile
+59636385,pandemia de coronavirus,ciencia,salud,vacunas,variante ómicron,vacunas contra el coronavirus
+59637362,escocia
+59637866,sociedad,estados unidos,ciencia
+59638703,sociedad y cultura,españa,espectáculos
+59642585,sociedad y cultura,estados unidos,televisión,cine
+59645668,sociedad y cultura,india,asia
+59646622,estados unidos,deportes
+59646672,sin etiquetas
+59653874,sin etiquetas
+59654923,pandemia de coronavirus,vacunas,vacunas contra el coronavirus
+59657041,américa latina,transporte,haití
+59658346,organización mundial de la salud,pandemia de coronavirus,sudáfrica,salud,variante ómicron,vacunas contra el coronavirus
