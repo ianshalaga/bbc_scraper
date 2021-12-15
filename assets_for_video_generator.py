@@ -17,11 +17,14 @@ import shutil
 
 
 def audio_track_generator(audio_tracks_path, output_song_path):
+    '''
+    Generate a random audio track for background music.
+    '''
     time_limit = 2700 # 45 minutes
     p = Path(audio_tracks_path)
     audio_genders = list(p.iterdir())
     audios_selected = random.choice(audio_genders)
-    print(colored(f"Género seleccionado: {audios_selected.name}", "green"))
+    print(colored(f"Género musical seleccionado: {audios_selected.name}", "green"))
     audios_selected_list = list(audios_selected.iterdir())
 
     print("Aleatorizando...")
@@ -48,6 +51,9 @@ def audio_track_generator(audio_tracks_path, output_song_path):
 
 
 def get_wave_duration(wave_path):
+    '''
+    Get the duration of a wave audio file.
+    '''
     with contextlib.closing(wave.open(wave_path, "r")) as f:
         frames = f.getnframes()
         rate = f.getframerate()
@@ -56,6 +62,9 @@ def get_wave_duration(wave_path):
 
 
 def allowed_voices(article_scraped_path):
+    '''
+    Determine the list of voices that can be used based on the content of the article.
+    '''
     # Voices lists
     voices_fail_romans_list = ["IVONA 2 Conchita",
                                "IVONA 2 Enrique",
@@ -112,6 +121,47 @@ def allowed_voices(article_scraped_path):
     return allowed_voices_list
 
 
+def have_images(article_content_list):
+    '''
+    Check if an article have at least one image.
+    '''
+    have = False
+    for e in article_content_list:
+        if e.split(" ")[0] == "[Imagen]":
+            have = True
+            break
+    return have
+
+
+def reformat_article(article_content_list):
+    '''
+    Fix articles that doesn't start with an image.
+    '''
+    reformated_content = list()
+    reformated = False
+    for i in range(len(article_content_list)-1):
+        if article_content_list[i].split(" ")[0] == "[Título]":
+            reformated_content.append(article_content_list[i])
+        if article_content_list[i].split(" ")[0] == "[Autor]":
+            reformated_content.append(article_content_list[i])
+        if article_content_list[i].split(" ")[0] == "[Fecha]":
+            reformated_content.append(article_content_list[i])
+        if article_content_list[i].split(" ")[0] == "[Imagen]":
+            reformated_content.append(article_content_list[i])
+            if article_content_list[i+1].split(" ")[0] == "[Epígrafe]":
+                reformated_content.append(article_content_list[i+1])
+            break
+    
+    for e in article_content_list:
+        if e not in reformated_content:
+            reformated_content.append(e)
+
+    if article_content_list != reformated_content:
+        reformated = True
+
+    return reformated_content, reformated
+
+
 def assets_for_video_generator(article_scraped_folder,
                                video_default_assets_folfer,
                                videos_to_upload_path,
@@ -119,7 +169,22 @@ def assets_for_video_generator(article_scraped_folder,
                                width_target,
                                height_target,
                                fps):
-                               
+    assets = True
+
+    content_list  = list()
+    article_scraped_path = os.path.join(article_scraped_folder, article_id + ".txt")
+    with open(article_scraped_path, "r", encoding="utf8") as f:
+        content_list = f.read().split("\n\n")
+
+    have_image = have_images(content_list)
+    if not(have_image):
+        assets = False
+        return assets
+
+    content_list, reformated = reformat_article(content_list)
+    if reformated:
+        print(colored(f"El artículo {article_id} fue reformateado.", "yellow"))
+
     assets_folder = Path(os.path.join(article_scraped_folder, "assets"))
     assets_folder.mkdir(exist_ok=True)
 
@@ -157,11 +222,6 @@ def assets_for_video_generator(article_scraped_folder,
     specs_dict["height"] = height_target
     specs_dict["fps"] = fps
     specs_dict["defaults"] = {"layer": {"fontPath": video_font_bodies_path}}
-
-    content_list  = list()
-    article_scraped_path = os.path.join(article_scraped_folder, article_id + ".txt")
-    with open(article_scraped_path, "r", encoding="utf8") as f:
-        content_list = f.read().split("\n\n")
 
     c = 0
     current_background = ""
@@ -371,7 +431,7 @@ def assets_for_video_generator(article_scraped_folder,
             with open(description_file_path, "a", encoding="utf8") as f:
                 f.write("Fuente: " + content_body)
 
-    shutil.move(description_file_path, videos_to_upload_path)
+    # shutil.move(description_file_path, videos_to_upload_path)
 
     # For json5 file    
     specs_dict["clips"].append(
@@ -406,6 +466,8 @@ def assets_for_video_generator(article_scraped_folder,
 
     with open(specs_file_path, "w", encoding="utf8") as f:
         json.dump(specs_dict, f)
+    
+    return assets
 
 
 

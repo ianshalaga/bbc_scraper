@@ -11,31 +11,35 @@ import re
 
 
 def video_generator(article_scraped_path, video_default_assets_folfer, videos_to_upload_path, article_id, width_target, height_target, fps):
+    fail = False
     # Assests generation
-    assets.assets_for_video_generator(article_scraped_path, video_default_assets_folfer, videos_to_upload_path, article_id, width_target, height_target, fps)
+    have_assets = assets.assets_for_video_generator(article_scraped_path, video_default_assets_folfer, videos_to_upload_path, article_id, width_target, height_target, fps)
+    if have_assets:
+        # Video generation
+        assets_folder = os.path.join(article_scraped_path, "assets")
+        specs_path = os.path.join(assets_folder, "specs.json5")
+        try:
+            subprocess.run(["editly", # Command line video editor Editly
+                            specs_path
+                            ], shell=True)
+            print(colored("Generado:", "green"), article_id + ".mp4")
+        except subprocess.CalledProcessError as ex:
+            print(colored("Error al generar el archivo de video.", "red"))
+            logging.log(logging.ERROR, "Error al generar el archivo de video:", ex)
+            fail = True
+            return fail
 
-    # Video generation
-    assets_folder = os.path.join(article_scraped_path, "assets")
-    specs_path = os.path.join(assets_folder, "specs.json5")
-    try:
-        subprocess.run(["editly", # Command line video editor Editly
-                        specs_path
-                        ], shell=True)
-        print(colored("Generado:", "green"), article_id + ".mp4")
-    except subprocess.CalledProcessError as ex:
-        print(colored("Error al generar el archivo de video.", "red"))
-        logging.log(logging.ERROR, "Error al generar el archivo de video:", ex)
-        return
-    
-    # Assets cleaning
-    try:
+        # Assets cleaning
         shutil.rmtree(assets_folder) # Assets cleaning
-        source_path = os.path.join(article_scraped_path, article_id + ".mp4")
-        shutil.move(source_path, videos_to_upload_path)
+        source_video_path = os.path.join(article_scraped_path, article_id + ".mp4")
+        source_description_path = os.path.join(article_scraped_path, article_id + "_description.txt")
+        shutil.move(source_video_path, videos_to_upload_path)
+        shutil.move(source_description_path, videos_to_upload_path)
+    else:
+        fail = True
+        print(colored(f"El artículo {article_id} no contiene imágenes.", "red"))
 
-    except OSError as e:
-        # print(f'Error: {assets_folder} : {e.strerror}')
-        print(colored(f'Error: {assets_folder} : {e.strerror}', "red"))
+    return fail
 
 
 def video_generator_batch(total_ids_path,
@@ -72,9 +76,10 @@ def video_generator_batch(total_ids_path,
                         continue
                     else:
                         article_scraped_path = os.path.join(article_scraped_folder, article_id)
-                        video_generator(article_scraped_path, video_default_assets_folfer, videos_to_upload_path, article_id, width_target, height_target, fps)
-                        videos_ids_list.append(article_id)
-                        videos_ids_list.sort()
+                        fail = video_generator(article_scraped_path, video_default_assets_folfer, videos_to_upload_path, article_id, width_target, height_target, fps)
+                        if not(fail):
+                            videos_ids_list.append(article_id)
+                            videos_ids_list.sort()
                         with open(videos_ids_path, "w", encoding="utf8") as f:
                             f.write("\n".join(videos_ids_list))
                 else:
