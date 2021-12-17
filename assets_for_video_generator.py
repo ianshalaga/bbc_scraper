@@ -209,7 +209,13 @@ def assets_for_video_generator(article_scraped_folder,
     specs_dict = dict()
     specs_file_path = os.path.join(assets_folder, "specs.json5")
     video_file_path = os.path.join(article_scraped_folder, article_id + ".mp4")
+
     video_font_bodies_path = os.path.join(video_default_assets_folfer, "fonts", "AveriaSerif-Bold.ttf")
+    for e in content_list:
+        if bool(re.search(r"[американскиегоḥā]", e)):
+            video_font_bodies_path = os.path.join(video_default_assets_folfer, "fonts", "timesbd.ttf")
+            break
+
     video_font_titles_path = os.path.join(video_default_assets_folfer, "fonts", "LTAsus-Heavy.ttf")
     description_file_path = os.path.join(article_scraped_folder, article_id + "_description.txt")
     
