@@ -12,7 +12,6 @@ import re
 import random
 from pydub import AudioSegment
 import urllib.parse as urlp
-import shutil
 
 
 
@@ -399,7 +398,9 @@ def assets_for_video_generator(article_scraped_folder,
             ip.put_caption_on_image_processed(current_image_path, images_processed_text_path, content_body, video_font_bodies_path)
 
         if content_tag == "[Imagen]":
-            print(colored(f"Descargargo: {content_body}", "yellow"))
+            print(colored(f"Descargando: {content_body}", "yellow"))
+            if not(content_body.startswith("http")):
+                content_body = "https://www" + content_body.split("www")[1]
             image_ext = content_body.split(".")[-1]
             # image_ext = "jpg"
             image_name = str(c) + "_image." + image_ext
