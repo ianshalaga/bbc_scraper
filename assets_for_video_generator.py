@@ -238,6 +238,8 @@ def assets_for_video_generator(article_scraped_folder,
         c += 1
         content_tag = e.split(" ")[0]
         content_body = " ".join(e.split(" ")[1:])
+        if content_body == "":
+            continue
 
         if content_tag == "[Título]": # File for title
             text_name = str(c) + "_title"
