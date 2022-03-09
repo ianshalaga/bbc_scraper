@@ -112,6 +112,6 @@ video_generator_batch(total_ids_path,
 
 
 ''' TESTING '''
-# article_id = str(36491140)
+# article_id = str(39293301)
 # article_scraped_path = os.path.join(article_scraped_folder, article_id)
 # video_generator(article_scraped_path, video_default_assets_folfer, videos_to_upload_path, article_id, width_target, height_target, fps)
