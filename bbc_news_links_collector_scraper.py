@@ -63,6 +63,10 @@ def sort_links(links_set):
 
     for e in links_list:
         split = e.split("-")
+        split_old = e.split("_")
+        if len(split_old) > 1:
+            continue
+        
         split[-1] = int(split[-1])
         links_splitted.append(split)
 
