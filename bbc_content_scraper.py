@@ -134,6 +134,7 @@ def bbc_content_scraper(URL, output_route):
             else:
                 if link.get("alt") is not None and \
                 link["alt"].lower() != "línea" and \
+                link["alt"].lower() != "linea" and \
                 link["alt"].lower() != "line" and \
                 link["alt"].lower() != "grey line" and \
                 link["alt"].lower() != "line break":
