@@ -227,6 +227,7 @@
 36592899,sin etiquetas
 36592908,sin etiquetas
 36595380,sin etiquetas
+36595418,sin etiquetas
 36595422,sin etiquetas
 36596241,sin etiquetas
 36596245,sin etiquetas
@@ -2960,6 +2961,7 @@
 38384810,sin etiquetas
 38386048,sin etiquetas
 38386052,sin etiquetas
+38387557,sin etiquetas
 38387616,sin etiquetas
 38387861,sin etiquetas
 38387863,sin etiquetas
@@ -5118,6 +5120,7 @@
 40011917,sin etiquetas
 40012930,sin etiquetas
 40013238,sin etiquetas
+40013441,sin etiquetas
 40013443,sin etiquetas
 40013497,sin etiquetas
 40013617,sin etiquetas
@@ -5850,7 +5853,7 @@
 40590665,sin etiquetas
 40590915,sin etiquetas
 40591037,sin etiquetas
-40592536,sin etiquetas
+40592536
 40594807,sin etiquetas
 40596044,sin etiquetas
 40596409,sin etiquetas
@@ -8320,6 +8323,7 @@
 42503353,sin etiquetas
 42503490,sin etiquetas
 42504340,sin etiquetas
+42507851,sin etiquetas
 42508219,sin etiquetas
 42508438,sin etiquetas
 42508713,sin etiquetas
@@ -13555,6 +13559,7 @@
 46842261,sin etiquetas
 46843691,sin etiquetas
 46843981,sin etiquetas
+46844581,sin etiquetas
 46844681,sin etiquetas
 46844683,sin etiquetas
 46844686,sin etiquetas
@@ -13784,6 +13789,7 @@
 46999008,sin etiquetas
 46999011,sin etiquetas
 46999014,sin etiquetas
+47001698,sin etiquetas
 47001788,sin etiquetas
 47001790,sin etiquetas
 47002308,sin etiquetas
@@ -16542,6 +16548,7 @@
 49123635,sin etiquetas
 49125315,sin etiquetas
 49125317,sin etiquetas
+49126818,sin etiquetas
 49127025,sin etiquetas
 49127027,sin etiquetas
 49127105,sin etiquetas
@@ -21468,6 +21475,7 @@
 53422997,sin etiquetas
 53424546,sin etiquetas
 53425490,sin etiquetas
+53425732,sin etiquetas
 53426104,sin etiquetas
 53426108,sin etiquetas
 53429978,sin etiquetas
@@ -23451,6 +23459,7 @@
 55634549,pandemia de coronavirus,salud,vacunas
 55638327,economía,sociedad y cultura,salud mental,negocios
 55638387,whatsapp,facebook,tecnología
+55638389,sociedad y cultura,historia,abuso infantil,europa,irlanda,mujeres
 55638768,economía,sociedad,empleo
 55639727,américa latina,venezuela
 55640008,historia,salud,investigación médica
@@ -24890,6 +24899,7 @@
 57248595,méxico,estados unidos,aviación
 57249481,méxico,pandemia de coronavirus,argentina,américa latina,salud,vacunas
 57249853,sociedad y cultura,redes sociales,lgtb,estados unidos,género,cine
+57250245,relaciones interraciales y étnicas,muerte de george floyd,estados unidos
 57250248,colombia,protestas en colombia
 57250588,sociedad y cultura,derechos de la mujer
 57250589,cuerpo humano,sociedad y cultura
@@ -25118,6 +25128,7 @@
 57485022,sociedad,pandemia de coronavirus,ciencia,salud
 57486085,economía,sociedad y cultura,sociedad,electrónica,china
 57486921,sociedad y cultura,religión,leyes
+57490519,etiopía,áfrica
 57491623,sociedad y cultura,sociedad,naturaleza,india
 57491690,estados unidos
 57492302,perú,política,américa latina
@@ -25228,6 +25239,7 @@
 57615647,ecuador,aborto,mujeres
 57615727,sociedad y cultura,estados unidos
 57617543,serbia,bosnia y herzegovina,croacia
+57618826,muerte de george floyd,estados unidos
 57618828,sociedad y cultura,historia,sociedad,ciencia
 57619217,estados unidos
 57620218,sector militar,estados unidos,ciencia,aviación
@@ -25920,6 +25932,7 @@
 58401941,sociedad y cultura,holanda,arte
 58404497,sociedad y cultura,méxico,historia,política,estados unidos
 58404798,economía,crisis en venezuela,política,venezuela
+58404800,sociedad y cultura,méxico,política,migraciones,estados unidos,animales,fotografía
 58407349,naturaleza,ciencia,animales,fotografía
 58407354,sociedad y cultura,historia,pandemia de coronavirus,ciencia
 58410903,sociedad,india,salud
@@ -25933,6 +25946,7 @@
 58417029,espacio,astronomía,ciencia,rusia
 58417033,economía,justicia,corrupción,política,el salvador,leyes
 58419319,clima extremo,huracán,estados unidos,cambio climático
+58419321,conservación,naturaleza,ciencia,animales,fotografía
 58419324,sociedad y cultura,chile,grecia
 58420455,méxico,pandemia de coronavirus,salud
 58421480,pandemia de coronavirus,salud,vacunas contra el coronavirus
@@ -27112,6 +27126,7 @@
 59654923,pandemia de coronavirus,vacunas,vacunas contra el coronavirus
 59657041,américa latina,transporte,haití
 59658346,organización mundial de la salud,pandemia de coronavirus,sudáfrica,salud,variante ómicron,vacunas contra el coronavirus
+59658897,alemania nazi,sociedad y cultura,holocausto,república dominicana
 59660374,sociedad y cultura,mujeres
 59660384,clima extremo,estados unidos,cambio climático,ciencia
 59660966,justicia,justicia social,sociedad y cultura,política,argentina,crisis económica en argentina,derechos humanos
@@ -27289,6 +27304,7 @@
 59824325,evolución,biología,ciencia
 59824326,ciencia
 59824425,sociedad y cultura,historia,cuba,américa latina,fidel castro
+59824427,sociedad y cultura,india,salud
 59824664,luiz inácio lula da silva,colombia,costa rica,brasil,elecciones generales de brasil de 2022,américa latina,centroamérica,jair bolsonaro,democracia,elecciones generales de costa rica de 2022,elecciones presidenciales de colombia de 2022
 59828348,armas nucleares,ciberataque,guerra,estados unidos,reino unido,seguridad informática,rusia,china
 59828450,perú,pandemia de coronavirus,américa latina,salud,vacunas contra el coronavirus
@@ -27310,6 +27326,7 @@
 59854878,sudáfrica
 59859079,sector militar,estados unidos,china
 59859112,depresión,salud mental,salud
+59859117,méxico,chile,perú,colombia,brasil,argentina,américa latina,lgtb,salud mental,salud,venezuela
 59859326,sudáfrica,medio ambiente,ciencia
 59859547,sociedad y cultura,sociedad,salud
 59859552,justicia,sociedad y cultura,estados unidos
@@ -27644,6 +27661,7 @@
 60237751,historia,rusia,ucrania
 60239005,economía,perú,política,américa latina,pueblos indígenas del perú,medio ambiente
 60239089,sociedad y cultura,sociedad,argentina,américa latina,drogas,salud,narcotráfico
+60245190,japón,sociedad y cultura,sociedad,asia
 60245194,internet,física,ciencia,tecnología
 60245961,violencia sexual,abuso infantil,europa
 60247900,siria,estado islámico,estados unidos
@@ -27744,6 +27762,7 @@
 60376637,pandemia de coronavirus,salud,variante ómicron,vacunas contra el coronavirus
 60380898,sociedad y cultura,televisión,cine,amazon
 60381814,sociedad,enfermedades cardiovasculares,cirugía,salud
+60383044,colombia,salud,francia
 60384020,crisis en venezuela,colombia,venezuela
 60387619,tenis,pandemia de coronavirus,australia,deportes,vacunas contra el coronavirus
 60388543,redes sociales,mujeres
@@ -27752,6 +27771,7 @@
 60391379,política,estados unidos,honduras,narcotráfico
 60393095,conservación,chile,perú,agua,ciencia
 60394799,política,joe biden,américa latina,estados unidos
+60394807,violencia armada en ee.uu.,sociedad y cultura,estados unidos
 60394959,sociedad y cultura,violencia sexual,reino unido,familia real británica,mujeres
 60395918,tenis,pandemia de coronavirus,deportes,vacunas contra el coronavirus
 60396723,economía,chile,américa latina,negocios,finanzas
@@ -27765,6 +27785,7 @@
 60410506,estados unidos,ciencia,vih/sida,salud
 60410509,colombia,nicolás maduro,estados unidos,venezuela,leyes,narcotráfico
 60411627,justicia,iglesia católica,italia,abuso infantil,derechos humanos
+60411906,violencia armada en ee.uu.,sociedad y cultura,muerte de george floyd,estados unidos,racismo
 60416933,méxico,pandemia de coronavirus,américa latina,salud,vacunas contra el coronavirus
 60417821,budismo,sociedad y cultura,religión,vietnam
 60417989,sociedad y cultura,sociedad,estados unidos,netflix,leyes,espectáculos
@@ -27783,6 +27804,7 @@
 60426385,economía,perú,pedro castillo
 60431966,religión,medio oriente,política,estados unidos,afganistán,mujeres
 60432056,clima extremo,sociedad,brasil,américa latina,cambio climático,ciencia
+60433846,ciencia,violencia doméstica,tecnología,mujeres
 60433967,sociedad y cultura,naturaleza,fotografía
 60434089,historia,biología,ciencia
 60439229,sociedad y cultura,sociedad,drogas,puerto rico,música
@@ -27994,12 +28016,14 @@
 60648808,sociedad,estados unidos,ciencia,salud
 60651863,economía,política,américa latina,rusia,ucrania,conflicto rusia-ucrania
 60653250,economía,estados unidos,industria petrolera,rusia,negocios,ucrania,conflicto rusia-ucrania,comercio
+60654008,crisis en venezuela,migraciones,trinidad y tobago
 60654716,sociedad y cultura,sector militar,guerra,rusia,ucrania,conflicto rusia-ucrania
 60654938,política,guerra,rusia,vladimir putin,conflicto rusia-ucrania
 60654940,economía,rusia,energía,vladimir putin,ucrania,conflicto rusia-ucrania
 60654946,bielorrusia,rusia,vladimir putin,ucrania,conflicto rusia-ucrania
 60655463,guerra,rusia,ucrania,conflicto rusia-ucrania
 60656223,rusia,ucrania,conflicto rusia-ucrania
+60657037,sociedad y cultura,méxico,sociedad,américa latina,idioma español,estados unidos,analía llorente,idiomas
 60657069,energía nuclear,conflicto rusia-ucrania,europa
 60657071,guerra fría,rusia,ucrania,conflicto rusia-ucrania,derechos humanos,europa
 60657073,economía,américa latina,estados unidos,energía,venezuela,conflicto rusia-ucrania
@@ -28014,6 +28038,7 @@
 60666241,sociedad y cultura,mujeres
 60667746,rusia,ucrania,conflicto rusia-ucrania,europa
 60669004,otan,rusia,vladimir putin,ucrania,conflicto rusia-ucrania
+60671119,educación,lgtb,estados unidos
 60671172,economía,guerra,rusia,negocios,ucrania,conflicto rusia-ucrania
 60672405,otan,guerra fría,estados unidos,rusia,ucrania,conflicto rusia-ucrania,europa
 60676334,guerra,rusia,ucrania,conflicto rusia-ucrania,ayuda humanitaria
@@ -28062,6 +28087,7 @@
 60721353,rusia,ucrania,conflicto rusia-ucrania
 60721379,arabia saudita
 60724003,censura,redes sociales,conflicto rusia-ucrania
+60725041,sociedad y cultura,migraciones,estados unidos,ecuador
 60725043,rusia,ucrania,conflicto rusia-ucrania
 60726134,rusia,ucrania,conflicto rusia-ucrania
 60727259,rusia,ucrania,conflicto rusia-ucrania
@@ -28121,6 +28147,7 @@
 60774779,economía,corrupción,política,rusia,negocios,conflicto rusia-ucrania
 60774949,rusia,vladimir putin,ucrania,conflicto rusia-ucrania
 60774954,américa latina,estados unidos,honduras,narcotráfico
+60778573,economía,sociedad y cultura,sociedad,costa rica,américa latina,reino unido,agricultura,costa rica,comercio,emprendimientos
 60779821,cuba,américa latina,derechos humanos,protestas,protestas en cuba
 60779841,espacio,albert einstein,ciencia
 60780314,pandemia de coronavirus,ciencia,salud,vacunas contra el coronavirus
@@ -28129,6 +28156,7 @@
 60781994,sociedad y cultura,salud mental,salud
 60785780,guerra,yemen
 60786175,rusia,infancia,ucrania,conflicto rusia-ucrania,mujeres
+60786993,hambruna,talibán,afganistán
 60787025,sociedad y cultura,guerra,rusia,vladimir putin,ucrania,conflicto rusia-ucrania
 60788280,cuba,migraciones,estados unidos,crisis en nicaragua,nicaragua,protestas en cuba
 60788400,tenis,sociedad y cultura,premios oscar,deportes,cine
@@ -28168,6 +28196,7 @@
 60823895,sociedad,pandemia de coronavirus,hong kong,salud,china
 60827870,sector militar,guerra,rusia,conflicto rusia-ucrania
 60828616,rusia,infancia,ucrania,conflicto rusia-ucrania
+60829142,economía,américa latina,el salvador,negocios,bitcoin,nayib bukele
 60829432,europa del este,rusia,ucrania,conflicto rusia-ucrania
 60829612,redes sociales,internet,reino unido,negocios,teléfonos móviles,tecnología
 60829643,sociedad y cultura,premios oscar,estados unidos,cine
@@ -28207,6 +28236,7 @@
 60863503,guerra,rusia,ucrania,conflicto rusia-ucrania
 60866199,méxico,naciones unidas,guerra,rusia,conflicto rusia-ucrania,andrés manuel lópez obrador
 60867317,ayuda internacional,joe biden,unión europea,refugiados y solicitantes de asilo,estados unidos,rusia,ucrania,conflicto rusia-ucrania,ayuda humanitaria
+60867354,sociedad y cultura,sociedad,suecia,música
 60868583,otan,rusia,ucrania,conflicto rusia-ucrania,mujeres
 60870477,política,rusia,vladimir putin,ucrania,conflicto rusia-ucrania,europa
 60874513,naciones unidas,europa del este,rusia,vladimir putin,ucrania,conflicto rusia-ucrania,europa
@@ -28229,6 +28259,7 @@
 60889449,política,guerra,joe biden,rusia,vladimir putin,ucrania,conflicto rusia-ucrania
 60890821,el salvador,violencia de pandillas
 60890827,el salvador,violencia de pandillas
+60891469,economía,sociedad y cultura,méxico,sociedad,empleo,migraciones,estados unidos,negocios
 60891863,sociedad y cultura,música
 60895314,pandemia de coronavirus,salud,china
 60895317,rusia,ucrania,conflicto rusia-ucrania,derechos humanos
@@ -28243,12 +28274,244 @@
 60901085,joe biden,estados unidos,rusia,vladimir putin,conflicto rusia-ucrania
 60901322,premios oscar,salud de la mujer,mujeres
 60901326,sociedad y cultura,premios oscar,cine
+60901442,nutrición,salud,alimentación
 60902038,humor,sociedad y cultura,premios oscar,cine
+60902040,corrupción,rusia,negocios,ucrania,conflicto rusia-ucrania
 60907387,estados unidos,rusia,espionaje,ucrania
+60908511,prisiones,derechos humanos,corea del norte
+60908957,sociedad y cultura,cine
 60909200,premios oscar,cine,espectáculos
 60909229,corrupción,américa latina,centroamérica,estados unidos,honduras,leyes
+60909389,historia,argentina
 60909430,sociedad y cultura,premios oscar,cine
+60909953,méxico,migraciones,estados unidos,ucrania,conflicto rusia-ucrania
 60914141,discapacidad,sociedad y cultura,premios oscar,cine,espectáculos
 60915116,guerra,ucrania,conflicto rusia-ucrania
+60915416,sociedad y cultura,antropología
+60915848,economía,matemática,ciencia
 60919004,guerra,rusia,ucrania,conflicto rusia-ucrania
 60919546,guerra,rusia,vladimir putin,ucrania,conflicto rusia-ucrania
+60921609,guerra,argentina,américa latina,reino unido
+60922077,sociedad,pandemia de coronavirus,salud,variante ómicron,vacunas contra el coronavirus
+60927615,economía,sociedad,reino unido,alimentación,inflación,europa
+60927617,libano,sociedad y cultura,bbc
+60927776,rusia,ucrania,conflicto rusia-ucrania
+60927778,reino unido,salud,familia,salud de la mujer
+60928634,plutón,astronomía
+60928637,rusia,vladimir putin,ucrania,conflicto rusia-ucrania
+60932192,sociedad y cultura,religión,política,rusia,vladimir putin,conflicto rusia-ucrania
+60932662,sociedad y cultura,historia,rusia
+60934340,otan,guerra,rusia,vladimir putin,ucrania,conflicto rusia-ucrania
+60935076,guerra,argentina,américa latina,reino unido
+60935106,transgénero,sociedad y cultura,méxico,américa latina,lgtb,derechos humanos,derechos de las minorías
+60936198,justicia,sociedad y cultura,pena de muerte,estados unidos
+60936328,sociedad y cultura,premios oscar,cine,espectáculos
+60936330,méxico,costa rica,estados unidos,copa del mundo,deportes,fútbol
+60936368,justicia,perú,américa latina,derechos humanos
+60936398,sociedad y cultura,salud,cine
+60936788,sociedad y cultura,reino unido,música,cáncer
+60936790,guerra,rusia,ucrania
+60939356,albert einstein,física,biología,ciencia,venezuela
+60942092,sociedad y cultura,salud
+60942094,sociedad,salud mental,salud
+60942427,economía,méxico,estados unidos,industria petrolera,conflicto rusia-ucrania
+60943029,rusia,ucrania,conflicto rusia-ucrania,europa
+60943553,historia,emmanuel macron,francia,europa
+60947410,salud,salud de la mujer,mujeres
+60947527,nutrición,salud
+60947787,rusia,conflicto rusia-ucrania
+60947789,energía nuclear,bielorrusia,ciencia,rusia,ucrania,conflicto rusia-ucrania
+60948581,política,joe biden,estados unidos,industria petrolera,conflicto rusia-ucrania
+60948584,economía,costa rica,política,américa latina,negocios
+60949436,historia,guerra,argentina,américa latina,reino unido
+60949845,américa latina,el salvador,nayib bukele
+60949936,sociedad y cultura,cine,china
+60949938,economía,sociedad,empleo,estados unidos,amazon
+60949940,sociedad y cultura,sociedad,tecnología
+60949943,estados unidos,aborto,mujeres
+60949946,méxico,violencia en méxico,américa latina,narcotráfico
+60952951,sociedad y cultura,sociedad,salud mental,salud
+60954553,industria turística,turismo,sociedad y cultura,viajes,ciencia
+60954655,genética,ciencia,salud
+60954695,guerra,europa del este,rusia,vladimir putin,ucrania,conflicto rusia-ucrania,europa
+60956441,qatar,deportes
+60957484,rusia,ucrania,conflicto rusia-ucrania,europa
+60958910,deportes,fútbol
+60959111,economía,alimentación,inflación
+60961162,serbia,política,unión europea,conflicto rusia-ucrania
+60961530,historia,argentina,américa latina,reino unido
+60961570,perú,corrupción,pedro castillo
+60962598,sociedad y cultura,américa latina,violencia sexual,bolivia,abuso infantil,familia,derechos humanos
+60963142,sociedad y cultura,premios oscar,cine,espectáculos
+60963219,joe biden,estados unidos,donald trump
+60964091,economía,crisis en venezuela,américa latina,venezuela
+60964592,sociedad,salud mental,salud
+60965714,liberia,educación,sociedad y cultura,sociedad
+60965718,sector militar,guerra,rusia,ucrania,conflicto rusia-ucrania
+60967147,pandemia de coronavirus,ciencia,salud
+60969656,sociedad y cultura,nutrición,salud
+60969660,violencia armada en ee.uu.,estados unidos
+60970535,guerra,rusia,ucrania,conflicto rusia-ucrania
+60970846,pandemia de coronavirus,salud,china
+60973034,sector militar,guerra,rusia,vladimir putin,ucrania,conflicto rusia-ucrania
+60973037,guerra,rusia,ucrania,conflicto rusia-ucrania
+60977428,guerra,conflicto rusia-ucrania
+60977430,ecuador,prisiones,derechos humanos
+60977908,costa rica,política,américa latina,elecciones generales de costa rica de 2022
+60978077,sociedad y cultura,música
+60978079,sociedad y cultura,música,ucrania,conflicto rusia-ucrania
+60980076,costa rica,américa latina,elecciones generales de costa rica de 2022
+60982526,unión europea,hungría,vladimir putin,conflicto rusia-ucrania
+60982528,transgénero,alemania,sociedad y cultura,lgtb,salud mental,irán
+60982616,sociedad y cultura,ciencia
+60982617,sociedad y cultura,sexo,ciencia,medicina,salud,salud de la mujer
+60982618,guerra,rusia,ucrania,conflicto rusia-ucrania
+60984834,política,vladimir putin,conflicto rusia-ucrania
+60986092,corte penal internacional,rusia,ucrania,conflicto rusia-ucrania,derechos humanos,europa
+60986578,ucrania,conflicto rusia-ucrania
+60986817,costa rica,elecciones generales de costa rica de 2022
+60986967,economía,nobel,ciencia
+60987372,religión,física,ciencia
+60989174,américa latina,violencia en américa latina,el salvador,violencia de pandillas,nayib bukele
+60991625,perú,keiko fujimori
+60991805,política,europa del este,américa latina,rusia,ucrania,conflicto rusia-ucrania
+60992914,protestas,perú
+60992917,redes sociales,twitter
+60994789,perú,política,américa latina
+60996309,astronomía,ciencia
+60996439,sociedad y cultura,reino unido,ciencia
+60998051,justicia,europa del este,conflicto rusia-ucrania
+60998340,cambio climático,ciencia
+61000476,sociedad y cultura,literatura,arte
+61004007,naciones unidas,consejo de seguridad de la onu,rusia,ucrania,conflicto rusia-ucrania
+61004456,economía,política,américa latina,negocios,conflicto rusia-ucrania,inflación,perú
+61004666,economía,perú,pedro castillo,política,américa latina,protestas
+61004671,perú,pedro castillo
+61004806,alemania,sociedad y cultura,historia,austria,segunda guerra mundial,europa
+61005448,rusia,vladimir putin,conflicto rusia-ucrania
+61005450,rusia,vladimir putin,ucrania,conflicto rusia-ucrania
+61005452,rusia,vladimir putin,conflicto rusia-ucrania
+61009828,sociedad y cultura,sudáfrica
+61011241,alemania,cibercrimen,tecnología
+61012717,otan,suecia,guerra,finlandia,conflicto rusia-ucrania
+61015040,elecciones generales de chile de 2021,política,protestas en chile
+61015280,sociedad y cultura,salud,investigación médica
+61015286,política,unión europea,francia,europa
+61016060,economía,estados unidos,reino unido,rusia,negocios,conflicto rusia-ucrania,banca,europa
+61016067,sociedad y cultura,sociedad,música
+61016110,europa del este,rusia,vladimir putin,ucrania,conflicto rusia-ucrania
+61016977,américa latina,inflación,protestas,perú
+61017727,economía,pandemia de coronavirus,política,estados unidos,conflicto rusia-ucrania,china
+61017731,pandemia de coronavirus,salud,vacunas contra el coronavirus
+61017953,guerra,rusia,ucrania,conflicto rusia-ucrania
+61019068,arqueología,bbc,ciencia,televisión,animales
+61019131,colombia,narcotráfico
+61021098,méxico,política,américa latina,andrés manuel lópez obrador
+61023359,crisis en venezuela,nicolás maduro,américa latina,hugo chávez,venezuela
+61023699,rusia,ucrania,conflicto rusia-ucrania
+61024198,sociedad y cultura,asia,corea del sur,salud,sueño
+61024200,salud,salud de la mujer,mujeres
+61024204,justicia,medio oriente,arabia saudita,jamal khashoggi,turquía
+61024618,guerra,rusia,ucrania,conflicto rusia-ucrania,europa
+61030149,economía,pandemia de coronavirus,política,vladimir putin,conflicto rusia-ucrania,china
+61030660,naciones unidas,guerra,rusia,ucrania,conflicto rusia-ucrania,derechos humanos
+61030985,américa latina,centroamérica,violencia en américa latina,el salvador,violencia de pandillas
+61031398,justicia,estados unidos,mujeres
+61033241,pandemia de coronavirus,salud,variante ómicron,china
+61033248,guerra,rusia,ucrania,conflicto rusia-ucrania,europa
+61033989,física,estados unidos,ciencia
+61033998,conflicto rusia-ucrania
+61034029,perú,pedro castillo,inflación
+61036375,europa del este,estados unidos,rusia,vladimir putin,ucrania,conflicto rusia-ucrania,europa
+61038085,guerra,rusia,ucrania,conflicto rusia-ucrania
+61038088,sociedad y cultura,guerra,rusia,ucrania,conflicto rusia-ucrania
+61038911,alemania nazi,política,américa latina,perú,nazismo
+61039700,perú,naturaleza,cambio climático,biología,ciencia
+61039890,sociedad y cultura,periodismo,arte,fotografía
+61044567,pandemia de coronavirus,ciencia,salud,vacunas contra el coronavirus
+61045194,margarita rodríguez,ciencia,salud
+61045760,justicia,américa latina,centroamérica,violencia en américa latina,el salvador,leyes,violencia de pandillas
+61045940,sociedad y cultura,reino unido,música,conflicto rusia-ucrania
+61047044,historia,guerra,guerra fría,noticias falsas,segunda guerra mundial,polonia,conflicto rusia-ucrania,nazismo
+61047981,ciencia,medicina,salud
+61048275,sector militar,guerra,rusia,vladimir putin,ucrania,conflicto rusia-ucrania,europa
+61051190,estados unidos,transporte,leyes,aviación
+61051193,guerra,reino unido,rusia,ucrania,conflicto rusia-ucrania,boris johnson
+61058470,economía,industria petrolera,rusia,energía,desempleo,vladimir putin,ucrania,conflicto rusia-ucrania,inflación
+61058792,armas nucleares,otan,guerra,conflicto rusia-ucrania
+61060481,sector militar,guerra,rusia,ucrania,conflicto rusia-ucrania
+61061209,política,unión europea,francia,europa
+61063505,méxico,política,américa latina,andrés manuel lópez obrador
+61067619,seguridad informática,negocios,tecnología
+61067620,cuerpo humano,sociedad y cultura,salud
+61067748,sociedad y cultura,sociedad,religión,política,india,alimentación
+61067978,redes sociales,facebook,noticias falsas,rusia,vladimir putin,ucrania,conflicto rusia-ucrania
+61067981,guerra,ucrania,conflicto rusia-ucrania
+61068458,europa del este,rusia,vladimir putin,ucrania,conflicto rusia-ucrania,europa
+61073342,sociedad y cultura,literatura,francia
+61073520,otan,sector militar,suecia,rusia,finlandia,conflicto rusia-ucrania
+61073835,pandora papers,rusia,vladimir putin,conflicto rusia-ucrania
+61074986,méxico,política,américa latina,andrés manuel lópez obrador
+61075036,naciones unidas,cambio climático,ciencia
+61076259,pandemia de coronavirus,salud mental,salud
+61076649,guerra,rusia,ucrania,conflicto rusia-ucrania
+61080226,agua,sequía,cambio climático,áfrica,derechos humanos
+61080306,pandemia de coronavirus,salud
+61080556,guerra,violencia sexual,ucrania,conflicto rusia-ucrania,mujeres
+61080676,google,internet,seguridad informática,apps,apple,teléfonos móviles,tecnología
+61080790,sociedad y cultura,historia,religión,españa,américa latina,estados unidos
+61080793,violencia armada en ee.uu.,sociedad y cultura,estados unidos
+61081582,pandemia de coronavirus,genética,biología,ciencia,salud
+61081585,nasa,luna,física,astronomía,ciencia
+61081664,otan,suecia
+61084354,sociedad y cultura,pandemia de coronavirus,política,reino unido,boris johnson
+61085050,espacio,sector militar,bielorrusia,vladimir putin,conflicto rusia-ucrania
+61089401,sociedad y cultura,colombia,américa latina
+61089695,virus zika,ciencia,medicina,salud
+61089697,colombia,américa latina,narcotráfico
+61093796,ucrania,conflicto rusia-ucrania
+61094717,méxico,joe biden,migraciones,estados unidos
+61094720,violencia armada en ee.uu.,sociedad y cultura,estados unidos
+61096583,ciencia,ucrania,conflicto rusia-ucrania,inteligencia artificial,tecnología
+61098068,política,rusia,ucrania,conflicto rusia-ucrania,europa
+61100436,ciencia,anatomía,salud
+61101565,sector militar,rusia,ucrania,conflicto rusia-ucrania,europa
+61102395,espacio,nasa,ciencia
+61102404,alemania,hungría,ucrania,conflicto rusia-ucrania
+61102570,sector militar,guerra,rusia,ucrania,conflicto rusia-ucrania
+61102715,rusia,conflicto rusia-ucrania
+61107039,sector militar,guerra,rusia,ucrania,conflicto rusia-ucrania
+61108082,otan,suecia,rusia,finlandia,vladimir putin,ucrania,conflicto rusia-ucrania
+61108964,twitter,negocios,tecnología
+61108966,sociedad y cultura,teléfonos móviles,tecnología
+61109944,siria,etiopía,guerra,birmania,yemen,afganistán
+61115450,américa latina,centroamérica,el salvador,violencia de pandillas
+61118532,guerra,ucrania,conflicto rusia-ucrania
+61118758,pandemia de coronavirus,salud,china
+61118760,rusia,ucrania,conflicto rusia-ucrania
+61120119,guerra,rusia,ucrania,conflicto rusia-ucrania
+61120122,sociedad y cultura,sociedad,brasil,violencia sexual
+61121728,ucrania,conflicto rusia-ucrania
+61121771,espacio,física,ciencia
+61121850,religión,guerra,rusia,vladimir putin,ucrania,conflicto rusia-ucrania
+61123936,sociedad y cultura,sociedad,deportes,fútbol
+61124066,redes sociales,negocios,tecnología
+61127479,espacio,astronomía,ciencia
+61139508,pandemia de coronavirus,salud,china,vacunas contra el coronavirus
+61140375,religión,islam,suecia,europa
+61140526,alemania nazi,alemania,guerra,rusia,ucrania,conflicto rusia-ucrania
+61143998,méxico,política,américa latina,andrés manuel lópez obrador
+61145025,méxico,política,américa latina,marcos gonzalez díaz,energía,andrés manuel lópez obrador,energía renovable
+61145478,rusia,ucrania,conflicto rusia-ucrania
+61145837,sociedad y cultura,pandemia de coronavirus,estados unidos,transporte,salud,aviación
+61148337,salud
+61148339,rusia,vladimir putin,conflicto rusia-ucrania
+61149988,sector militar,guerra,reino unido,rusia,vladimir putin,ucrania,conflicto rusia-ucrania
+61149996,economía,méxico,américa latina,transporte,medio ambiente,transporte ferroviario,andrés manuel lópez obrador
+61150237,europa del este,rusia,vladimir putin,ucrania,conflicto rusia-ucrania,europa
+61151867,economía,pandemia de coronavirus,salud,china,vacunas contra el coronavirus
+61153027,economía,japón,sociedad y cultura,migraciones,asia,negocios
+61156045,sociedad y cultura,rusia,infancia,ucrania,conflicto rusia-ucrania
+61156414,economía,sociedad y cultura,rusia,demografía,conflicto rusia-ucrania
+61162062,guerra,rusia,ucrania,conflicto rusia-ucrania
+61162182,economía,netflix,negocios,tecnología
