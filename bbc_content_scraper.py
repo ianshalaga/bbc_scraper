@@ -140,6 +140,7 @@ def bbc_content_scraper(URL, output_route):
                 link["alt"].lower() != "grey line" and \
                 link["alt"].lower() != "grey_new" and \
                 link["alt"].lower() != "BBC" and \
+                link["alt"].lower() != "007 in numbers" and \
                 link["alt"].lower() != "line break":
                     content.append("[Imagen] " + link["src"])
 
