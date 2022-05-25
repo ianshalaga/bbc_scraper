@@ -76,6 +76,7 @@ def video_generator_batch(total_ids_path,
                         continue
                     else:
                         article_scraped_path = os.path.join(article_scraped_folder, article_id)
+                        print(colored("Generando:", "yellow"), article_id + ".mp4")
                         fail = video_generator(article_scraped_path, video_default_assets_folfer, videos_to_upload_path, article_id, width_target, height_target, fps)
                         if not(fail):
                             videos_ids_list.append(article_id)
@@ -87,7 +88,9 @@ def video_generator_batch(total_ids_path,
             else:
                 print(colored(f"El artículo {article_id} ya tiene video.", "green"))
 
+
 ###
+
 
 total_ids_path = "news_id_tags.csv"
 videos_ids_path = "news_videos.txt"

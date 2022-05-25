@@ -4,6 +4,14 @@ from termcolor import colored
 
 
 
+def seniority_validation(url):
+    old = False
+    split = url.split("_")
+    if len(split) > 1:
+        old = True
+    return old
+
+
 def load_links(file_path):
     links_list = list()
     with open(file_path, "r") as f:
@@ -36,7 +44,7 @@ def links_extraction(url, URL_base, exclude):
 
 
 recursive_deep = 0
-def scraper(url, all_links, URL_base, exclude, recursive_deep):
+def scraper(url, all_links, links_olds_set, URL_base, exclude, recursive_deep):
     if recursive_deep > 950:
         return
     else:
@@ -47,9 +55,15 @@ def scraper(url, all_links, URL_base, exclude, recursive_deep):
         return
     for link in links_set:
         if link not in all_links:
-            all_links.add(link)
-            print(colored(link, "yellow"))
-            scraper(link, all_links, URL_base, exclude, recursive_deep)
+            if link not in links_olds_set:
+                if seniority_validation(link):
+                    links_olds_set.add(link)
+                    print(colored(link, "magenta"))
+                    scraper(link, all_links, links_olds_set, URL_base, exclude, recursive_deep)
+                else:
+                    all_links.add(link)
+                    print(colored(link, "yellow"))
+                    scraper(link, all_links, links_olds_set, URL_base, exclude, recursive_deep)
             
 
 def sort_links(links_set):
@@ -62,11 +76,14 @@ def sort_links(links_set):
     links_splitted = list()
 
     for e in links_list:
-        split = e.split("-")
-        split_old = e.split("_")
-        if len(split_old) > 1:
+        if seniority_validation(e):
             continue
-        
+
+        split = e.split("-")
+        # split_old = e.split("_")
+        # if len(split_old) > 1:
+        #     continue
+
         split[-1] = int(split[-1])
         links_splitted.append(split)
 
@@ -89,28 +106,49 @@ exclude = ["/mundo/noticias-58984987", # Categoría: Medio ambiente
            "/mundo/noticias-48908206"] # Categoría: BBC Extra
 
 links_set = load_links("news_links.txt")
+links_olds_set = load_links("news_olds_links.txt")
 
 ''' Daily '''
-scraper(URL_seed, links_set, URL_base, exclude, recursive_deep)
+# scraper(URL_seed, links_set, links_olds_set, URL_base, exclude, recursive_deep)
 
-links_list = sort_links(links_set)
+# links_list = sort_links(links_set)
 
-with open("news_links.txt", "w") as f:
-    f.write("\n".join(links_list))
+# with open("news_links.txt", "w") as f:
+#     f.write("\n".join(links_list))
+
+# with open("news_olds_links.txt", "w") as f:
+#     f.write("\n".join(list(links_olds_set)))
 
 ''' Brute force '''
-# c = 0
-# for e in links_set:
-#     c += 1
-#     print(f"Seed ({c}/{len(links_set)})")
-#     links_set2 = load_links("news_links.txt")
-#     scraper(e, links_set2, URL_base, exclude, recursive_deep)
+c = 0
+for e in links_set:
+    c += 1
+    print(f"Seed current ({c}/{len(links_set)})")
+    links_set2 = load_links("news_links.txt")
+    scraper(e, links_set2, links_olds_set, URL_base, exclude, recursive_deep)
 
-#     links_list = sort_links(links_set2)
+    links_list = sort_links(links_set2)
 
-#     with open("news_links.txt", "w") as f:
-#         for i in range(len(links_list)):
-#             if i == len(links_list)-1:
-#                 f.write(links_list[i])
-#             else:
-#                 f.write(links_list[i] + "\n")
+    with open("news_links.txt", "w") as f:
+        for i in range(len(links_list)):
+            if i == len(links_list)-1:
+                f.write(links_list[i])
+            else:
+                f.write(links_list[i] + "\n")
+
+c = 0
+for e in links_olds_set:
+    c += 1
+    print(f"Seed old ({c}/{len(links_olds_set)})")
+    links_olds_set2 = load_links("news_olds_links.txt")
+    scraper(e, links_set, links_olds_set2, URL_base, exclude, recursive_deep)
+
+    # links_list = sort_links(links_olds_set2)
+    links_list = list(links_olds_set2)
+
+    with open("news_olds_links.txt", "w") as f:
+        for i in range(len(links_list)):
+            if i == len(links_list)-1:
+                f.write(links_list[i])
+            else:
+                f.write(links_list[i] + "\n")

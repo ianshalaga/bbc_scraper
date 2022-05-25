@@ -480,7 +480,7 @@ def assets_for_video_generator(article_scraped_folder,
 
 
 
-# URL = "https://www.bbc.com/mundo/noticias-36479831"
+# URL = "https://www.bbc.com/mundo/noticias-61394386"
 
 # article_id = URL.split("-")[-1]
 

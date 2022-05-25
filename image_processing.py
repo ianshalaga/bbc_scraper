@@ -1,11 +1,17 @@
 import cv2 # OpenCV 2.0, Digital Image Processing
 from fractions import Fraction # Fractions manipulation
-from PIL import Image, ImageFont, ImageDraw 
+from PIL import Image, ImageFont, ImageDraw # Put text on image
 
 
-def image_for_video_generator(image_path, images_processed_path, width_target, height_target):
+def image_for_video_generator(image_path, # Original downloaded image path
+                              images_processed_path, # Image processed for video path
+                              width_target, # Video resolution: width
+                              height_target): # Video resolution: height
     images_processed_path = ".".join(images_processed_path.split(".")[:-1]) + ".jpg" # Force jpg extension
     image = cv2.imread(str(image_path))
+
+    # image = image_super_resolution(image) # Image super resolution
+
     height, width, _ = image.shape
 
     aspect_ratio = Fraction(width_target, height_target)
@@ -92,3 +98,18 @@ def put_caption_on_image_processed(images_processed_path, images_processed_text_
         image_draw.text((15,y+i*50), text_list[i], (230, 230, 0), font=font, align='center')
 
     image_blended.save(images_processed_text_path)
+
+
+# def image_super_resolution(image # Readed opencv image
+#                     ):
+#     sr = cv2.dnn_superres.DnnSuperResImpl_create()
+#     path_EDSR = "super_resolution_models/EDSR_x4.pb"
+#     path_ESPCN = "super_resolution_models/ESPCN_x4.pb"
+#     path_FSRCNN = "super_resolution_models/FSRCNN_x4.pb"
+#     path_LapSRN = "super_resolution_models/LapSRN_x4.pb"
+
+#     sr.readModel(path_FSRCNN)
+#     sr.setModel("fsrcnn",4)
+#     image_EDSR = sr.upsample(image)
+
+#     return image_EDSR

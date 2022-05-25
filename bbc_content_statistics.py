@@ -55,8 +55,8 @@ def load_all_words(news_content_path):
 
 
 ''' Renew statistics '''
-# news_content_path = "bbc_news_content_scraped"
-# load_all_words(news_content_path)
+news_content_path = "bbc_news_content_scraped"
+load_all_words(news_content_path)
 
 
 ''' Analyze statistics '''
