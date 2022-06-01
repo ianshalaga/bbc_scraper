@@ -1,0 +1,667 @@
+0:, estados unidos - 6315
+1:, sociedad y cultura - 6131
+2:, américa latina - 4966
+3:, ciencia - 3730
+4:, salud - 3675
+5:, economía - 3485
+6:, sociedad - 3079
+7:, tecnología - 2647
+8:, política - 2270
+9:, donald trump - 2090
+10:, pandemia de coronavirus - 2063
+11:, méxico - 1852
+12:, reino unido - 1473
+13:, venezuela - 1361
+14:, china - 1165
+15:, historia - 1036
+16:, europa - 1012
+17:, negocios - 997
+18:, mujeres - 933
+19:, brasil - 902
+20:, colombia - 866
+21:, rusia - 848
+22:, crisis en venezuela - 815
+23:, medio ambiente - 687
+24:, internet - 662
+25:, chile - 661
+26:, asia - 646
+27:, argentina - 584
+28:, perú - 583
+29:, cambio climático - 567
+30:, españa - 548
+31:, migraciones - 540
+32:, nicolás maduro - 527
+33:, medio oriente - 475
+34:, salud mental - 475
+35:, cine - 463
+36:, organización mundial de la salud - 448
+37:, espacio - 438
+38:, sin etiquetas - 410
+39:, elecciones presidenciales en estados unidos 2020 - 409
+40:, hay festival - 406
+41:, astronomía - 392
+42:, infancia - 390
+43:, música - 385
+44:, francia - 379
+45:, cuba - 379
+46:, redes sociales - 376
+47:, educación - 371
+48:, religión - 367
+49:, finanzas - 359
+50:, corea del norte - 358
+51:, narcotráfico - 354
+52:, joe biden - 354
+53:, elecciones presidenciales en estados unidos 2016 - 352
+54:, salud de la mujer - 349
+55:, áfrica - 342
+56:, comercio - 340
+57:, medicina - 336
+58:, violencia sexual - 334
+59:, violencia en américa latina - 330
+60:, derechos humanos - 322
+61:, deportes - 317
+62:, ecuador - 312
+63:, naturaleza - 307
+64:, alemania - 299
+65:, bolivia - 298
+66:, guatemala - 298
+67:, unión europea - 293
+68:, el salvador - 292
+69:, irán - 282
+70:, siria - 277
+71:, animales - 272
+72:, honduras - 266
+73:, alimentación - 261
+74:, india - 260
+75:, nicaragua - 254
+76:, canadá - 248
+77:, japón - 248
+78:, centroamérica - 247
+79:, juan guaidó - 247
+80:, corea del sur - 244
+81:, derechos de la mujer - 244
+82:, andrés manuel lópez obrador - 243
+83:, literatura - 241
+84:, facebook - 235
+85:, italia - 234
+86:, televisión - 233
+87:, arte - 229
+88:, teléfonos móviles - 224
+89:, vladimir putin - 222
+90:, racismo - 218
+91:, violencia en méxico - 211
+92:, vacunas - 209
+93:, afganistán - 207
+94:, nutrición - 204
+95:, israel - 203
+96:, nasa - 194
+97:, brexit - 193
+98:, emprendimientos - 192
+99:, estado islámico - 190
+100:, protestas - 186
+101:, corrupción - 181
+102:, aviación - 177
+103:, leyes - 175
+104:, física - 174
+105:, empleo - 169
+106:, segunda guerra mundial - 167
+107:, armas nucleares - 165
+108:, sector militar - 164
+109:, google - 162
+110:, mercados financieros - 162
+111:, sexo - 160
+112:, industria petrolera - 158
+113:, abuso infantil - 157
+114:, arqueología - 156
+115:, biología - 156
+116:, irak - 155
+117:, uruguay - 152
+118:, clima extremo - 149
+119:, arabia saudita - 149
+120:, protestas en chile - 147
+121:, pobreza - 146
+122:, seguridad informática - 146
+123:, costa rica - 142
+124:, idioma español - 142
+125:, idiomas - 142
+126:, lgtb - 138
+127:, jair bolsonaro - 138
+128:, fotografía - 135
+129:, violencia doméstica - 132
+130:, huracán - 132
+131:, iglesia católica - 132
+132:, conflicto palestino-israelí - 131
+133:, talibán - 131
+134:, australia - 130
+135:, guerra - 129
+136:, turquía - 128
+137:, panamá - 127
+138:, justicia - 127
+139:, evo morales - 126
+140:, apple - 124
+141:, espectáculos - 120
+142:, olimpiadas - 120
+143:, cáncer - 120
+144:, violencia armada en ee.uu. - 117
+145:, naciones unidas - 117
+146:, muerte de george floyd - 117
+147:, vacunas contra el coronavirus - 116
+148:, familia real británica - 115
+149:, separacion de familias inmigrantes en eeuu - 115
+150:, violencia de pandillas - 111
+151:, comercio electrónico - 110
+152:, conservación - 110
+153:, río 2016 - 109
+154:, haití - 109
+155:, latinos en ee.uu. - 108
+156:, terremotos - 107
+157:, puerto rico - 106
+158:, turismo - 104
+159:, paraguay - 103
+160:, tiroteos masivos - 102
+161:, crisis en nicaragua - 102
+162:, cibercrimen - 101
+163:, hillary clinton - 99
+164:, papa francisco i - 98
+165:, premios oscar - 98
+166:, ucrania - 97
+167:, contaminación - 94
+168:, familia - 93
+169:, energía nuclear - 92
+170:, matemática - 92
+171:, apps - 92
+172:, computación - 90
+173:, joaquín 'el chapo' guzmán - 89
+174:, suecia - 89
+175:, selva amazónica - 89
+176:, accidentes aéreos - 89
+177:, barack obama - 87
+178:, caravana de migrantes - 87
+179:, londres - 86
+180:, nobel - 86
+181:, drogas - 86
+182:, arquitectura - 85
+183:, crisis en bolivia - 85
+184:, medios de comunicación - 83
+185:, refugiados y solicitantes de asilo - 83
+186:, hong kong - 82
+187:, islam - 82
+188:, energía - 82
+189:, 100 mujeres - 81
+190:, sebastián piñera - 81
+191:, egipto - 79
+192:, crisis en españa - 79
+193:, aborto - 78
+194:, república dominicana - 77
+195:, holanda - 77
+196:, amazon - 77
+197:, elecciones en méxico 2018 - 76
+198:, viajes - 75
+199:, cataluña - 74
+200:, catolicismo - 73
+201:, contraterrorismo - 73
+202:, huawei - 72
+203:, contaminacion del aire - 70
+204:, agricultura - 69
+205:, genética - 69
+206:, whatsapp - 69
+207:, industria turística - 69
+208:, evolución - 68
+209:, banca - 67
+210:, populismo - 67
+211:, instagram - 67
+212:, daniel ortega - 65
+213:, indonesia - 65
+214:, juicio a "el chapo" guzmán - 65
+215:, contaminación marina - 65
+216:, elecciones presidenciales en venezuela 2018 - 65
+217:, transporte - 64
+218:, género - 64
+219:, caribe - 64
+220:, grecia - 62
+221:, guerra fría - 62
+222:, inteligencia artificial - 62
+223:, bienestar de los animales - 62
+224:, elecciones presidenciales en bolivia 2019 - 62
+225:, moda - 61
+226:, dinamarca - 61
+227:, espionaje - 61
+228:, pakistán - 60
+229:, tailandia - 59
+230:, ciberataque - 59
+231:, twitter - 59
+232:, libros - 59
+233:, marte - 58
+234:, investigación médica - 58
+235:, cop26 - 57
+236:, agua - 57
+237:, alemania nazi - 57
+238:, fidel castro - 56
+239:, sudáfrica - 56
+240:, nueva zelanda - 56
+241:, antropología - 55
+242:, relaciones interraciales y étnicas - 55
+243:, industria automotriz - 55
+244:, elecciones en brasil 2018 - 55
+245:, prisiones - 54
+246:, finanzas personales - 54
+247:, boris johnson - 53
+248:, periodismo - 53
+249:, discapacidad - 52
+250:, europa del este - 52
+251:, centroamérica cuenta - 51
+252:, musulmanes - 51
+253:, fondo monetario internacional - 48
+254:, fútbol - 47
+255:, nigeria - 47
+256:, desempleo - 47
+257:, bitcoin - 47
+258:, luna - 45
+259:, bielorrusia - 45
+260:, manifestación - 45
+261:, nazismo - 45
+262:, comunismo - 44
+263:, noticias falsas - 44
+264:, incendios en el amazonas - 44
+265:, albert einstein - 43
+266:, birmania - 43
+267:, territorios palestinos - 43
+268:, vih/sida - 43
+269:, transgénero - 43
+270:, américa del norte - 43
+271:, crisis económica en argentina - 43
+272:, feminismo - 42
+273:, nayib bukele - 42
+274:, tiroteo en la escuela de parkland - 41
+275:, florida - 41
+276:, príncipe harry - 41
+277:, theresa may - 40
+278:, taiwán - 40
+279:, protestas en colombia - 40
+280:, polonia - 38
+281:, censura - 38
+282:, obesidad - 38
+283:, elecciones de mitad de período en estados unidos 2018 - 38
+284:, protestas en cuba - 38
+285:, sudeste asiático - 37
+286:, reina isabel ii - 37
+287:, derechos de las minorías - 37
+288:, pena de muerte - 37
+289:, justicia social - 37
+290:, microsoft - 36
+291:, seguridad alimentaria - 36
+292:, energía renovable - 35
+293:, sueño - 35
+294:, noruega - 35
+295:, primera guerra mundial - 34
+296:, boda del príncipe harry con meghan markle - 34
+297:, publicidad - 34
+298:, derechos de los animales - 34
+299:, niños atrapados en una cueva de tailandia - 34
+300:, raúl castro - 33
+301:, sol - 33
+302:, holocausto - 33
+303:, alcoholismo - 33
+304:, portugal - 32
+305:, estudios profesionales - 32
+306:, bélgica - 32
+307:, esclavitud - 31
+308:, conflicto territorial en el mar de la china meridional - 31
+309:, al qaeda - 31
+310:, cristina fernández de kirchner - 30
+311:, angela merkel - 30
+312:, mundo árabe - 30
+313:, consejo de seguridad de la onu - 30
+314:, vietnam - 30
+315:, cuerpo humano - 30
+316:, finlandia - 29
+317:, alberto fernández - 29
+318:, pueblos indígenas del perú - 29
+319:, hugo chávez - 28
+320:, etiopía - 28
+321:, libano - 28
+322:, elecciones generales de perú de 2021 - 28
+323:, sexismo - 27
+324:, filipinas - 27
+325:, enfermedades cardiovasculares - 27
+326:, innovación - 27
+327:, otan - 27
+328:, julian assange - 26
+329:, asia del sur - 26
+330:, libertad de expresión - 26
+331:, industria textil - 26
+332:, inglaterra - 26
+333:, kamala harris - 26
+334:, kenia - 25
+335:, rafael correa - 25
+336:, inflación - 25
+337:, elecciones en colombia - 25
+338:, escocia - 25
+339:, huracán dorian - 25
+340:, stephen hawking - 24
+341:, república democrática del congo - 24
+342:, qatar - 24
+343:, día internacional de la mujer - 24
+344:, bbc - 24
+345:, golfo pérsico - 24
+346:, incendio de notre dame - 24
+347:, pedro castillo - 24
+348:, esa (agencia espacial europea) - 23
+349:, suiza - 23
+350:, martín vizcarra - 23
+351:, jamal khashoggi - 22
+352:, eclipse - 21
+353:, libia - 21
+354:, robótica - 21
+355:, tokio 2020 - 20
+356:, wikileaks - 20
+357:, depresión - 20
+358:, prostitución - 20
+359:, matrimonio - 20
+360:, irlanda - 20
+361:, fernando haddad - 20
+362:, elecciones presidenciales en argentina 2019 - 20
+363:, jeanine áñez - 20
+364:, premios oscar 2017 - 19
+365:, sudan - 19
+366:, áfrica occidental - 19
+367:, emmanuel macron - 19
+368:, uber - 19
+369:, recep tayyip erdogan - 19
+370:, luiz inácio lula da silva - 19
+371:, cirugía - 19
+372:, ética médica - 19
+373:, criptomoneda - 19
+374:, ébola - 18
+375:, europa central - 18
+376:, human rights watch - 18
+377:, fertilidad - 18
+378:, desaparición del submarino ara san juan - 18
+379:, opep - 18
+380:, llegada del hombre a la luna - 18
+381:, organización mundial del comercio - 18
+382:, erupción del volcán de fuego - 18
+383:, filosofía - 18
+384:, elecciones generales de chile de 2021 - 18
+385:, islandia - 17
+386:, miguel díaz-canel - 17
+387:, lenín moreno - 17
+388:, ataques del 11 de septiembre de 2001 - 17
+389:, elecciones presidenciales en uruguay 2019 - 17
+390:, somalia - 16
+391:, electrónica - 16
+392:, asia central - 16
+393:, mauricio macri - 16
+394:, austria - 16
+395:, gripe - 16
+396:, yemen - 16
+397:, mohammed bin salman - 16
+398:, belice - 15
+399:, malasia - 15
+400:, fumar - 15
+401:, transporte ferroviario - 15
+402:, pesca - 15
+403:, ejercicios - 15
+404:, irlanda del norte - 15
+405:, terremoto y tsunami en indonesia - 15
+406:, atentado en barcelona - 14
+407:, marruecos - 14
+408:, antibióticos - 14
+409:, prisioneros políticos - 14
+410:, armenia - 14
+411:, bangladesh - 13
+412:, virus zika - 13
+413:, zimbabue - 13
+414:, diabetes - 13
+415:, sequía - 13
+416:, netflix - 13
+417:, elecciones presidenciales de ecuador de 2021 - 13
+418:, serbia - 12
+419:, leonardo da vinci - 12
+420:, violencia - 12
+421:, eurozona - 12
+422:, azerbaiyán - 12
+423:, boko haram - 12
+424:, banco mundial - 12
+425:, teatro - 12
+426:, mike pence - 12
+427:, tortura - 12
+428:, guyana - 12
+429:, libertad de prensa - 12
+430:, hungría - 12
+431:, singapur - 12
+432:, canal de suez - 12
+433:, pandora papers - 12
+434:, g20 - 11
+435:, ataque en westminster - 11
+436:, ayuda humanitaria - 11
+437:, mundial de fútbol 2018 - 11
+438:, ricardo anaya cortés - 11
+439:, budismo - 11
+440:, blockchain - 11
+441:, luis arce - 11
+442:, keiko fujimori - 11
+443:, croacia - 10
+444:, hambruna - 10
+445:, bosnia y herzegovina - 10
+446:, demencia - 10
+447:, josé antonio meade kuribreña - 10
+448:, reciclaje - 10
+449:, malaria - 10
+450:, alan garcía - 10
+451:, 75 aniversario del día d - 9
+452:, jupiter - 9
+453:, ayuda internacional - 9
+454:, drones - 9
+455:, g7 - 9
+456:, deportes paralímpicos - 9
+457:, anatomía - 9
+458:, kobe bryant - 9
+459:, kuwait - 8
+460:, argelia - 8
+461:, áfrica oriental - 8
+462:, radio - 8
+463:, humor - 8
+464:, alejandro giammattei - 8
+465:, alexei navalny - 8
+466:, jamaica - 7
+467:, disputa fronteriza entre china e india - 7
+468:, demografía - 7
+469:, elecciones en costa rica 2018 - 7
+470:, memoria - 7
+471:, mujer anónima - 7
+472:, elecciones generales de españa de 2019 - 7
+473:, mao tse tung - 7
+474:, baloncesto - 7
+475:, mali - 7
+476:, elecciones federales de méxico de 2021 - 7
+477:, mercosur - 6
+478:, deportes de invierno - 6
+479:, trinidad y tobago - 6
+480:, tiktok - 6
+481:, diego armando maradona - 6
+482:, guillermo lasso - 6
+483:, amnistía internacional - 5
+484:, sudán del sur - 5
+485:, 80 aniversario de bbc mundo - 5
+486:, clavados - 5
+487:, copa del mundo - 5
+488:, gales - 5
+489:, costa de marfil - 5
+490:, camboya - 5
+491:, ruanda - 5
+492:, república checa - 5
+493:, cerveza - 4
+494:, dopaje - 4
+495:, hassan rouhani - 4
+496:, fútbol americano - 4
+497:, 18 años - 4
+498:, ciclismo - 4
+499:, brunei - 4
+500:, juegos de apuestas - 4
+501:, tanzania - 4
+502:, canal de panamá - 4
+503:, elecciones presidenciales en brasil 2014 - 3
+504:, organización de estados americanos - 3
+505:, juegos de londres 2012 - 3
+506:, polania - 3
+507:, dalai lama - 3
+508:, edad desconocida - 3
+509:, fue asesinada en ámsterdam - 3
+510:, corte penal internacional - 3
+511:, papúa nueva guinea - 3
+512:, mongolia - 3
+513:, ghana - 3
+514:, boxeo - 3
+515:, atletismo - 3
+516:, copa américa - 3
+517:, tenis - 3
+518:, silvio berlusconi - 2
+519:, nicolas sarkozy - 2
+520:, paradise papers - 2
+521:, caso judicial - 2
+522:, surinam - 2
+523:, elecciones en paraguay 2018 - 2
+524:, automovilismo - 2
+525:, bollywood - 2
+526:, tiro - 2
+527:, golf - 2
+528:, fue asesinada en indianápolis - 2
+529:, niña anónima - 2
+530:, 22 años - 2
+531:, 24 años - 2
+532:, 67 años - 2
+533:, 36 años - 2
+534:, 27 años - 2
+535:, 55 años - 2
+536:, fue asesinada en quezon city - 2
+537:, carlos alvarado quesada - 2
+538:, cruz roja - 2
+539:, elecciones generales en reino unido 2015 - 2
+540:, túnez - 2
+541:, fútbol femenino - 2
+542:, gimnasia - 2
+543:, superliga europea - 2
+544:, eurocopa 2020 - 2
+545:, vida sostenible - 2
+546:, tony blair - 1
+547:, crossing divides - 1
+548:, bután - 1
+549:, eliminatorias sudas rusia 2018 - 1
+550:, juegos paralímpicos río 2016 - 1
+551:, neha sharad chaudhary - 1
+552:, fue asesinada en malegaon - 1
+553:, 31 años - 1
+554:, fue asesinada en mashhad - 1
+555:, linda miller - 1
+556:, 66 años - 1
+557:, ee.uu. - 1
+558:, 17 años - 1
+559:, fue asesinada en alipur - 1
+560:, judith chesang - 1
+561:, fue asesinada en baringo - 1
+562:, farzana bibi - 1
+563:, fue asesinada en pakpattan - 1
+564:, dina mapelli - 1
+565:, 77 años - 1
+566:, fue asesinada en vimercate - 1
+567:, sandra lucia hammer moura fue asesinada en palmas - 1
+568:, jennifer majín males - 1
+569:, fue asesinada en los cámbulos - 1
+570:, 82 años - 1
+571:, fue asesinada en dracsani - 1
+572:, rumania - 1
+573:, yanet nuñez niclouse - 1
+574:, 46 años - 1
+575:, fue asesinada en río claro - 1
+576:, ritu devi - 1
+577:, fue asesinada en neeli - 1
+578:, 30 años - 1
+579:, 5 años - 1
+580:, katty mayorly jácome hernández - 1
+581:, 34 años - 1
+582:, fue asesinada en cúcuta - 1
+583:, niah - 1
+584:, fue asesinada en dumai - 1
+585:, marie-amelie vaillat - 1
+586:, fue asesinada en oyonnax - 1
+587:, 85 años - 1
+588:, fue asesinada en kawasaki - 1
+589:, vanessa vicente da silva - 1
+590:, fue asesinada en serra talhada - 1
+591:, resti nova dila - 1
+592:, 20 años - 1
+593:, fue asesinada en solok del sur - 1
+594:, t. zh - 1
+595:, fue asesinada en el distrito de azaka - 1
+596:, uzbekistán - 1
+597:, justina coelho lopes - 1
+598:, 69 años - 1
+599:, fue asesinada en barau - 1
+600:, griselda iria osorio álvarez - 1
+601:, 21 años - 1
+602:, fue asesinada en tijuana - 1
+603:, edineuza costa silva fue asesinada en quixeramobim - 1
+604:, paula andrea alvarez morales - 1
+605:, 35 años - 1
+606:, fue asesinada en ciudad bolívar - 1
+607:, mujer anónima fue asesinada en tandlianwala - 1
+608:, maria gladis herrera de damián - 1
+609:, fue asesinada en san pedro puxtla - 1
+610:, tábata amscoli de paz lópez - 1
+611:, fue asesinada en ciudad de guatemala - 1
+612:, barbie pigg - 1
+613:, 49 años - 1
+614:, fue asesinada en middlesbrough - 1
+615:, leoncia tupas - 1
+616:, vilma josefina contreras - 1
+617:, fue asesinada en huiziltepeque - 1
+618:, mujer anónima fue asesinada en belem - 1
+619:, 39 años - 1
+620:, fue asesinada en campeche - 1
+621:, emily punzalan bucay - 1
+622:, mujer anónima fue asesinada en tapachula - 1
+623:, gabriela da rosa silva - 1
+624:, fue asesinada en porto alegre - 1
+625:, mujer anónima fue asesinada en lahore - 1
+626:, zeinab sekaanvand - 1
+627:, fue asesinada en urmia - 1
+628:, unmar sanam - 1
+629:, 50 años - 1
+630:, fue asesinada en birmingham - 1
+631:, rute maria da conceicao - 1
+632:, fue asesinada en olinda - 1
+633:, avan najmadeen - 1
+634:, 32 años - 1
+635:, fue asesinada en stoke-on-trent - 1
+636:, karen groves - 1
+637:, 58 años - 1
+638:, damaris yoselin &quot;n&quot; - 1
+639:, fue asesinada en acapulco - 1
+640:, milaine ferreira de oliveira - 1
+641:, 19 años - 1
+642:, fue asesinada en minas gerais - 1
+643:, 61 años - 1
+644:, fue asesinada en el distrito de vanj - 1
+645:, tayikistán - 1
+646:, supinah - 1
+647:, 48 años - 1
+648:, fue asesinada en sekadau hilir - 1
+649:, saturn - 1
+650:, liga premier - 1
+651:, industria editorial - 1
+652:, malaui - 1
+653:, ateísmo - 1
+654:, guinea ecuatorial - 1
+655:, príncipe william - 1
+656:, duque de cambridge - 1
+657:, revolución cultural - 1
+658:, bulgaria - 1
+659:, liga de fútbol de alemania - 1
+660:, lucha - 1
+661:, ramadán - 1
+662:, natación - 1
+663:, levantamiento de pesas - 1
+664:, bádminton - 1
+665:, gadgets - 1
+666:, narendra modi - 1

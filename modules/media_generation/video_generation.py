@@ -1,5 +1,4 @@
-from cv2 import detail_MatchesInfo
-import assets_for_video_generator as assets
+import modules.media_generation.assets_for_video_generator as assets
 import subprocess
 from termcolor import colored
 import logging

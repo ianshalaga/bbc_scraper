@@ -2,7 +2,7 @@ import subprocess
 import os
 import logging
 import json
-import image_processing as ip
+import modules.media_generation.image_processing as ip
 from pathlib import Path
 from termcolor import colored
 import wave

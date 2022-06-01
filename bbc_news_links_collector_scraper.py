@@ -1,28 +1,35 @@
 import requests
 from bs4 import BeautifulSoup
 from termcolor import colored
+import csv
+from pathlib import Path
 
 
 
-def seniority_validation(url):
-    old = False
-    split = url.split("_")
-    if len(split) > 1:
-        old = True
-    return old
+# def seniority_validation(url):
+#     old = False
+#     split = url.split("_")
+#     if len(split) > 1:
+#         old = True
+#     return old
 
 
 def load_links(file_path):
+    '''
+    Loads news links from a txt file.
+    '''
     links_list = list()
-    with open(file_path, "r") as f:
+    with open(file_path, "r", encoding="utf-8") as f:
         links_list = f.read().split("\n")
-
     links_set = set(links_list)
-
     return links_set
 
 
 def links_extraction(url, URL_base, exclude):
+    '''
+    Extract all news links from a given url.
+    Output: Links set.
+    '''
     links_set = set()
 
     page = requests.get(url)
@@ -43,28 +50,92 @@ def links_extraction(url, URL_base, exclude):
     return links_set
 
 
-recursive_deep = 0
-def scraper(url, all_links, links_olds_set, URL_base, exclude, recursive_deep):
-    if recursive_deep > 950:
+def scraper(url, all_links_set, back_up_path, URL_base, exclude, RECURSIVE_DEEP):
+    '''
+    Scrap news links
+    Inputs:
+        url: where links are gonna be scraped
+        all_links_set: all links from a file in a set
+        URL_base: url from news webpage
+        excluded links
+        recursive_deep: to control recursive limit
+    '''
+    if RECURSIVE_DEEP > 950:
+        print(colored(f"Recursive limit reached: {RECURSIVE_DEEP}", "green"))
         return
     else:
-        recursive_deep += 1
-    print(colored(f"Recursive level: {recursive_deep}", "red"))
+        RECURSIVE_DEEP += 1
+        print(colored(f"Recursive level: {RECURSIVE_DEEP}", "red"))
+    back_up_set = load_links(back_up_path)
+    if "" in back_up_set:
+        back_up_set.remove("")
+    all_links_set.update(back_up_set)
     links_set = links_extraction(url, URL_base, exclude)
-    if links_set.issubset(all_links):
+    if links_set.issubset(all_links_set):
         return
     for link in links_set:
-        if link not in all_links:
-            if link not in links_olds_set:
-                if seniority_validation(link):
-                    links_olds_set.add(link)
-                    print(colored(link, "magenta"))
-                    scraper(link, all_links, links_olds_set, URL_base, exclude, recursive_deep)
+        if link not in all_links_set:
+            all_links_set.add(link)
+            with open(back_up_path, "a", encoding="utf-8") as f:
+                f.write(link + "\n")
+            print(colored(link, "yellow"))
+            scraper(link, all_links_set, back_up_path, URL_base, exclude, RECURSIVE_DEEP)
+
+
+def scraper_daily(url, all_links_path, back_up_path, URL_base, exclude, RECURSIVE_DEEP):
+    print(colored("Running daily scraper", "green"))
+    all_links_set = load_links(all_links_path)
+    scraper(url, all_links_set, back_up_path, URL_base, exclude, RECURSIVE_DEEP)
+    all_links_list = list(all_links_set)
+    with open(all_links_path, "w", encoding="utf-8") as f:
+        f.write("\n".join(all_links_list))
+
+
+def scraper_brute_force(all_links_path, back_up_path, URL_base, exclude, RECURSIVE_DEEP):
+    print(colored("Running brute force scraper", "green"))
+    all_links_set = load_links(all_links_path)
+    c = 0
+    for e in all_links_set:
+        c += 1
+        print(colored(f"Current seed ({c}/{len(all_links_set)}): {e}", "green"))
+        all_links_set2 = load_links(all_links_path)
+        scraper(e, all_links_set2, back_up_path, URL_base, exclude, RECURSIVE_DEEP)
+        all_links_list = list(all_links_set2)
+        with open(all_links_path, "w", encoding="utf-8") as f:
+            for i in range(len(all_links_list)):
+                if i == len(all_links_list)-1:
+                    f.write(all_links_list[i])
                 else:
-                    all_links.add(link)
-                    print(colored(link, "yellow"))
-                    scraper(link, all_links, links_olds_set, URL_base, exclude, recursive_deep)
+                    f.write(all_links_list[i] + "\n")
+
+
+def sort_links_by_date(all_links_path, sorted_links_path):
+    links_list = list()
+    with open(all_links_path, "r", encoding="utf-8") as f: # Open links to sort from file into list
+        links_list = f.read().split("\n")
+
+    sorted_links_path = Path(sorted_links_path)
+    sorted_links_path.touch(exist_ok=True) # Create sorted links file if it doesn't exist
+    date_links_set = set()
+    with open(sorted_links_path, "r", encoding="utf-8") as f: # Open sorted links from file
+        csv_reader = csv.reader(f, delimiter=',', quoting=csv.QUOTE_ALL)
+        # print(list(csv_reader))
+        for date_link in csv_reader:
+            date_links_set.add(date_link[3]) # Add the link to the set not the date
+    print(date_links_set)
+
+    for e in links_list:
+        if e in date_links_set:
+            continue
+        date = ""
+        page = requests.get(e)
+        soup = BeautifulSoup(page.content, "html.parser")
+        date = soup.find("time", class_="bbc-14xtggo e4zesg50")["datetime"].split("-")
+        # with open(sorted_links_path, "a", encoding="utf-8") as f:
             
+
+        # print(date + [e])
+
 
 def sort_links(links_set):
     '''
@@ -76,8 +147,8 @@ def sort_links(links_set):
     links_splitted = list()
 
     for e in links_list:
-        if seniority_validation(e):
-            continue
+        # if seniority_validation(e):
+        #     continue
 
         split = e.split("-")
         # split_old = e.split("_")
@@ -96,8 +167,11 @@ def sort_links(links_set):
 
 
 
-URL_seed = "https://www.bbc.com/mundo"
+''' ------------------------------------------------------------------------ '''
 
+RECURSIVE_DEEP = 0 # Always needed
+
+URL_seed = "https://www.bbc.com/mundo"
 URL_base = "https://www.bbc.com"
 
 exclude = ["/mundo/noticias-58984987", # Categoría: Medio ambiente
@@ -105,50 +179,11 @@ exclude = ["/mundo/noticias-58984987", # Categoría: Medio ambiente
            "/mundo/noticias-43826245", # Categoría: Centroamérica cuenta
            "/mundo/noticias-48908206"] # Categoría: BBC Extra
 
-links_set = load_links("news_links.txt")
-links_olds_set = load_links("news_olds_links.txt")
+all_links_path = "modules/scraping/news_links.txt"
+back_up_path = "modules/scraping/back_up_links.txt"
+sorted_links_path = "modules/scraping/sorted_links.csv"
 
-''' Daily '''
-# scraper(URL_seed, links_set, links_olds_set, URL_base, exclude, recursive_deep)
+scraper_daily(URL_seed, all_links_path, back_up_path, URL_base, exclude, RECURSIVE_DEEP)
+scraper_brute_force(all_links_path, back_up_path, URL_base, exclude, RECURSIVE_DEEP)
 
-# links_list = sort_links(links_set)
-
-# with open("news_links.txt", "w") as f:
-#     f.write("\n".join(links_list))
-
-# with open("news_olds_links.txt", "w") as f:
-#     f.write("\n".join(list(links_olds_set)))
-
-''' Brute force '''
-c = 0
-for e in links_set:
-    c += 1
-    print(f"Seed current ({c}/{len(links_set)})")
-    links_set2 = load_links("news_links.txt")
-    scraper(e, links_set2, links_olds_set, URL_base, exclude, recursive_deep)
-
-    links_list = sort_links(links_set2)
-
-    with open("news_links.txt", "w") as f:
-        for i in range(len(links_list)):
-            if i == len(links_list)-1:
-                f.write(links_list[i])
-            else:
-                f.write(links_list[i] + "\n")
-
-c = 0
-for e in links_olds_set:
-    c += 1
-    print(f"Seed old ({c}/{len(links_olds_set)})")
-    links_olds_set2 = load_links("news_olds_links.txt")
-    scraper(e, links_set, links_olds_set2, URL_base, exclude, recursive_deep)
-
-    # links_list = sort_links(links_olds_set2)
-    links_list = list(links_olds_set2)
-
-    with open("news_olds_links.txt", "w") as f:
-        for i in range(len(links_list)):
-            if i == len(links_list)-1:
-                f.write(links_list[i])
-            else:
-                f.write(links_list[i] + "\n")
+# sort_links_by_date(all_links_path, sorted_links_path)
