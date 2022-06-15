@@ -5,18 +5,9 @@ import csv
 from pathlib import Path
 
 
-
-# def seniority_validation(url):
-#     old = False
-#     split = url.split("_")
-#     if len(split) > 1:
-#         old = True
-#     return old
-
-
 def load_links(file_path):
     '''
-    Loads news links from a txt file.
+    Loads news links from a txt file into a set.
     '''
     links_list = list()
     with open(file_path, "r", encoding="utf-8") as f:
@@ -25,9 +16,9 @@ def load_links(file_path):
     return links_set
 
 
-def links_extraction(url, URL_base, exclude):
+def links_extraction(url, URL_base, excluded_links_set):
     '''
-    Extract all news links from a given url.
+    Scrap all news links from a given url.
     Output: Links set.
     '''
     links_set = set()
@@ -43,14 +34,14 @@ def links_extraction(url, URL_base, exclude):
             if element is not None and \
             "noticias" in element["href"] and \
             element["href"].startswith("/mundo/noticias") and \
-            element["href"] not in exclude:
+            element["href"] not in excluded_links_set:
                 link = URL_base + element["href"]
                 links_set.add(link)
 
     return links_set
 
 
-def scraper(url, all_links_set, back_up_path, URL_base, exclude, RECURSIVE_DEEP):
+def scraper(url, all_links_set, back_up_path, excluded_links_path, URL_base, RECURSIVE_DEEP):
     '''
     Scrap news links
     Inputs:
@@ -60,38 +51,66 @@ def scraper(url, all_links_set, back_up_path, URL_base, exclude, RECURSIVE_DEEP)
         excluded links
         recursive_deep: to control recursive limit
     '''
-    if RECURSIVE_DEEP > 950:
+    if RECURSIVE_DEEP > 950: # Control recursive limit
         print(colored(f"Recursive limit reached: {RECURSIVE_DEEP}", "green"))
         return
     else:
         RECURSIVE_DEEP += 1
         print(colored(f"Recursive level: {RECURSIVE_DEEP}", "red"))
+
+    # Load back up links
+    back_up_path = Path(back_up_path)
+    back_up_path.touch(exist_ok=True) # Create excluded links file if it doesn't exist
     back_up_set = load_links(back_up_path)
-    if "" in back_up_set:
+    if "" in back_up_set: # Remove empty string
         back_up_set.remove("")
     all_links_set.update(back_up_set)
-    links_set = links_extraction(url, URL_base, exclude)
-    if links_set.issubset(all_links_set):
+
+    # Load excluded link
+    excluded_links_path = Path(excluded_links_path)
+    excluded_links_path.touch(exist_ok=True) # Create excluded links file if it doesn't exist
+    excluded_links_set = load_links(excluded_links_path)
+    
+    links_set = links_extraction(url, URL_base, excluded_links_set)
+    if links_set.issubset(all_links_set): # Discard subset
         return
+
     for link in links_set:
-        if link not in all_links_set:
+        if link not in all_links_set: # For new links
             all_links_set.add(link)
-            with open(back_up_path, "a", encoding="utf-8") as f:
+            with open(back_up_path, "a", encoding="utf-8") as f: # Back up scraped links
                 f.write(link + "\n")
             print(colored(link, "yellow"))
-            scraper(link, all_links_set, back_up_path, URL_base, exclude, RECURSIVE_DEEP)
+            scraper(link, all_links_set, back_up_path, excluded_links_path, URL_base, RECURSIVE_DEEP)
 
 
-def scraper_daily(url, all_links_path, back_up_path, URL_base, exclude, RECURSIVE_DEEP):
+def scraper_daily(url, all_links_path, back_up_path, excluded_links_path, URL_base, RECURSIVE_DEEP):
+    '''
+    Scrap links from a given URL
+    url: where scrap links
+    all_links_path: file to load and save links
+    back_up_path: restoration file in case of interruptions
+    URL_base: base URL of the given URL
+    excluded_links_path: URLs to exclude in the scraping process
+    RECURSIVE_DEEP: global variable that controls the recursive stack to prevent overflow
+    '''
     print(colored("Running daily scraper", "green"))
     all_links_set = load_links(all_links_path)
-    scraper(url, all_links_set, back_up_path, URL_base, exclude, RECURSIVE_DEEP)
+    scraper(url, all_links_set, back_up_path, excluded_links_path, URL_base, RECURSIVE_DEEP)
     all_links_list = list(all_links_set)
     with open(all_links_path, "w", encoding="utf-8") as f:
         f.write("\n".join(all_links_list))
 
 
-def scraper_brute_force(all_links_path, back_up_path, URL_base, exclude, RECURSIVE_DEEP):
+def scraper_brute_force(all_links_path, back_up_path, excluded_links_path, URL_base, RECURSIVE_DEEP):
+    '''
+    Scrap links from from all URLs in all_links_path file
+    all_links_path: file to load and save links
+    back_up_path: restoration file in case of interruptions
+    URL_base: base URL of the given URL
+    excluded_links_path: URLs to exclude in the scraping process
+    RECURSIVE_DEEP: global variable that controls the recursive stack to prevent overflow
+    '''
     print(colored("Running brute force scraper", "green"))
     all_links_set = load_links(all_links_path)
     c = 0
@@ -99,7 +118,7 @@ def scraper_brute_force(all_links_path, back_up_path, URL_base, exclude, RECURSI
         c += 1
         print(colored(f"Current seed ({c}/{len(all_links_set)}): {e}", "green"))
         all_links_set2 = load_links(all_links_path)
-        scraper(e, all_links_set2, back_up_path, URL_base, exclude, RECURSIVE_DEEP)
+        scraper(e, all_links_set2, back_up_path, excluded_links_path, URL_base, RECURSIVE_DEEP)
         all_links_list = list(all_links_set2)
         with open(all_links_path, "w", encoding="utf-8") as f:
             for i in range(len(all_links_list)):
@@ -109,32 +128,57 @@ def scraper_brute_force(all_links_path, back_up_path, URL_base, exclude, RECURSI
                     f.write(all_links_list[i] + "\n")
 
 
-def sort_links_by_date(all_links_path, sorted_links_path):
+def sort_links_by_date(all_links_path, scraped_dates_path, sorted_links_path, excluded_links_path):
+    '''
+    Sort links ascendent by publication date
+    all_links_path: file to load links
+    scraped_dates_path: file to save links dates
+    sorted_links_path: file where sorted links are saved
+    excluded_links_path: file for excluded links
+    '''
+    print(colored("Running dates algorithm", "green"))
+
+    # Load links
     links_list = list()
     with open(all_links_path, "r", encoding="utf-8") as f: # Open links to sort from file into list
         links_list = f.read().split("\n")
 
-    sorted_links_path = Path(sorted_links_path)
-    sorted_links_path.touch(exist_ok=True) # Create sorted links file if it doesn't exist
+    # Load scraped dates temporal
+    scraped_dates_path = Path(scraped_dates_path)
+    scraped_dates_path.touch(exist_ok=True) # Create sorted links file if it doesn't exist
     date_links_set = set()
-    with open(sorted_links_path, "r", encoding="utf-8") as f: # Open sorted links from file
+    with open(scraped_dates_path, "r", encoding="utf-8") as f: # Open sorted links from file
         csv_reader = csv.reader(f, delimiter=',', quoting=csv.QUOTE_ALL)
-        # print(list(csv_reader))
         for date_link in csv_reader:
             date_links_set.add(date_link[3]) # Add the link to the set not the date
-    print(date_links_set)
+    if "" in date_links_set: # Remove empty string
+        date_links_set.remove("")
 
-    for e in links_list:
-        if e in date_links_set:
+    # Load excluded link
+    excluded_links_set = load_links(excluded_links_path)
+    if "" in excluded_links_set: # Remove empty string
+        excluded_links_set.remove("")
+
+    # Dates scraper
+    for link in links_list:
+        if link in date_links_set: # Don't scrap dates already scraped
             continue
-        date = ""
-        page = requests.get(e)
+        page = requests.get(link)
         soup = BeautifulSoup(page.content, "html.parser")
-        date = soup.find("time", class_="bbc-14xtggo e4zesg50")["datetime"].split("-")
-        # with open(sorted_links_path, "a", encoding="utf-8") as f:
-            
+        soup = soup.find("time")
+        if soup is not None:
+            date = soup["datetime"].split("-")
+            with open(scraped_dates_path, "a", encoding="utf-8", newline="") as f: # Save dates into file
+                csv_writer = csv.writer(f, delimiter=",")
+                csv_writer.writerow(date + [link])
+            print(colored(date, "green", attrs=["bold"]), colored(link, "yellow"))
+        elif link not in excluded_links_set:
+            print("Excluded:", colored(link, "blue", attrs=["bold"]))
+            excluded_links_set.add(link)
+            with open(excluded_links_path, "w", encoding="utf-8") as f:
+                f.write("\n".join(excluded_links_set))
 
-        # print(date + [e])
+    # Sort links by date PENDING @@@@
 
 
 def sort_links(links_set):
@@ -181,9 +225,11 @@ exclude = ["/mundo/noticias-58984987", # Categoría: Medio ambiente
 
 all_links_path = "modules/scraping/news_links.txt"
 back_up_path = "modules/scraping/back_up_links.txt"
+excluded_links_path = "modules/scraping/excluded_links.txt"
+scraped_dates_path = "modules/scraping/scraped_dates.csv"
 sorted_links_path = "modules/scraping/sorted_links.csv"
 
-scraper_daily(URL_seed, all_links_path, back_up_path, URL_base, exclude, RECURSIVE_DEEP)
-scraper_brute_force(all_links_path, back_up_path, URL_base, exclude, RECURSIVE_DEEP)
+scraper_daily(URL_seed, all_links_path, back_up_path, excluded_links_path, URL_base, RECURSIVE_DEEP)
+# scraper_brute_force(all_links_path, back_up_path, excluded_links_path, URL_base, RECURSIVE_DEEP)
 
-# sort_links_by_date(all_links_path, sorted_links_path)
+sort_links_by_date(all_links_path, scraped_dates_path, sorted_links_path, excluded_links_path)
