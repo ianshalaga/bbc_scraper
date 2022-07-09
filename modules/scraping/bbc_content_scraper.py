@@ -54,7 +54,6 @@ def article_end_corrector(content_list):
 
 def article_format_corrector(content_list):
     data_list = list()
-    new_content_list = list()
     for i in range(len(content_list)):
         if content_list[i].split(" ")[0] == "[Título]":
             data_list.append(content_list[i])
