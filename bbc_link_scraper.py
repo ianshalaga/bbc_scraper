@@ -6,6 +6,7 @@ from termcolor import colored
 import csv
 from pathlib import Path
 import sys
+import re
 
 
 ''' FUNCTIONS '''
@@ -89,6 +90,18 @@ def scraper(url, all_links_set, back_up_path, excluded_links_path, URL_base, REC
             scraper(link, all_links_set, back_up_path, excluded_links_path, URL_base, RECURSIVE_DEEP)
 
 
+def new_code_number_extractor(new_link):
+    code_number = ""
+    matches = re.findall("\d+", new_link) # String numbers
+    for i in range(len(matches)): # Integer convertion
+        matches[i] = int(matches[i])
+    if matches != []:
+        code_number = str(max(matches))
+    # else:
+    #     print(colored(new_link, "red", attrs=["bold"]))
+    return code_number
+
+
 def sort_links_by_date(all_links_path, scraped_dates_path, sorted_links_path, excluded_links_path):
     '''
     Sort links ascendent by publication date
@@ -107,12 +120,12 @@ def sort_links_by_date(all_links_path, scraped_dates_path, sorted_links_path, ex
 
     # Load scraped dates temporal
     scraped_dates_path = Path(scraped_dates_path)
-    scraped_dates_path.touch(exist_ok=True) # Create sorted links file if it doesn't exist
+    scraped_dates_path.touch(exist_ok=True) # Create dates links file if it doesn't exist
     date_links_set = set()
-    with open(scraped_dates_path, "r", encoding="utf-8") as f: # Open sorted links from file
+    with open(scraped_dates_path, "r", encoding="utf-8") as f: # Open dates links from file
         csv_reader = csv.reader(f, delimiter=',', quoting=csv.QUOTE_ALL)
         for date_link in csv_reader:
-            date_links_set.add(date_link[3]) # Add the link to the set not the date
+            date_links_set.add(date_link[4]) # Add the link to the set not the date
     if "" in date_links_set: # Remove empty string
         date_links_set.remove("")
 
@@ -129,11 +142,19 @@ def sort_links_by_date(all_links_path, scraped_dates_path, sorted_links_path, ex
         soup = BeautifulSoup(page.content, "html.parser")
         soup = soup.find("time")
         if soup is not None:
-            date = soup["datetime"].split("-")
-            with open(scraped_dates_path, "a", encoding="utf-8", newline="") as f: # Save dates into file
-                csv_writer = csv.writer(f, delimiter=",")
-                csv_writer.writerow(date + [link])
-            print(colored(date, "green", attrs=["bold"]), colored(link, "yellow"))
+            link_code_number = new_code_number_extractor(link)
+            if link_code_number == "":
+                if link not in excluded_links_set:
+                    print("Excluded:", colored(link, "blue", attrs=["bold"]))
+                    excluded_links_set.add(link)
+                    with open(excluded_links_path, "w", encoding="utf-8") as f:
+                        f.write("\n".join(excluded_links_set))
+            else:
+                date = soup["datetime"].split("-")
+                with open(scraped_dates_path, "a", encoding="utf-8", newline="") as f: # Save dates into file
+                    csv_writer = csv.writer(f, delimiter=",")
+                    csv_writer.writerow(date + [link_code_number] + [link])
+                print(colored(date, "green", attrs=["bold"]), colored(link_code_number, "red"), colored(link, "yellow"))
         elif link not in excluded_links_set:
             print("Excluded:", colored(link, "blue", attrs=["bold"]))
             excluded_links_set.add(link)
