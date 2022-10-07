@@ -140,21 +140,29 @@ def sort_links_by_date(all_links_path, scraped_dates_path, sorted_links_path, ex
             continue
         page = requests.get(link)
         soup = BeautifulSoup(page.content, "html.parser")
-        soup = soup.find("time")
-        if soup is not None:
-            link_code_number = new_code_number_extractor(link)
-            if link_code_number == "":
-                if link not in excluded_links_set:
-                    print("Excluded:", colored(link, "blue", attrs=["bold"]))
-                    excluded_links_set.add(link)
-                    with open(excluded_links_path, "w", encoding="utf-8") as f:
-                        f.write("\n".join(excluded_links_set))
-            else:
-                date = soup["datetime"].split("-")
-                with open(scraped_dates_path, "a", encoding="utf-8", newline="") as f: # Save dates into file
-                    csv_writer = csv.writer(f, delimiter=",")
-                    csv_writer.writerow(date + [link_code_number] + [link])
-                print(colored(date, "green", attrs=["bold"]), colored(link_code_number, "red"), colored(link, "yellow"))
+        # soup = soup.find("time")
+        soup = soup.find(role="main")
+        if soup is not None: # Tha article have body
+            soup = soup.find("time")
+            if soup is not None: # The article have date
+                link_code_number = new_code_number_extractor(link)
+                if link_code_number == "":
+                    if link not in excluded_links_set:
+                        print("Excluded:", colored(link, "blue", attrs=["bold"]))
+                        excluded_links_set.add(link)
+                        with open(excluded_links_path, "w", encoding="utf-8") as f:
+                            f.write("\n".join(excluded_links_set))
+                else:
+                    date = soup["datetime"].split("-")
+                    with open(scraped_dates_path, "a", encoding="utf-8", newline="") as f: # Save dates into file
+                        csv_writer = csv.writer(f, delimiter=",")
+                        csv_writer.writerow(date + [link_code_number] + [link])
+                    print(colored(date, "green", attrs=["bold"]), colored(link_code_number, "red"), colored(link, "yellow"))
+            elif link not in excluded_links_set:
+                print("Excluded:", colored(link, "blue", attrs=["bold"]))
+                excluded_links_set.add(link)
+                with open(excluded_links_path, "w", encoding="utf-8") as f:
+                    f.write("\n".join(excluded_links_set))
         elif link not in excluded_links_set:
             print("Excluded:", colored(link, "blue", attrs=["bold"]))
             excluded_links_set.add(link)

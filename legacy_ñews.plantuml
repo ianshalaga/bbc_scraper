@@ -1,0 +1,98 @@
+@startuml LÑ
+
+class Scraping {
+    + scraper_daily() : void
+    + scraper_brute_force() : void
+}
+
+class Media {
+    
+}
+
+class Statistics {
+
+}
+
+class Upload {
+    
+}
+
+class New {
+    ' Attributes
+    - link : String
+    - source : String
+    - code : Integer
+    - year : Integer
+    - month : Month
+    - day : Day
+    - valid : Bool
+    - date : Bool
+    - excluded : Bool
+    - video : Bool
+    - uploaded : Bool
+    - data_original : String
+    - data_arranged : String
+    ' Methods
+    + link() : String
+    + code() : Integer
+    + year() : Integer
+    + month() : Month
+    + day() : Day
+    + valid() : Bool
+    + date() : Bool
+    + exluded() : Bool
+    + video() : Bool
+    + uploaded() : Bool
+    + data_original() : String
+    + data_arranged() : String
+}
+
+enum Day {
+    1
+    2
+    3
+    4
+    5
+    6
+    7
+    8
+    9
+    10
+    11
+    12
+    13
+    14
+    15
+    16
+    17
+    18
+    20
+    21
+    22
+    23
+    24
+    25
+    26
+    27
+    28
+    29
+    30
+    31
+}
+
+enum Month {
+    1 = Enero
+    2 = Febrero
+    3 = Marzo
+    4 = Abril
+    5 = Mayo
+    6 = Junio
+    7 = Julio
+    8 = Agosto
+    9 = Septiembre
+    10 = Octubre
+    11 = Noviembre
+    12 = Diciembre
+}
+
+@enduml
