@@ -1,0 +1,4 @@
+termcolor
+request2
+beautifulsoup4
+SQLAlchemy
