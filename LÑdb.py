@@ -9,6 +9,7 @@ DB_ENGINE = "sqlite"
 DB_API = "pysqlite"
 DB_PATH = "LÑdb.db"
 ENGINE = create_engine(f"{DB_ENGINE}+{DB_API}:///{DB_PATH}", echo=True, future=True)
+STATUS_CODES_ERROR = [404, 500]
 
 
 ''' ClassTables '''
@@ -49,7 +50,7 @@ def get_news_links():
     '''
     query_result_list = list()
     with Session(ENGINE) as session:
-        query_result = session.query(New.link).group_by(New.link).order_by(New.code.desc())
+        query_result = session.query(New.link).group_by(New.link).order_by(New.code.asc())
         for element in query_result:
             query_result_list.append(element[0])
     return query_result_list
@@ -121,3 +122,10 @@ def update_new_excluded(new_link, excluded):
         new = session.query(New).filter(New.link == new_link).first()
         new.excluded = excluded
         session.commit()
+
+
+def delete_new(new_link):
+  with Session(ENGINE) as session:
+    new = session.query(New).filter(New.link == new_link).first()
+    session.delete(new)
+    session.commit()

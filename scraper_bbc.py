@@ -31,6 +31,7 @@ def news_links_extractor(url_seed, url_base):
         url_base: url base of news' source.
     Output: Links set.
     '''
+    # error_codes = [404, 500]
     news_links_set = db.get_news_links()
     links_set = set()
     page = requests.get(url_seed)
@@ -42,10 +43,12 @@ def news_links_extractor(url_seed, url_base):
             link = url_base + element["href"]
             if element is not None and \
             "noticias" in element["href"] and \
-            "cluster_" in element["href"] and \
+            "cluster_" not in element["href"] and \
             element["href"].startswith("/mundo/noticias") and \
             link not in news_links_set:
-                links_set.add(link)
+                status_code = requests.get(link).status_code
+                if status_code not in db.STATUS_CODES_ERROR:
+                    links_set.add(link)
     for link in links_set:
         db.insert_new_link(link, NEW_SOURCE)
     return links_set
@@ -136,6 +139,14 @@ def new_date_extractor():
                     db.update_new_excluded(link, False)
                     db.update_new_date(link, date_obj)
 
+
+def db_cleaner():
+  news_links_list = db.get_news_links()
+  for link in news_links_list:
+    status_code = requests.get(link).status_code
+    if "cluster_" in link or status_code in db.STATUS_CODES_ERROR:
+      print(colored("Deleting:", "red"), colored(link, "yellow"))
+      db.delete_new(link)
 
 # news_links_extractor(URL_SEED, URL_BASE)
 # scraper_links(URL_SEED, URL_BASE, RECURSIVE_DEEP, EXCLUDED_SET)

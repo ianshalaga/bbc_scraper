@@ -18,6 +18,8 @@ if __name__ == "__main__":
             bbc.new_code_number_extractor()
         elif "-dates" in sys.argv: # Dates
             bbc.new_date_extractor()
+        elif "-cleaner" in sys.argv:
+            bbc.db_cleaner()
         else:
             print(colored("Unknown type", "red"))
             exit()
