@@ -46,24 +46,46 @@ def get_news_links():
     News links set.
         SELECT n.link FROM new n
         GROUP BY n.link
-        ORDER BY n.code DESC
+        ORDER BY n.code ASC
     '''
     query_result_list = list()
     with Session(ENGINE) as session:
-        query_result = session.query(New.link).group_by(New.link).order_by(New.code.asc())
+        query_result = session.query(New.link).order_by(New.code.asc())
         for element in query_result:
             query_result_list.append(element[0])
     return query_result_list
 
 
-def insert_new_link(new_link, new_source):
+def get_unvalid_links():
+    '''
+    News links set.
+        SELECT n.link FROM new n
+        GROUP BY n.link
+        ORDER BY n.code ASC
+    '''
+    query_result_list = list()
+    with Session(ENGINE) as session:
+        query_result = session.query(New.link).filter(or_(New.valid == False,
+                                                          New.valid == None)).group_by(New.link).order_by(New.code.asc())
+        for element in query_result:
+            query_result_list.append(element[0])
+    return query_result_list
+
+
+def insert_new_link(new_link, new_source, new_code, new_year, new_month, new_day):
     '''
     Insert new link.
-        INSERT INTO new (link, source)
-        VALUES (new_link, new_source)
+        INSERT INTO new (link, source, code, year, month, day)
+        VALUES (new_link, new_source, new_code, new_year, new_month, new_day)
     '''
     with Session(ENGINE) as session:
-        new = New(link=new_link, source=new_source)
+        new = New(link=new_link,
+                  source=new_source,
+                  code=new_code,
+                  year=new_year,
+                  month=new_month,
+                  day=new_day
+        )
         session.add_all([new])
         session.commit()
 
@@ -71,9 +93,10 @@ def insert_new_link(new_link, new_source):
 def get_no_code_links():
     query_result_set = set()
     session = Session(ENGINE)
-    query_result = session.query(New.link).filter(or_(New.code == None, New.code == ""),
-                                                  New.valid == None,
-                                                  New.excluded == None).order_by(New.link)
+    query_result = session.query(New.link).filter(New.code == None)
+    # query_result = session.query(New.link).filter(or_(New.code == None, New.code == ""),
+    #                                               New.valid == None,
+    #                                               New.excluded == None).order_by(New.link)
     for element in query_result:
         query_result_set.add(element[0])
     return query_result_set
@@ -95,10 +118,19 @@ def update_new_code(new_link, new_code):
 def get_no_date_links():
     query_result_set = set()
     session = Session(ENGINE)
-    query_result = session.query(New.link).filter(New.year == None)
+    query_result = session.query(New.link).filter(or_(New.year == None,
+                                                      New.month == None,
+                                                      New.day == None))
     for element in query_result:
         query_result_set.add(element[0])
     return query_result_set
+
+
+def update_new_link(old_link, new_link):
+    with Session(ENGINE) as session:
+        new = session.query(New).filter(New.link == old_link).first()
+        new.link = new_link
+        session.commit()
 
 
 def update_new_date(new_link, new_date):

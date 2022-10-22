@@ -15,11 +15,15 @@ if __name__ == "__main__":
             else:
                 bbc.scraper_links_daily()
         elif "-codes" in sys.argv: # Codes
-            bbc.new_code_number_extractor()
+            bbc.news_codes_extractor()
         elif "-dates" in sys.argv: # Dates
-            bbc.new_date_extractor()
+            bbc.news_dates_extractor()
         elif "-cleaner" in sys.argv:
             bbc.db_cleaner()
+        elif "-crepeated" in sys.argv:
+            bbc.db_clean_repeated()
+        elif "-renew" in sys.argv:
+            bbc.db_renew_links()
         else:
             print(colored("Unknown type", "red"))
             exit()

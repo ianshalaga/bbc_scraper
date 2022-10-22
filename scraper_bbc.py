@@ -31,7 +31,7 @@ def news_links_extractor(url_seed, url_base):
         url_base: url base of news' source.
     Output: Links set.
     '''
-    # error_codes = [404, 500]
+    dates_dict = dict()
     news_links_set = db.get_news_links()
     links_set = set()
     page = requests.get(url_seed)
@@ -46,11 +46,25 @@ def news_links_extractor(url_seed, url_base):
             "cluster_" not in element["href"] and \
             element["href"].startswith("/mundo/noticias") and \
             link not in news_links_set:
-                status_code = requests.get(link).status_code
-                if status_code not in db.STATUS_CODES_ERROR:
-                    links_set.add(link)
+                page_obj = requests.get(link)
+                # status_code = requests.get(link).status_code
+                link_url = page_obj.url
+                status_code = page_obj.status_code
+                date = new_date_extractor(link_url)
+                if status_code not in db.STATUS_CODES_ERROR and \
+                date != []:
+                    date_obj = Date(date[0], date[1], date[2])
+                    dates_dict[link_url] = date_obj
+                    links_set.add(link_url)
     for link in links_set:
-        db.insert_new_link(link, NEW_SOURCE)
+        code = new_code_extractor(link)
+        db.insert_new_link(link,
+                           NEW_SOURCE,
+                           code,
+                           dates_dict[link].year,
+                           dates_dict[link].month,
+                           dates_dict[link].day,
+        )
     return links_set
 
 
@@ -99,7 +113,7 @@ def scraper_links_brute_force():
         scraper_links(link, URL_BASE, RECURSIVE_DEEP, EXCLUDED_SET)
 
 
-def new_code_number_extractor():
+def news_codes_extractor():
     no_code_links_set = db.get_no_code_links()
     for link in no_code_links_set:
         code_number = ""
@@ -118,7 +132,29 @@ def new_code_number_extractor():
             db.update_new_excluded(link, True)
     
 
-def new_date_extractor():
+def new_code_extractor(new_link):
+    new_code = ""
+    matches = re.findall("\d+", new_link) # String numbers
+    for i in range(len(matches)): # Integer convertion
+        matches[i] = int(matches[i])
+    if matches != []:
+        new_code = str(max(matches))        
+    return new_code
+
+
+def new_date_extractor(new_link):
+    date = list()
+    page = requests.get(new_link)
+    soup = BeautifulSoup(page.content, "html.parser")
+    soup = soup.find(role="main")
+    if soup is not None:
+        soup = soup.find("time")
+        if soup is not None:
+            date = soup["datetime"].split("-")
+    return date
+
+
+def news_dates_extractor():
     no_date_links_set = db.get_no_date_links()
     for link in no_date_links_set:
         page = requests.get(link)
@@ -144,9 +180,43 @@ def db_cleaner():
   news_links_list = db.get_news_links()
   for link in news_links_list:
     status_code = requests.get(link).status_code
-    if "cluster_" in link or status_code in db.STATUS_CODES_ERROR:
-      print(colored("Deleting:", "red"), colored(link, "yellow"))
-      db.delete_new(link)
+    date = new_date_extractor(link)
+    if "cluster_" in link or \
+    status_code in db.STATUS_CODES_ERROR or \
+    date == []:
+        print(colored("Deleting:", "red"), colored(link, "yellow"))
+        db.delete_new(link)
+    else:
+        print(colored("OK!", "green", attrs=["bold"]), colored(link, "yellow"), colored(date, "red"))
+    #     date_obj = Date(date[0], date[1], date[2])
+    #     db.update_new_valid(link, True)
+    #     db.update_new_excluded(link, False)
+    #     db.update_new_date(link, date_obj)
+
+def db_clean_repeated():
+    news_links_list = db.get_news_links()
+    for new in news_links_list:
+        links_list = news_links_list.copy()
+        links_list.remove(new)
+        for link in links_list:
+            if new in link:
+                print(colored("Deleting:", "red"), colored(link, "yellow"))
+                db.delete_new(link)
+    
+
+def db_renew_links():
+    news_links_list = db.get_news_links()
+    for link in news_links_list:
+        url = requests.get(link).url
+        if url != link:
+            print(colored("Updated:", "red"))
+            print(colored(link, "yellow"))
+            print(colored(url, "yellow"))
+            db.update_new_link(link, url)
+        else:
+            print(colored("OK:", "green"))
+            print(colored(link, "yellow"))
+            print(colored(url, "yellow"))
 
 # news_links_extractor(URL_SEED, URL_BASE)
 # scraper_links(URL_SEED, URL_BASE, RECURSIVE_DEEP, EXCLUDED_SET)
