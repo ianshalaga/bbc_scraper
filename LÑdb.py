@@ -17,7 +17,7 @@ STATUS_CODES_ERROR = [404, 500]
 Base = declarative_base()
 
 class New(Base):
-    __tablename__ = "new"
+    __tablename__ = "news"
 
     id = Column(Integer, primary_key=True, nullable=False)
     link = Column(String, nullable=False)
@@ -26,7 +26,6 @@ class New(Base):
     year = Column(Integer, nullable=True)
     month = Column(Integer, nullable=True)
     day = Column(Integer, nullable=True)
-    valid = Column(Boolean, nullable=True)
     excluded = Column(Boolean, nullable=True)
     video = Column(Boolean, nullable=True)
     uploaded = Column(Boolean, nullable=True)

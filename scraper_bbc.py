@@ -31,40 +31,42 @@ def news_links_extractor(url_seed, url_base):
         url_base: url base of news' source.
     Output: Links set.
     '''
-    dates_dict = dict()
-    news_links_set = db.get_news_links()
-    links_set = set()
-    page = requests.get(url_seed)
-    soup = BeautifulSoup(page.content, "html.parser")
-    results = soup.find("body")
-    links = results.find_all("a")
+    dates_dict = dict() # KEY: news_link_url; VALUE: date object (year, month, day)
+    news_links_set = db.get_news_links() # All news links in database
+    links_set = set() # Valid news links to save into database
+    page = requests.get(url_seed) # HTTP request
+    soup = BeautifulSoup(page.content, "html.parser") # Page content parsed
+    results = soup.find("body") # Find body html tag
+    links = results.find_all("a") # Find all a html tags
     for element in links:
-        if element.get("href") is not None:
-            link = url_base + element["href"]
-            if element is not None and \
-            "noticias" in element["href"] and \
-            "cluster_" not in element["href"] and \
-            element["href"].startswith("/mundo/noticias") and \
-            link not in news_links_set:
-                page_obj = requests.get(link)
-                # status_code = requests.get(link).status_code
-                link_url = page_obj.url
-                status_code = page_obj.status_code
-                date = new_date_extractor(link_url)
-                if status_code not in db.STATUS_CODES_ERROR and \
-                date != []:
-                    date_obj = Date(date[0], date[1], date[2])
-                    dates_dict[link_url] = date_obj
-                    links_set.add(link_url)
+        if element is not None:
+            if element.get("href") is not None: # URL exists
+                # News link validation
+                if "noticias" in element["href"] and \
+                "cluster_" not in element["href"] and \
+                element["href"].startswith("/mundo/noticias"):
+                    link = url_base + element["href"] # Full link construction
+                    page_obj = requests.get(link) # Link HTML request
+                    link_url = page_obj.url # Get link request url
+                    status_code = page_obj.status_code # Get link request status code
+                    if link_url not in news_links_set: # The link is not in the database
+                        date = new_date_extractor(link_url) # Get news link date
+                        # News link validation
+                        if status_code not in db.STATUS_CODES_ERROR and \
+                        date != []:
+                            date_obj = Date(date[0], date[1], date[2])
+                            dates_dict[link_url] = date_obj
+                            links_set.add(link_url)
     for link in links_set:
         code = new_code_extractor(link)
-        db.insert_new_link(link,
-                           NEW_SOURCE,
-                           code,
-                           dates_dict[link].year,
-                           dates_dict[link].month,
-                           dates_dict[link].day,
-        )
+        if code != "": # Only if the news link has code number
+            db.insert_new_link(link,
+                            NEW_SOURCE,
+                            code,
+                            dates_dict[link].year,
+                            dates_dict[link].month,
+                            dates_dict[link].day,
+            )
     return links_set
 
 
@@ -105,6 +107,7 @@ def scraper_links_brute_force():
     For deep links extraction.
     '''
     print(colored("Running BRUTE FORCE scraper", "green"))
+    scraper_links(URL_SEED, URL_BASE, RECURSIVE_DEEP, EXCLUDED_SET)
     news_links_list = db.get_news_links()
     c = 0
     for link in news_links_list:
