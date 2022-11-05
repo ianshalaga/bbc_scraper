@@ -224,3 +224,10 @@ def db_renew_links():
 # news_links_extractor(URL_SEED, URL_BASE)
 # scraper_links(URL_SEED, URL_BASE, RECURSIVE_DEEP, EXCLUDED_SET)
 # scraper_brute_force(URL_BASE, RECURSIVE_DEEP, EXCLUDED_SET)
+
+def content_scraper_batch():
+    # Traer links desde la base de datos
+    # Para cada link:
+    #   Extraer el contenido y guardarlo en la base de datos
+    #   Arreglar el contendio y guardarlo en la base de datos
+    return
