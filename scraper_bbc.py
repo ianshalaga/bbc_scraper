@@ -32,6 +32,8 @@ def news_links_extractor(url_seed, url_base):
     Output: Links set.
     '''
     dates_dict = dict() # KEY: news_link_url; VALUE: date object (year, month, day)
+    title_dict = dict() # KEY: news_link_url; VALUE: title string
+    authors_dict = dict() # KEY: news_link_url; VALUE: author string
     news_links_set = db.get_news_links() # All news links in database
     links_set = set() # Valid news links to save into database
     page = requests.get(url_seed) # HTTP request
@@ -51,11 +53,16 @@ def news_links_extractor(url_seed, url_base):
                     status_code = page_obj.status_code # Get link request status code
                     if link_url not in news_links_set: # The link is not in the database
                         date = new_date_extractor(link_url) # Get news link date
+                        title = news_title_extractor(link_url) # Get news link title
+                        author = news_author_extractor(link_url) # Get news link author
                         # News link validation
                         if status_code not in db.STATUS_CODES_ERROR and \
-                        date != []:
+                        date != [] and \
+                        title != "":
                             date_obj = Date(date[0], date[1], date[2])
                             dates_dict[link_url] = date_obj
+                            title_dict[link_url] = title
+                            authors_dict[link_url] = author
                             links_set.add(link_url)
     for link in links_set:
         code = new_code_extractor(link)
@@ -63,10 +70,13 @@ def news_links_extractor(url_seed, url_base):
             db.insert_new_link(link,
                             NEW_SOURCE,
                             code,
+                            title_dict[link],
+                            authors_dict[link],
                             dates_dict[link].year,
                             dates_dict[link].month,
                             dates_dict[link].day,
             )
+            print(colored(f"Added: {link}", "magenta"))
     return links_set
 
 
@@ -157,6 +167,42 @@ def new_date_extractor(new_link):
     return date
 
 
+def news_title_extractor(news_link):
+    title = ""
+    page = requests.get(news_link)
+    soup = BeautifulSoup(page.content, "html.parser")
+    results = soup.find(role="main")
+    elements = results.find_all("div", dir="ltr")
+    for element in elements:
+        header = element.find("h1", id="content")
+        if header is not None:
+            title = header.text.strip()
+            break
+        header = element.find("strong", class_="e8stly50 bbc-jpo7yf e14hemmw1")
+        if header is not None:
+            title = header.text.strip()
+            break
+    return title
+
+
+def news_author_extractor(news_link):
+    author = ""
+    author_count = 0
+    page = requests.get(news_link)
+    soup = BeautifulSoup(page.content, "html.parser")
+    results = soup.find(role="main")
+    elements = results.find_all("div", dir="ltr")
+    for element in elements:
+        person = element.find_all("li", role="listitem")
+        if person is not None and person != [] and author_count == 0:
+            for e in person:
+                link = e.find("a")
+                if link is None:
+                    author += e.text.strip() + ". "
+            author_count += 1
+    return author
+
+
 def news_dates_extractor():
     no_date_links_set = db.get_no_date_links()
     for link in no_date_links_set:
@@ -231,3 +277,49 @@ def content_scraper_batch():
     #   Extraer el contenido y guardarlo en la base de datos
     #   Arreglar el contendio y guardarlo en la base de datos
     return
+
+
+def get_titles_and_authors():
+    links_list = db.get_no_title_no_author_links()
+
+    print(colored("Titles & Authors scraper", "magenta"))
+
+    for link in links_list:
+        page = requests.get(link)
+        soup = BeautifulSoup(page.content, "html.parser")
+        results = soup.find(role="main")
+        elements = results.find_all("div", dir="ltr")
+
+        title = ""
+        author = ""
+        author_count = 0
+
+        for element in elements:
+            # Title
+            header = element.find("h1", id="content")
+            if header is not None:
+                title = header.text.strip()
+
+            header = element.find("strong", class_="e8stly50 bbc-jpo7yf e14hemmw1")
+            if header is not None:
+                title = header.text.strip()
+
+            if title != "":
+                db.update_title(link, title)
+
+            # Author
+            person = element.find_all("li", role="listitem")
+            if person is not None and \
+            person != [] \
+            and author_count == 0:
+                for e in person:
+                    link2 = e.find("a")
+                    if link2 is None:
+                        author += e.text.strip() + ". "
+                if author != "":
+                    db.update_author(link, author)
+                author_count += 1
+            
+        print(colored(link, "red"))
+        print(colored(title, "green"))
+        print(colored(author, "yellow"))

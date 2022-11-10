@@ -14,6 +14,8 @@ if __name__ == "__main__":
                 bbc.scraper_links_brute_force()
             else:
                 bbc.scraper_links_daily()
+        elif "-titles" in sys.argv: # Titles and authors
+            bbc.get_titles_and_authors()
         elif "-codes" in sys.argv: # Codes
             bbc.news_codes_extractor()
         elif "-dates" in sys.argv: # Dates
