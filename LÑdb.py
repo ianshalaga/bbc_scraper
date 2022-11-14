@@ -165,6 +165,8 @@ def delete_new(new_link):
     session.commit()
 
 
+''' Titles & Authors '''
+
 def get_no_title_no_author_links():
     query_result_list = list()
     with Session(ENGINE) as session:
@@ -186,3 +188,45 @@ def update_author(link, author):
     news = session.query(News).filter(News.link == link).first()
     news.author = author
     session.commit()
+
+
+''' Data original '''
+
+def get_no_data_original_links():
+    query_result_list = list()
+    with Session(ENGINE) as session:
+        query_result = session.query(News.link).filter(News.data_original == None).order_by(News.code.asc())
+        for element in query_result:
+            query_result_list.append(element[0])
+    return query_result_list
+
+
+def update_data_orginal(link, data_original):
+  with Session(ENGINE) as session:
+    news = session.query(News).filter(News.link == link).first()
+    news.data_original = data_original
+    session.commit()
+
+
+''' Data arranged '''
+
+def get_no_data_arranged_links():
+    query_result_list = list()
+    with Session(ENGINE) as session:
+        query_result = session.query(News.link).filter(News.data_arranged == None).order_by(News.code.asc())
+        for element in query_result:
+            query_result_list.append(element[0])
+    return query_result_list
+
+
+def get_data_original(news_link):
+    with Session(ENGINE) as session:
+        data_original = session.query(News.data_original).filter(News.link == news_link).first()
+    return data_original[0]
+
+
+def update_data_arranged(link, data_arranged):
+    with Session(ENGINE) as session:
+        news = session.query(News).filter(News.link == link).first()
+        news.data_original = data_arranged
+        session.commit()

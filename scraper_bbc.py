@@ -5,6 +5,7 @@ import requests
 from bs4 import BeautifulSoup
 from termcolor import colored
 import re
+import math
 
 
 ''' Globals variables '''
@@ -267,17 +268,8 @@ def db_renew_links():
             print(colored(link, "yellow"))
             print(colored(url, "yellow"))
 
-# news_links_extractor(URL_SEED, URL_BASE)
-# scraper_links(URL_SEED, URL_BASE, RECURSIVE_DEEP, EXCLUDED_SET)
-# scraper_brute_force(URL_BASE, RECURSIVE_DEEP, EXCLUDED_SET)
 
-def content_scraper_batch():
-    # Traer links desde la base de datos
-    # Para cada link:
-    #   Extraer el contenido y guardarlo en la base de datos
-    #   Arreglar el contendio y guardarlo en la base de datos
-    return
-
+''' Titles & Authors '''
 
 def get_titles_and_authors():
     links_list = db.get_no_title_no_author_links()
@@ -323,3 +315,274 @@ def get_titles_and_authors():
         print(colored(link, "red"))
         print(colored(title, "green"))
         print(colored(author, "yellow"))
+
+
+''' Data original '''
+
+def get_data_original():
+    links_list = db.get_no_data_original_links()
+
+    print(colored("Data original scraper", "magenta"))
+
+    for news_link in links_list:
+        print(colored(news_link, "yellow"))
+
+        page = requests.get(news_link)
+        soup = BeautifulSoup(page.content, "html.parser")
+        results = soup.find(role="main")
+        elements = results.find_all("div", dir="ltr")
+
+        content = list()
+
+        for element in elements:
+            # Subtitles
+            subtitle = element.find("h2")
+            text = element.find("p", dir="ltr")
+            if subtitle is not None:
+                content.append("[Subtítulo] " + subtitle.text.strip())
+
+            # Images and captions
+            figure = element.find("figure")
+            if figure is not None:
+                link = figure.find("img")
+                caption = figure.find("figcaption")
+                if caption is not None:
+                    paragraph = caption.find("p")
+                    if paragraph is not None:
+                        content.append("[Imagen] " + link["src"])
+                        content.append("[Epígrafe] " + paragraph.text.strip())
+                else:
+                    if link.get("alt") is not None and \
+                    link["alt"].lower() != "." and \
+                    link["alt"].lower() != "línea" and \
+                    link["alt"].lower() != "linea" and \
+                    link["alt"].lower() != "line" and \
+                    link["alt"].lower() != "grey line" and \
+                    link["alt"].lower() != "grey_new" and \
+                    link["alt"].lower() != "BBC" and \
+                    link["alt"].lower() != "007 in numbers" and \
+                    link["alt"].lower() != "line break":
+                        content.append("[Imagen] " + link["src"])
+
+            # Text bodies
+            if text is not None:
+                link = element.find("a")
+                if link is not None:# and "bbc.com/mundo/noticias" not in link["href"]:
+                    if link.get("href"):
+                        if "bbc.com/mundo/noticias" not in link["href"]:
+                            if bool(re.search(r"[aA][qQ][uU][íÍ]", text.text)) and bool(re.search(r"[pP]uedes ver", text.text)):
+                                text_after = re.sub(r"[aA][qQ][uU][íÍ]", "en la descripción", text.text)
+                                content.append("[Cuerpo] " + text_after)
+                                content.append("[Enlace] " + link["href"])
+                            else:
+                                content.append("[Cuerpo] " + text.text.strip())
+                                content.append("[Enlace] " + link["href"])
+                else:
+                    if bool(re.search(r"[aA][qQ][uU][íÍ]", text.text)) and bool(re.search(r"[pP]uedes ver", text.text)):
+                        text_after = re.sub(r"[aA][qQ][uU][íÍ]", "en la descripción", text.text)
+                        content.append("[Cuerpo] " + text_after)
+                    else:
+                        content.append("[Cuerpo] " + text.text.strip())            
+
+            text_list = element.find("ul", dir="ltr")
+            
+            if text_list is not None:
+                text_list = text_list.find_all("li")
+                if text_list is not None:
+                    for e in text_list:
+                        e_link = e.find("a")
+                        if e_link is None:
+                            content.append("[Cuerpo] " + e.text.strip())
+
+            # Enlaces
+            link = element.find("div")
+            if link is not None and link.get("data-e2e"):
+                if "http" in link["data-e2e"]:
+                    link_name = link["data-e2e"].split("-")[-1]
+                    if "youtube" in link_name:
+                        link_name = link_name.split("&")[0]
+                    content.append("[Enlace] " + link_name)
+            
+            if link is not None:
+                link = link.find("div")
+                if link is not None and link.get("data-e2e"):
+                    link = link.find("iframe")
+                    if link is not None and link.get("src"):
+                        content.append("[Enlace] " + link["src"])
+
+        content = article_end_corrector(content)
+        content = article_format_corrector(content)
+
+        # Tags
+        tags_list = list()
+        tags = soup.find("aside")
+        if tags is not None:
+            tags1 = tags.find_all("li")
+            tags2 = tags.find_all("div", class_="bbc-54c14d e1hq59l0")
+            tags = tags1 + tags2
+            for t in tags:
+                tags_list.append(t.text.strip())
+            content.append("[Etiquetas] " + ", ".join(tags_list))
+        else:
+            content.append("[Etiquetas] Sin etiquetas")
+        
+        content.append(f"[Fuente] {news_link}")
+
+        # with open(output_route, "w", encoding="utf8") as f:
+        #     f.write("\n\n".join(content))
+
+        data_original = "\n\n".join(content)
+        db.update_data_orginal(news_link, data_original)
+        print(colored(news_link, "green", attrs=["bold"]))
+
+
+def article_end_corrector(content_list):
+    new_content_list = list()
+    flag = True
+    for i in range(len(content_list)):
+        content_tag = content_list[i].split(" ")[0]
+        content_body = " ".join(content_list[i].split(" ")[1:])
+        if content_tag == "[Cuerpo]" and ("cobertura especial" in content_body or \
+                                          "nuestro mejor contenido" in content_body):
+            new_content_list = content_list[:i]
+            flag = False
+            break
+    
+    if flag:
+        new_content_list = content_list
+
+    if new_content_list != []:
+        if new_content_list[-1].split(" ")[0] == "[Imagen]":
+            new_content_list.pop(-1)
+
+    return new_content_list
+
+
+def article_format_corrector(content_list):
+    data_list = list()
+    for i in range(len(content_list)):
+        if content_list[i].split(" ")[0] == "[Título]":
+            data_list.append(content_list[i])
+        if content_list[i].split(" ")[0] == "[Autor]":
+            data_list.append(content_list[i])
+        if content_list[i].split(" ")[0] == "[Fecha]":
+            data_list.append(content_list[i])
+
+    for e in data_list:
+        content_list.remove(e)
+
+    return data_list + content_list
+
+
+''' Data arranged '''
+
+
+def arranger(data_original):
+    data_list = data_original.split("\n\n")
+
+    count_subtitles = 0
+    count_bodies = 0
+    count_images = 0
+    count_captions = 0
+
+    for element in data_list:
+        tag = element.split(" ")[0]
+        if tag == "[Subtítulo]":
+            count_subtitles += 1
+        if tag == "[Cuerpo]":
+            count_bodies += 1
+        if tag == "[Imagen]":
+            count_images += 1
+        if tag == "[Epígrafe]":
+            count_captions += 1
+
+    bodies_by_image = 0
+
+    if count_images > count_bodies:
+        diff = count_images - count_bodies
+        for e in reversed(data_list):
+            if diff != 0:
+                if data_list[data_list.index(e)].split(" ")[0] == "[Epígrafe]":
+                    data_list[data_list.index(e)] = "[Cuerpo] " + " ".join(data_list[data_list.index(e)].split(" ")[1:])
+                    diff -= 1
+            else:
+                break
+        
+        count_subtitles = 0
+        count_bodies = 0
+        count_images = 0
+        count_captions = 0
+
+        for element in data_list:
+            tag = element.split(" ")[0]
+            if tag == "[Subtítulo]":
+                count_subtitles += 1
+            if tag == "[Cuerpo]":
+                count_bodies += 1
+            if tag == "[Imagen]":
+                count_images += 1
+            if tag == "[Epígrafe]":
+                count_captions += 1
+
+        bodies_by_image = math.ceil(count_images / count_bodies)
+    else:
+        bodies_by_image = math.ceil(count_bodies / count_images)
+
+    images_list = list()
+    bodies_list = list()
+
+    for e in data_list:
+        if e.split(" ")[0] == "[Imagen]":
+            if data_list[data_list.index(e)+1].split(" ")[0] == "[Epígrafe]":
+                images_list.append(
+                    {
+                        "image": e,
+                        "caption": data_list[data_list.index(e)+1]
+                    }
+                )
+            else:
+                images_list.append(
+                    {
+                        "image": e,
+                        "caption": ""
+                    }
+                )
+        elif e.split(" ")[0] != "[Epígrafe]":
+            bodies_list.append(e)
+
+    arranged_list = list()
+
+    for e in images_list:
+        if e["caption"] != "":
+            arranged_list.append(e["image"])
+            arranged_list.append(e["caption"])
+        else:
+            arranged_list.append(e["image"])
+
+        start = images_list.index(e) * bodies_by_image
+        end = start + bodies_by_image
+        for i in range(start, end):
+            arranged_list.append(bodies_list[i])
+
+    arranged_list = arranged_list + bodies_list[len(images_list) * bodies_by_image:]
+
+    for e in arranged_list:
+        print(colored(e, "red"))
+
+
+
+
+def data_arranger():
+    # links_list = db.get_no_data_arranged_links()
+    # print(colored("Data arranger", "magenta"))
+
+    # for news_link in links_list:
+    #     print(colored(news_link, "yellow"))
+    #     data_original = db.get_data_original(news_link)
+    #     arranger(data_original)
+
+    data_original = db.get_data_original(r"https://www.bbc.com/mundo/noticias-38021766")
+    arranger(data_original)
+
+
+data_arranger()
