@@ -18,6 +18,8 @@ if __name__ == "__main__":
             bbc.get_titles_and_authors()
         elif "-content" in sys.argv: # Content
             bbc.get_data_original()
+        elif "-arranger" in sys.argv: # Data arranged
+            bbc.data_arranger()
         elif "-codes" in sys.argv: # Codes
             bbc.news_codes_extractor()
         elif "-dates" in sys.argv: # Dates

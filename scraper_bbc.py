@@ -32,9 +32,12 @@ def news_links_extractor(url_seed, url_base):
         url_base: url base of news' source.
     Output: Links set.
     '''
+    codes_dict = dict() # KEY: news_link_url; VALUE: news code number
     dates_dict = dict() # KEY: news_link_url; VALUE: date object (year, month, day)
     title_dict = dict() # KEY: news_link_url; VALUE: title string
     authors_dict = dict() # KEY: news_link_url; VALUE: author string
+    content_dict = dict() # KEY: news_link_url; VALUE: content string
+    arranged_dict = dict() # KEY: news_link_url; VALUE: data arranged string
     news_links_set = db.get_news_links() # All news links in database
     links_set = set() # Valid news links to save into database
     page = requests.get(url_seed) # HTTP request
@@ -53,31 +56,40 @@ def news_links_extractor(url_seed, url_base):
                     link_url = page_obj.url # Get link request url
                     status_code = page_obj.status_code # Get link request status code
                     if link_url not in news_links_set: # The link is not in the database
+                        code = new_code_extractor(link_url) # Get news link code number
                         date = new_date_extractor(link_url) # Get news link date
                         title = news_title_extractor(link_url) # Get news link title
                         author = news_author_extractor(link_url) # Get news link author
+                        data_original = scraper_data_original(link_url) # Get news link content
                         # News link validation
                         if status_code not in db.STATUS_CODES_ERROR and \
+                        code != "" and \
                         date != [] and \
-                        title != "":
+                        title != "" and \
+                        "[Cuerpo]" in data_original and \
+                        "[Imagen]" in data_original and \
+                        not data_original.startswith("[Enlace]"):
+                            codes_dict[link_url] = code
                             date_obj = Date(date[0], date[1], date[2])
                             dates_dict[link_url] = date_obj
                             title_dict[link_url] = title
                             authors_dict[link_url] = author
+                            content_dict[link_url] = data_original
+                            arranged_dict[link_url] = arranger(data_original)
                             links_set.add(link_url)
     for link in links_set:
-        code = new_code_extractor(link)
-        if code != "": # Only if the news link has code number
-            db.insert_new_link(link,
-                            NEW_SOURCE,
-                            code,
-                            title_dict[link],
-                            authors_dict[link],
-                            dates_dict[link].year,
-                            dates_dict[link].month,
-                            dates_dict[link].day,
-            )
-            print(colored(f"Added: {link}", "magenta"))
+        db.insert_new_link(link,
+                           NEW_SOURCE,
+                           code,
+                           title_dict[link],
+                           authors_dict[link],
+                           dates_dict[link].year,
+                           dates_dict[link].month,
+                           dates_dict[link].day,
+                           content_dict[link],
+                           arranged_dict[link]
+        )
+        print(colored(f"Added: {link}", "magenta"))
     return links_set
 
 
@@ -319,121 +331,121 @@ def get_titles_and_authors():
 
 ''' Data original '''
 
+def scraper_data_original(news_link):
+    page = requests.get(news_link)
+    soup = BeautifulSoup(page.content, "html.parser")
+    results = soup.find(role="main")
+    elements = results.find_all("div", dir="ltr")
+
+    content = list()
+
+    for element in elements:
+        # Subtitles
+        subtitle = element.find("h2")
+        text = element.find("p", dir="ltr")
+        if subtitle is not None:
+            content.append("[Subtítulo] " + subtitle.text.strip())
+
+        # Images and captions
+        figure = element.find("figure")
+        if figure is not None:
+            link = figure.find("img")
+            caption = figure.find("figcaption")
+            if caption is not None:
+                paragraph = caption.find("p")
+                if paragraph is not None:
+                    content.append("[Imagen] " + link["src"])
+                    content.append("[Epígrafe] " + paragraph.text.strip())
+            else:
+                if link.get("alt") is not None and \
+                link["alt"].lower() != "." and \
+                link["alt"].lower() != "línea" and \
+                link["alt"].lower() != "linea" and \
+                link["alt"].lower() != "line" and \
+                link["alt"].lower() != "grey line" and \
+                link["alt"].lower() != "grey_new" and \
+                link["alt"].lower() != "BBC" and \
+                link["alt"].lower() != "007 in numbers" and \
+                link["alt"].lower() != "line break":
+                    content.append("[Imagen] " + link["src"])
+
+        # Text bodies
+        if text is not None:
+            link = element.find("a")
+            if link is not None:# and "bbc.com/mundo/noticias" not in link["href"]:
+                if link.get("href"):
+                    if "bbc.com/mundo/noticias" not in link["href"]:
+                        if bool(re.search(r"[aA][qQ][uU][íÍ]", text.text)) and bool(re.search(r"[pP]uedes ver", text.text)):
+                            text_after = re.sub(r"[aA][qQ][uU][íÍ]", "en la descripción", text.text)
+                            content.append("[Cuerpo] " + text_after)
+                            content.append("[Enlace] " + link["href"])
+                        else:
+                            content.append("[Cuerpo] " + text.text.strip())
+                            content.append("[Enlace] " + link["href"])
+            else:
+                if bool(re.search(r"[aA][qQ][uU][íÍ]", text.text)) and bool(re.search(r"[pP]uedes ver", text.text)):
+                    text_after = re.sub(r"[aA][qQ][uU][íÍ]", "en la descripción", text.text)
+                    content.append("[Cuerpo] " + text_after)
+                else:
+                    content.append("[Cuerpo] " + text.text.strip())            
+
+        text_list = element.find("ul", dir="ltr")
+        
+        if text_list is not None:
+            text_list = text_list.find_all("li")
+            if text_list is not None:
+                for e in text_list:
+                    e_link = e.find("a")
+                    if e_link is None:
+                        content.append("[Cuerpo] " + e.text.strip())
+
+        # Enlaces
+        link = element.find("div")
+        if link is not None and link.get("data-e2e"):
+            if "http" in link["data-e2e"]:
+                link_name = link["data-e2e"].split("-")[-1]
+                if "youtube" in link_name:
+                    link_name = link_name.split("&")[0]
+                content.append("[Enlace] " + link_name)
+        
+        if link is not None:
+            link = link.find("div")
+            if link is not None and link.get("data-e2e"):
+                link = link.find("iframe")
+                if link is not None and link.get("src"):
+                    content.append("[Enlace] " + link["src"])
+
+    content = article_end_corrector(content)
+    content = article_format_corrector(content)
+
+    # Tags
+    tags_list = list()
+    tags = soup.find("aside")
+    if tags is not None:
+        tags1 = tags.find_all("li")
+        tags2 = tags.find_all("div", class_="bbc-54c14d e1hq59l0")
+        tags = tags1 + tags2
+        for t in tags:
+            tags_list.append(t.text.strip())
+        content.append("[Etiquetas] " + ", ".join(tags_list))
+    else:
+        content.append("[Etiquetas] Sin etiquetas")
+    
+    content.append(f"[Fuente] {news_link}")
+
+    data_original = "\n\n".join(content)
+
+    return data_original
+
+
 def get_data_original():
     links_list = db.get_no_data_original_links()
-
     print(colored("Data original scraper", "magenta"))
-
     for news_link in links_list:
         print(colored(news_link, "yellow"))
-
-        page = requests.get(news_link)
-        soup = BeautifulSoup(page.content, "html.parser")
-        results = soup.find(role="main")
-        elements = results.find_all("div", dir="ltr")
-
-        content = list()
-
-        for element in elements:
-            # Subtitles
-            subtitle = element.find("h2")
-            text = element.find("p", dir="ltr")
-            if subtitle is not None:
-                content.append("[Subtítulo] " + subtitle.text.strip())
-
-            # Images and captions
-            figure = element.find("figure")
-            if figure is not None:
-                link = figure.find("img")
-                caption = figure.find("figcaption")
-                if caption is not None:
-                    paragraph = caption.find("p")
-                    if paragraph is not None:
-                        content.append("[Imagen] " + link["src"])
-                        content.append("[Epígrafe] " + paragraph.text.strip())
-                else:
-                    if link.get("alt") is not None and \
-                    link["alt"].lower() != "." and \
-                    link["alt"].lower() != "línea" and \
-                    link["alt"].lower() != "linea" and \
-                    link["alt"].lower() != "line" and \
-                    link["alt"].lower() != "grey line" and \
-                    link["alt"].lower() != "grey_new" and \
-                    link["alt"].lower() != "BBC" and \
-                    link["alt"].lower() != "007 in numbers" and \
-                    link["alt"].lower() != "line break":
-                        content.append("[Imagen] " + link["src"])
-
-            # Text bodies
-            if text is not None:
-                link = element.find("a")
-                if link is not None:# and "bbc.com/mundo/noticias" not in link["href"]:
-                    if link.get("href"):
-                        if "bbc.com/mundo/noticias" not in link["href"]:
-                            if bool(re.search(r"[aA][qQ][uU][íÍ]", text.text)) and bool(re.search(r"[pP]uedes ver", text.text)):
-                                text_after = re.sub(r"[aA][qQ][uU][íÍ]", "en la descripción", text.text)
-                                content.append("[Cuerpo] " + text_after)
-                                content.append("[Enlace] " + link["href"])
-                            else:
-                                content.append("[Cuerpo] " + text.text.strip())
-                                content.append("[Enlace] " + link["href"])
-                else:
-                    if bool(re.search(r"[aA][qQ][uU][íÍ]", text.text)) and bool(re.search(r"[pP]uedes ver", text.text)):
-                        text_after = re.sub(r"[aA][qQ][uU][íÍ]", "en la descripción", text.text)
-                        content.append("[Cuerpo] " + text_after)
-                    else:
-                        content.append("[Cuerpo] " + text.text.strip())            
-
-            text_list = element.find("ul", dir="ltr")
-            
-            if text_list is not None:
-                text_list = text_list.find_all("li")
-                if text_list is not None:
-                    for e in text_list:
-                        e_link = e.find("a")
-                        if e_link is None:
-                            content.append("[Cuerpo] " + e.text.strip())
-
-            # Enlaces
-            link = element.find("div")
-            if link is not None and link.get("data-e2e"):
-                if "http" in link["data-e2e"]:
-                    link_name = link["data-e2e"].split("-")[-1]
-                    if "youtube" in link_name:
-                        link_name = link_name.split("&")[0]
-                    content.append("[Enlace] " + link_name)
-            
-            if link is not None:
-                link = link.find("div")
-                if link is not None and link.get("data-e2e"):
-                    link = link.find("iframe")
-                    if link is not None and link.get("src"):
-                        content.append("[Enlace] " + link["src"])
-
-        content = article_end_corrector(content)
-        content = article_format_corrector(content)
-
-        # Tags
-        tags_list = list()
-        tags = soup.find("aside")
-        if tags is not None:
-            tags1 = tags.find_all("li")
-            tags2 = tags.find_all("div", class_="bbc-54c14d e1hq59l0")
-            tags = tags1 + tags2
-            for t in tags:
-                tags_list.append(t.text.strip())
-            content.append("[Etiquetas] " + ", ".join(tags_list))
-        else:
-            content.append("[Etiquetas] Sin etiquetas")
-        
-        content.append(f"[Fuente] {news_link}")
-
-        # with open(output_route, "w", encoding="utf8") as f:
-        #     f.write("\n\n".join(content))
-
-        data_original = "\n\n".join(content)
+        data_original = scraper_data_original(news_link)
         db.update_data_orginal(news_link, data_original)
-        print(colored(news_link, "green", attrs=["bold"]))
+        # print(colored(news_link, "green", attrs=["bold"]))
 
 
 def article_end_corrector(content_list):
@@ -476,8 +488,11 @@ def article_format_corrector(content_list):
 
 ''' Data arranged '''
 
-
 def arranger(data_original):
+    if "[Imagen]" not in data_original:
+        print(colored("No images in news", "red"))
+        return
+
     data_list = data_original.split("\n\n")
 
     count_subtitles = 0
@@ -550,6 +565,9 @@ def arranger(data_original):
         elif e.split(" ")[0] != "[Epígrafe]":
             bodies_list.append(e)
 
+    # for i, e in enumerate(bodies_list):
+    #     print(colored(i, "red"), colored(e, "green"))
+
     arranged_list = list()
 
     for e in images_list:
@@ -561,28 +579,22 @@ def arranger(data_original):
 
         start = images_list.index(e) * bodies_by_image
         end = start + bodies_by_image
+        if end > len(bodies_list):
+            end = len(bodies_list)
         for i in range(start, end):
+            # print(i, start, end)
             arranged_list.append(bodies_list[i])
 
     arranged_list = arranged_list + bodies_list[len(images_list) * bodies_by_image:]
 
-    for e in arranged_list:
-        print(colored(e, "red"))
-
-
+    return "\n\n".join(arranged_list)
 
 
 def data_arranger():
-    # links_list = db.get_no_data_arranged_links()
-    # print(colored("Data arranger", "magenta"))
-
-    # for news_link in links_list:
-    #     print(colored(news_link, "yellow"))
-    #     data_original = db.get_data_original(news_link)
-    #     arranger(data_original)
-
-    data_original = db.get_data_original(r"https://www.bbc.com/mundo/noticias-38021766")
-    arranger(data_original)
-
-
-data_arranger()
+    links_list = db.get_no_data_arranged_links()
+    print(colored("Data arranger", "magenta"))
+    for news_link in links_list:
+        print(colored(news_link, "yellow"))
+        data_original = db.get_data_original(news_link)
+        data_arranged = arranger(data_original)
+        db.update_data_arranged(news_link, data_arranged)

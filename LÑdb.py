@@ -27,7 +27,6 @@ class News(Base):
     year = Column(Integer, nullable=False)
     month = Column(Integer, nullable=False)
     day = Column(Integer, nullable=False)
-    excluded = Column(Boolean, nullable=True)
     video = Column(Boolean, nullable=True)
     uploaded = Column(Boolean, nullable=True)
     data_original = Column(String, nullable=True)
@@ -72,11 +71,20 @@ def get_unvalid_links():
     return query_result_list
 
 
-def insert_new_link(new_link, new_source, new_code, new_title, new_author, new_year, new_month, new_day):
+def insert_new_link(new_link,
+                    new_source,
+                    new_code,
+                    new_title,
+                    new_author,
+                    new_year,
+                    new_month,
+                    new_day,
+                    new_data_original,
+                    new_data_arranged):
     '''
     Insert new link.
-        INSERT INTO new (link, source, code, title, author, year, month, day)
-        VALUES (new_link, new_source, new_code, new_title, new_author new_year, new_month, new_day)
+        INSERT INTO new (link, source, code, title, author, year, month, day, data_original, data_arranged)
+        VALUES (new_link, new_source, new_code, new_title, new_author new_year, new_month, new_day, new_data_original, new_data_arranged)
     '''
     with Session(ENGINE) as session:
         new = News(link=new_link,
@@ -86,7 +94,9 @@ def insert_new_link(new_link, new_source, new_code, new_title, new_author, new_y
                    author=new_author,
                    year=new_year,
                    month=new_month,
-                   day=new_day
+                   day=new_day,
+                   data_original=new_data_original,
+                   data_arranged=new_data_arranged
         )
         session.add_all([new])
         session.commit()
@@ -225,8 +235,8 @@ def get_data_original(news_link):
     return data_original[0]
 
 
-def update_data_arranged(link, data_arranged):
+def update_data_arranged(news_link, data_arranged):
     with Session(ENGINE) as session:
-        news = session.query(News).filter(News.link == link).first()
-        news.data_original = data_arranged
+        news = session.query(News).filter(News.link == news_link).first()
+        news.data_arranged = data_arranged
         session.commit()
