@@ -240,3 +240,14 @@ def update_data_arranged(news_link, data_arranged):
         news = session.query(News).filter(News.link == news_link).first()
         news.data_arranged = data_arranged
         session.commit()
+
+
+''' Special queries '''
+
+def get_link():
+    query_result = list()
+    with Session(ENGINE) as session:
+        query_result = session.query(News).filter(News.link == "https://www.bbc.com/mundo/noticias-63786274")
+        # for element in query_result:
+        #     query_result_list.append(element[0])
+    return query_result

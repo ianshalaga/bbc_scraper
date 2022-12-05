@@ -170,7 +170,7 @@ def assets_for_video_generator(article_scraped_folder,
                                fps):
     assets = True
 
-    content_list  = list()
+    content_list = list()
     article_scraped_path = os.path.join(article_scraped_folder, article_id + ".txt")
     with open(article_scraped_path, "r", encoding="utf8") as f:
         content_list = f.read().split("\n\n")

@@ -1,12 +1,16 @@
 import sys
 from termcolor import colored
 import scraper_bbc as bbc
+import video_maker
 
 if __name__ == "__main__":
     if len(sys.argv) > 4 and len(sys.argv) < 3:
         print(colored("Uso incorrecto", "red", attrs=["bold"]))
         print("Modo de uso:", colored(f"{sys.argv[0]} [-scraper -type -option]", "green"))
         exit()
+
+    if "-video" in sys.argv:
+        video_maker.execution()
 
     if "-bbc" in sys.argv: # Scraper BBC
         if "-links" in sys.argv: # Links
