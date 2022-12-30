@@ -21,6 +21,17 @@ import shutil
 SR_ENGINE_PATH = "Real-ESRGAN/Real-ESRGAN.bat"
 
 
+def thumbnail_creator():
+    return
+
+
+def title_cutter(title_string):
+    title = title_string
+    if len(title) > 100:
+        title = title[:97] + "..."
+    return title
+
+
 def super_resolution(image_path, SR_ENGINE_PATH):
     current_path = os.getcwd() # Absolute path needed
     sr_engine = os.path.join(current_path, SR_ENGINE_PATH)
@@ -33,73 +44,67 @@ def image_for_video_generator(image_path, # Original downloaded image path
                               images_processed_path, # Image processed for video path
                               width_target, # Video resolution: width
                               height_target): # Video resolution: height
-    images_processed_path = ".".join(images_processed_path.split(".")[:-1]) + ".jpg" # Force jpg extension for output image
-
     image = cv2.imread(str(image_path)) # Read input image
-
     image_jpg_path = ".".join(image_path.split(".")[:-1]) + ".jpg" # Force jpg extension for input image
     cv2.imwrite(str(image_jpg_path), image) # Save input image as jpg
-
     height, width, _ = image.shape
-
-    if height < height_target or width < width_target:
-        scale_sr_factor = 4
-        scales_width = math.ceil((width_target / width) / scale_sr_factor)
-        scales_height = math.ceil((height_target / height) / scale_sr_factor)
-        scales_number = max([scales_width, scales_height])
-        for _ in range(scales_number):
-            super_resolution(image_jpg_path, SR_ENGINE_PATH)
+    
+    # Super resolution
+    scale_sr_factor = 4
+    scale_number = 0
+    input_aspect_ratio = "vertical"
+    if width > height:
+        input_aspect_ratio = "horizontal"
+    if input_aspect_ratio == "horizontal":
+        if width < width_target:
+            scale_number = math.ceil((width_target / width) / scale_sr_factor)    
+    if input_aspect_ratio == "vertical":
+        if height < height_target:
+            scale_number = math.ceil((height_target / height) / scale_sr_factor)
+    for _ in range(scale_number):
+        super_resolution(image_jpg_path, SR_ENGINE_PATH)
 
     image = cv2.imread(str(image_jpg_path)) # Read input image
-    height, width, _ = image.shape
-
+    image_height, image_width, _ = image.shape
     aspect_ratio = Fraction(width_target, height_target)
     width_target_aspect_ratio = aspect_ratio.numerator
     height_target_aspect_ratio = aspect_ratio.denominator
 
     # Background generation
     if height > width:
-        height_scaled = int(width*height_target_aspect_ratio/width_target_aspect_ratio)
-        start = int((height-height_scaled)/2)
+        height_scaled = int(image_width * height_target_aspect_ratio / width_target_aspect_ratio)
+        start = int((image_height - height_scaled) / 2)
         background = image[start:start+height_scaled,:]
     else:
-        width_scaled = int(height*width_target_aspect_ratio/height_target_aspect_ratio)
-        start = int((width-width_scaled)/2)
+        width_scaled = int(image_height * width_target_aspect_ratio / height_target_aspect_ratio)
+        start = int((image_width - width_scaled) / 2)
         background = image[:,start:start+width_scaled]
 
     background = cv2.resize(background, [width_target, height_target])
     background = cv2.GaussianBlur(background, [int(height_target/10)+1, int(height_target/10)+1], 0, 0)
 
     # Output generation
-    if width_target >= width:
-        if height_target >= height:
-            width_start = int((width_target-width)/2)
-            height_start = int((height_target-height)/2)
-            background[height_start:height_start+height, width_start:width_start+width] = image
-        else:
-            width_scaled = int(width*height_target/height)
-            width_start = int((width_target-width_scaled)/2)
-            background[:, width_start:width_start+width_scaled] = cv2.resize(image, [width_scaled, height_target])
-    else:
-        if height_target >= height:
-            height_scaled = int(height*width_target/width)
-            height_start = int((height_target-height_scaled)/2)
-            background[height_start:height_start+height_scaled, :] = cv2.resize(image, [width_target, height_scaled])
-        else:
-            if height > width:
-                width_scaled = int(width*height_target/height)
-                width_start = int((width_target-width_scaled)/2)
-                background[:, width_start:width_start+width_scaled] = cv2.resize(image, [width_scaled, height_target])
-            else:
-                height_scaled = int(height*width_target/width)
-                height_start = int((height_target-height_scaled)/2)
-                background[height_start:height_start+height_scaled, :] = cv2.resize(image, [width_target, height_scaled])
+
+    video_aspect_ratio = width_target / height_target
+    image_aspect_ratio = image_width / image_height
+
+    if image_aspect_ratio > video_aspect_ratio: # [---]
+        width = width_target
+        height = int(image_height * width / image_width)
+        height_start = int((height_target - height) / 2)
+        background[height_start:height_start+height, :] = cv2.resize(image, [width, height])
+    else: # [|||]
+        height = height_target
+        width = int(image_width * height / image_height)
+        width_start = int((width_target - width) / 2)
+        background[:, width_start:width_start+width] = cv2.resize(image, [width, height])
 
     # Display image for testing
     # cv2.imshow("Imagen", background)
     # cv2.waitKey(0) # waits until a key is pressed
     # cv2.destroyAllWindows() # destroys the window showing image
     
+    images_processed_path = ".".join(images_processed_path.split(".")[:-1]) + ".jpg" # Force jpg extension for output image
     cv2.imwrite(str(images_processed_path), background)
 
 
@@ -252,50 +257,53 @@ def assets_creator(news_obj,
                    videos_output_folder,
                    video_width,
                    video_height,
-                   video_fps):
-    #
-    content_list = news_obj.data_arranged.split("\n\n")
+                   video_fps,
+                   video_name):
+    content_list = news_obj.data_arranged.split("\n\n") # News arranged content list
 
-    video_name = alphanumeric_characters(news_obj.link)
+    # video_name = alphanumeric_characters(news_obj.link) # @@@@
 
-    assets_video_folder = Path(os.path.join(videos_temp_assets_folder, video_name))
-    assets_video_folder.mkdir(exist_ok=True)
+    assets_video_folder = Path(os.path.join(videos_temp_assets_folder, video_name)) # Specific video folder for temporal assets
+    if assets_video_folder.exists() and assets_video_folder.is_dir(): # Delete previous failed executions existing files
+        shutil.rmtree(assets_video_folder)
+    assets_video_folder.mkdir(exist_ok=True) # Create the folder if it doesn't exist
+    
+    images_folder = Path(os.path.join(assets_video_folder, "images_downloaded")) # Image downloaded folder
+    images_folder.mkdir(exist_ok=True) # Create the folder if it doesn't exist
 
-    images_folder = Path(os.path.join(assets_video_folder, "images_downloaded"))
-    images_folder.mkdir(exist_ok=True)
+    images_processed_folder = Path(os.path.join(assets_video_folder, "images_processed")) # Image preocessed for video folder
+    images_processed_folder.mkdir(exist_ok=True) # Create the folder if it doesn't exist
 
-    images_processed_folder = Path(os.path.join(assets_video_folder, "images_processed"))
-    images_processed_folder.mkdir(exist_ok=True)
-
-    images_processed_text_folder = Path(os.path.join(assets_video_folder, "images_processed_text"))
-    images_processed_text_folder.mkdir(exist_ok=True)
+    images_processed_text_folder = Path(os.path.join(assets_video_folder, "images_processed_text")) # Image with captions for video folder
+    images_processed_text_folder.mkdir(exist_ok=True) # Create the folder if it doesn't exist
 
     text_folder = Path(os.path.join(assets_video_folder, "text_content"))
-    text_folder.mkdir(exist_ok=True)
+    text_folder.mkdir(exist_ok=True) # Create the folder if it doesn't exist
 
     audio_folder = Path(os.path.join(assets_video_folder, "audio_files"))
-    audio_folder.mkdir(exist_ok=True)
+    audio_folder.mkdir(exist_ok=True) # Create the folder if it doesn't exist
 
     song_folder = Path(os.path.join(assets_video_folder, "audio_song"))
-    song_folder.mkdir(exist_ok=True)
+    song_folder.mkdir(exist_ok=True) # Create the folder if it doesn't exist
 
-    specs_dict = dict()
-    specs_file_path = os.path.join(assets_video_folder, "specs.json5")
-    video_file_path = os.path.join(videos_output_folder, video_name + ".mp4")
+    specs_dict = dict() # Specifications dictionary to export into json
+    specs_file_path = os.path.join(assets_video_folder, "specs.json5") # Json with specifications for video creation
+    video_file_path = os.path.join(videos_output_folder, video_name + ".mp4") # video file path
 
-    video_font_bodies_path = os.path.join(videos_default_assets_folder, "fonts", "AveriaSerif-Bold.ttf")
-    for e in content_list:
+    video_font_bodies_path = os.path.join(videos_default_assets_folder, "fonts", "AveriaSerif-Bold.ttf") # Font to use in the video
+    for e in content_list: # Font selection for special characters
         if bool(re.search(r"[американскиегоḥā]", e)):
             video_font_bodies_path = os.path.join(videos_default_assets_folder, "fonts", "timesbd.ttf")
             break
 
-    video_font_titles_path = os.path.join(videos_default_assets_folder, "fonts", "LTAsus-Heavy.ttf")
-    description_file_path = os.path.join(videos_output_folder, video_name + "_description.txt")
+    video_font_titles_path = os.path.join(videos_default_assets_folder, "fonts", "LTAsus-Heavy.ttf") # Font for news title
+    description_file_path = os.path.join(videos_output_folder, video_name + "_description.txt") # Description txt file path
     
-    default_audios_folder = os.path.join(videos_default_assets_folder, "audio")
-    song_path = os.path.join(song_folder, "song.wav")
-    audio_track_generator(default_audios_folder, song_path)
+    default_audios_folder = os.path.join(videos_default_assets_folder, "audio") # Audios folder
+    song_path = os.path.join(song_folder, "song.wav") # Background song path
+    audio_track_generator(default_audios_folder, song_path) # Background song creator
 
+    # Vdeo specifications
     specs_dict["outPath"] = video_file_path
     specs_dict["width"] = video_width
     specs_dict["height"] = video_height
@@ -306,7 +314,7 @@ def assets_creator(news_obj,
     current_background = ""
     current_background_caption = ""
     allowed_voices_list = allowed_voices("[Título] " + news_obj.title + "\n\n" + news_obj.data_arranged)
-    article_voice = random.choice(allowed_voices_list)
+    article_voice = random.choice(allowed_voices_list) # Random voice selection
     current_image_path = ""
 
     ''' TITLE '''
@@ -356,18 +364,25 @@ def assets_creator(news_obj,
 
     # For description file
     with open(description_file_path, "w", encoding="utf8") as f:
-        f.write(news_obj.title + "\n") # @@@@
+        f.write(title_cutter(news_obj.title) + "\n\n")
 
     ''' AUTHOR '''
-    author_path = os.path.join(text_folder, str(c) + "_author.txt")
-    with open(author_path, "w", encoding="utf8") as f:
-        f.write(news_obj.author)
+    author = ""
+    if news_obj.author is not None:
+        author = news_obj.author
+    else:
+        author = news_obj.source
 
+    author_path = os.path.join(text_folder, str(c) + "_author.txt")
+
+    with open(author_path, "w", encoding="utf8") as f:
+        f.write(author)
+        
     # For json5 file
     specs_dict["clips"][0]["layers"].append(
         {
             "type": "slide-in-text",
-            "text": news_obj.author,
+            "text": author,
             "position": "top-left",
             "fontSize": "0.02"
         }
@@ -512,11 +527,11 @@ def assets_creator(news_obj,
         # For description file
         if content_tag == "[Etiquetas]":
             with open(description_file_path, "a", encoding="utf8") as f:
-                f.write(content_body + "\n")
+                f.write(content_body + "\n\n")
 
         if content_tag == "[Enlace]":
             with open(description_file_path, "a", encoding="utf8") as f:
-                f.write("Enlace: " + content_body + "\n")
+                f.write("Enlace: " + content_body + "\n\n")
 
         if content_tag == "[Fuente]":
             with open(description_file_path, "a", encoding="utf8") as f:
@@ -563,7 +578,8 @@ def video_creator(news_obj,
                   videos_output_folder,
                   video_width,
                   video_height,
-                  video_fps):
+                  video_fps,
+                  video_name):
     # Assets generation                  
     assets_creator(news_obj,
                    videos_default_assets_folder,
@@ -571,9 +587,10 @@ def video_creator(news_obj,
                    videos_output_folder,
                    video_width,
                    video_height,
-                   video_fps)
+                   video_fps,
+                   video_name)
     # Video generation
-    video_name = alphanumeric_characters(news_obj.link)
+    # video_name = alphanumeric_characters(news_obj.link)
     assets_folder = os.path.join(videos_temp_assets_folder, video_name)
     specs_path = os.path.join(assets_folder, "specs.json5")
     try:
@@ -609,15 +626,22 @@ def videos_creator(func,
     videos_output.mkdir(parents=True, exist_ok=True)
 
     news_list = func() # Specific query result
-    
-    for news in news_list: # For each news
-        video_creator(news,
-                      videos_default_assets_folder,
-                      videos_temp_assets_folder,
-                      videos_output_folder,
-                      video_width,
-                      video_height,
-                      video_fps)
+
+    for i, news in enumerate(news_list): # For each news
+        video_name = func.__name__ + str('%04d' % (i+1))
+        video_name_ext = Path(os.path.join(videos_output_folder), video_name + ".mp4")
+        videos_created = list(videos_output.iterdir())
+        if video_name_ext not in videos_created:
+            video_creator(news,
+                        videos_default_assets_folder,
+                        videos_temp_assets_folder,
+                        videos_output_folder,
+                        video_width,
+                        video_height,
+                        video_fps,
+                        video_name,
+                        )
+            db.update_video(news.link)
 
 
 
@@ -631,10 +655,10 @@ def execution():
     video_height = 1080
     video_fps = 60
 
-    videos_creator(db.get_link, # Query
-                videos_default_assets_folder,
-                videos_temp_assets_folder,
-                videos_output_folder,
-                video_width,
-                video_height,
-                video_fps)
+    videos_creator(db.get_conflict_rusia_ucrania, # Query
+                   videos_default_assets_folder,
+                   videos_temp_assets_folder,
+                   videos_output_folder,
+                   video_width,
+                   video_height,
+                   video_fps)

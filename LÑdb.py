@@ -242,12 +242,39 @@ def update_data_arranged(news_link, data_arranged):
         session.commit()
 
 
+''' Videos '''
+
+def update_video(news_link):
+    with Session(ENGINE) as session:
+        news = session.query(News).filter(News.link == news_link).first()
+        news.video = True
+        session.commit()
+
+
 ''' Special queries '''
 
 def get_link():
     query_result = list()
     with Session(ENGINE) as session:
-        query_result = session.query(News).filter(News.link == "https://www.bbc.com/mundo/noticias-63786274")
+        query_result = session.query(News).filter(News.link == "https://www.bbc.com/mundo/noticias-america-latina-63857941")
+    return query_result
+
+
+def get_conflict_rusia_ucrania():
+    '''
+    SELECT * FROM news
+    WHERE LOWER(data_arranged) LIKE '%ucrania%'
+    AND LOWER(data_arranged) LIKE '%rusia%'
+    ORDER BY year, month, day
+    '''
+    query_result_list = list()
+    with Session(ENGINE) as session:
+        query_result = session.query(News).filter(News.data_arranged.like("%rusia%"),
+                                                  News.data_arranged.like("%ucrania%"),
+                                                  News.uploaded == None).order_by(News.year.asc(),
+                                                                                  News.month.asc(),
+                                                                                  News.day.asc()).all()
         # for element in query_result:
         #     query_result_list.append(element[0])
+    # return query_result_list
     return query_result
