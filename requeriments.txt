@@ -2,3 +2,6 @@ termcolor
 request2
 beautifulsoup4
 SQLAlchemy
+pydub
+Pillow
+opencv-python
