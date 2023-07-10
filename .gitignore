@@ -125,5 +125,5 @@ bbc_news_content_scraped/
 video_default_assets/
 videos_to_upload/
 videos_temp_assets/get_conflict_rusia_ucrania0250/text_content/0_title.txt
-LÑdb.db
-LÑdb.db
+
+*.db

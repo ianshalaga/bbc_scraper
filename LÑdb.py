@@ -45,11 +45,11 @@ def get_news_links():
     News links set.
         SELECT n.link FROM new n
         GROUP BY n.link
-        ORDER BY n.code ASC
+        ORDER BY n.code DESC
     '''
     query_result_list = list()
     with Session(ENGINE) as session:
-        query_result = session.query(News.link).order_by(News.code.asc())
+        query_result = session.query(News.link).order_by(News.code.desc())
         for element in query_result:
             query_result_list.append(element[0])
     return query_result_list
